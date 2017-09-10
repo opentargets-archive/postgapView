@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- D3 -->
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+    <!-- TnT Genome -->
+    <link rel="stylesheet" href="http://tntvis.github.io/tnt.genome/build/tnt.genome.css" type="text/css" />
+    <script src="http://tntvis.github.io/tnt.genome/build/tnt.genome.min.js" charset="utf-8"></script>
+
+    <!-- TnT Tooltips -->
+    <link rel="stylesheet" href="http://tntvis.github.io/tnt.tooltip/build/tnt.tooltip.css" type="text/css"/>
+    <script src="http://tntvis.github.io/tnt.tooltip/build/tnt.tooltip.min.js"></script>
+
+    <!-- Postgap -->
+    <script src="../build/ot-postgap.js"></script>
+    <link rel="stylesheet" href="../build/ot-postgap.css" type="text/css"/>
+
+</head>
+<body>
+    <p>Hello world</p>
+    <div id="genomeContainer"></div>
+    <div id="ldContainer"></div>
+    <script>
+        let pg = postgapViewer();
+        pg(document.getElementById('genomeContainer'), document.getElementById('ldContainer'));
+    </script>
+</body>
+</html>
