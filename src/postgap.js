@@ -8,6 +8,7 @@ import funnelFeature from './funnelFeature';
 import { geneTooltip, leadSnpTooltip, ldSnpTooltip } from './tooltips';
 
 const rest = tntRest()
+    .protocol('https')
     .domain('rest.ensembl.org');
 
 const gene = 'SORT1';
@@ -71,7 +72,7 @@ function buildBrowser(postgapData, container, container2) {
         // We only want canonical transcripts
         const mixedData = tnt.board.track.data.genome.gene();
         const geneUpdater = mixedData.retriever();
-        const eRest = tnt.board.track.data.genome.ensembl;
+        const eRest = tnt.board.track.data.genome.ensembl.protocol('https');
         mixedData.retriever(function (loc) {
             return geneUpdater.call(transcriptTrack, loc)
                 .then((genes) => { // genes
