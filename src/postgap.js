@@ -368,7 +368,7 @@ function reformatSnps(postgapSnps, ensemblSnps) {
     console.log(ensemblSnps);
     const leadSnps = postgapSnps.map((d) => {
         d.pos = ensemblSnps[d.lead_snp.rsid].mappings[0].start;
-        d.val = d.lead_snp.p_value;
+        d.val = d.lead_snp.log_p_value;
         return d;
     });
     return leadSnps;
