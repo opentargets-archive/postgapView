@@ -222,13 +222,13 @@ function buildBrowser(postgapData, container, container2) {
                                             const ldEls = newLdTrack.data().elements();
                                             newLdTrack.data().elements([]);
                                             newLdTrack.display().update.call(newLdTrack);
-                                            // newLdTrack.display()
-                                            //     .color((d) => {
-                                            //         if (d.gene_symbol === gene) {
-                                            //             return '#a6d854';
-                                            //         }
-                                            //         return '#aaaaaa';
-                                            //     });
+                                            newLdTrack.display()
+                                                .color((d) => {
+                                                    if (d.gene_symbol === gene) {
+                                                        return '#a6d854';
+                                                    }
+                                                    return '#aaaaaa';
+                                                });
                                             newLdTrack.data().elements(ldEls);
                                             newLdTrack.display().update.call(newLdTrack);
                                         }
