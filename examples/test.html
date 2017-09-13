@@ -17,11 +17,19 @@
     <script src="../build/ot-postgap.js"></script>
     <link rel="stylesheet" href="../build/ot-postgap.css" type="text/css"/>
 
+    <style>
+        #page {
+            min-height: 2000px;
+        }
+    </style>
+
 </head>
 <body>
-    <p>Hello world</p>
-    <div id="genomeContainer"></div>
-    <div id="ldContainer"></div>
+    <div id="page">
+        <p>Hello world</p>
+        <div id="genomeContainer"></div>
+        <div id="ldContainer"></div>
+    </div>
     <script>
         let pg = postgapViewer();
         pg(document.getElementById('genomeContainer'), document.getElementById('ldContainer'));

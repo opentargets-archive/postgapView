@@ -153,6 +153,14 @@ function buildBrowser(postgapData, container, container2) {
                             ldSnpsTrackData.elements(ldSnps.map((d) => {
                                 d.val = d.fg_scores.postgap_score;
                                 return d;
+                            }).sort((a, b) => {
+                                if (a.gene_symbol === gene) {
+                                    return 1;
+                                }
+                                if (b.gene_symbol === gene) {
+                                    return -1;
+                                }
+                                return 0;
                             }));
                             ldSnpsTrack.display().update.call(ldSnpsTrack);
 
@@ -214,13 +222,13 @@ function buildBrowser(postgapData, container, container2) {
                                             const ldEls = newLdTrack.data().elements();
                                             newLdTrack.data().elements([]);
                                             newLdTrack.display().update.call(newLdTrack);
-                                            newLdTrack.display()
-                                                .color((d) => {
-                                                    if (d.gene_symbol === gene) {
-                                                        return '#a6d854';
-                                                    }
-                                                    return '#aaaaaa';
-                                                });
+                                            // newLdTrack.display()
+                                            //     .color((d) => {
+                                            //         if (d.gene_symbol === gene) {
+                                            //             return '#a6d854';
+                                            //         }
+                                            //         return '#aaaaaa';
+                                            //     });
                                             newLdTrack.data().elements(ldEls);
                                             newLdTrack.display().update.call(newLdTrack);
                                         }
@@ -302,8 +310,14 @@ function buildBrowser(postgapData, container, container2) {
             .display(tnt.board.track.feature.pin()
                 .index((d) => `${d.rsid}-${d.gene_id}`)
                 // .domain([0.7, 1])
-                .domain([1, 54]) // global postgap scores range
-                .color('#a6d854'),
+                // .domain([1, 54]) // global postgap scores range
+                // .color('#a6d854'),
+                .color((d) => {
+                    if (d.gene_symbol === gene) {
+                        return '#a6d854';
+                    }
+                    return '#aaaaaa';
+                }),
             ); // No data, will be set in leadSnpsTrack
 
         // To create a new axis in the ld plot...
