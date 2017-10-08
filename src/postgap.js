@@ -222,6 +222,21 @@ function buildBrowser(postgapData, container, container2) {
                 })
                 .on('mouseover', leadSnpTooltip)
                 .on('click', function (lead) {
+                    // red color for the clicked pin
+                    leadSnpsTrack.display()
+                        .color((d) => {
+                            if ((lead.lead_snp.rsid === d.lead_snp.rsid) &&
+                                (lead.diserase_efo_id === d.diserase_efo_id)) {
+                                return '#FF0000';
+                            }
+                            return '#8da0cb';
+                        });
+                    const els = leadSnpsTrack.data().elements();
+                    leadSnpsTrack.data().elements([]);
+                    leadSnpsTrack.display().update.call(leadSnpsTrack);
+                    leadSnpsTrack.data().elements(els);
+                    leadSnpsTrack.display().update.call(leadSnpsTrack);
+
                     const ldSnpsTrackData = ldSnpsTrack.data(); // tnt.board.track.data.empty
                     const funnelTrackData = funnelTrack.data();
                     const ldSnpsTrackDisplay = ldSnpsTrack.display(); // tnt.board.track.feature.pin
