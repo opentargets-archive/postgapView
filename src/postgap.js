@@ -319,7 +319,7 @@ function buildBrowser(postgapData, container, container2) {
                                         if (data.label === gene) {
                                             return '#399e35';
                                         }
-                                        return '#aaaaaa';
+                                        return '#666666';
                                     })
                                     .text((node) => {
                                         return node.data().label;
