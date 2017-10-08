@@ -18,7 +18,6 @@ function gTooltip(d) {
 }
 
 function tTooltip(d) {
-    console.log(d);
     return {
         header: d.display_name,
         rows: [
@@ -48,9 +47,11 @@ export function geneTooltip(d) {
     }
 }
 
+let leadTooltip;
 export function leadSnpTooltip(d) {
-    console.log(d);
-    return tnt.tooltip.table()
+    leadTooltip = tnt.tooltip.table()
+        .id('leadSnpTooltip')
+        .show_closer(false)
         .width(120)
         .call(this, {
             header: d.lead_snp.rsid,
@@ -69,14 +70,20 @@ export function leadSnpTooltip(d) {
                 },
             ],
         });
+    return leadTooltip;
 }
+leadSnpTooltip.close = () => {
+    leadTooltip.close();
+};
 
+let ldTooltip;
 export function ldSnpTooltip(d) {
-    console.log(d);
-    return tnt.tooltip.table()
+    ldTooltip = tnt.tooltip.table()
+        .id('ldSnpTooltip')
+        .show_closer(false)
         .width(120)
         .call(this, {
-            header: d.rsid,
+            header: d.id,
             rows: [
                 {
                     label: 'Associated gene',
@@ -116,4 +123,9 @@ export function ldSnpTooltip(d) {
                 },
             ],
         });
+    return ldTooltip;
 }
+ldSnpTooltip.close = () => {
+    ldTooltip.close();
+};
+

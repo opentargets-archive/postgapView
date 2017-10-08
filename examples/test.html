@@ -5,6 +5,10 @@
     <!-- D3 -->
     <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
+    <!-- TnT -->
+    <link rel="stylesheet" href="http://tntvis.github.io/tnt/build/tnt.css" type="text/css" />
+    <script src="tnt.js"></script>
+
     <!-- TnT Genome -->
     <link rel="stylesheet" href="https://tntvis.github.io/tnt.genome/build/tnt.genome.css" type="text/css" />
     <script src="https://tntvis.github.io/tnt.genome/build/tnt.genome.min.js" charset="utf-8"></script>
@@ -21,12 +25,42 @@
         #page {
             min-height: 2000px;
         }
+        #genomeContainer, #infoContainer {
+            margin-left: 100px;
+        }
+        .tnt_node_display_elem, .tnt_tree_node_proxy, .tnt_tree_link {
+            display: none;
+        }
+        #tnt_tooltip_leadSnpTooltip, #tnt_tooltip_ldSnpTooltip {
+            pointer-events: none;
+        }
+        .tnt_track path,
+        .tnt_track line {
+            fill: none;
+            stroke: grey;
+            stroke-width: 1;
+            shape-rendering: crispEdges;
+        }
+        .tnt_framed {
+            border: none;
+        }
+        .tnt_exons {
+            stroke: #004500 !important;
+            fill: #8da0cb !important;
+        }
+        .tnt_name {
+            fill: #027be3;
+        }
+        /*.tnt_track text {*/
+            /*font-size: 0.9em;*/
+        /*}*/
     </style>
 
 </head>
 <body>
     <div id="page">
         <div id="genomeContainer"></div>
+        <div id="infoContainer"></div>
         <div id="ldContainer"></div>
     </div>
     <script>
