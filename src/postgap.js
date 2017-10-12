@@ -599,8 +599,13 @@ function reformatSnps(postgapSnps, ensemblSnps) {
 // to know the positions
 function getLdSnps(snps) {
     // rsids
-    const rsids = snps.map((d) => d.rsid);
-    return getEnsemblSnps(rsids)
+    // const rsids = snps.map((d) => d.rsid);
+    // Avoid duplications...
+    const rsids = {};
+    snps.map(function (d) {
+        rsids[d.rsid] = true;
+    });
+    return getEnsemblSnps(Object.keys(rsids))
         .then ((resp) => {
             const okSnps = [];
             for (const snp of snps) {
@@ -652,6 +657,8 @@ function getGene(id) {
 }
 
 function getEnsemblSnps(snps) {
+    console.log('snps...');
+    console.log(snps);
     const url = rest.url()
         .endpoint('variation/:species/')
         .parameters({
