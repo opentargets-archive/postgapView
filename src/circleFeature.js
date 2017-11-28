@@ -26,9 +26,7 @@ circleFeature.create(function (el) {
         .attr('r', (d) => circleScale(d.score))
         .style('stroke', '#333333')
         .style('stroke-width', '1px')
-        .style('fill', (d) => {
-            return color(d);
-        })
+        .style('fill', (d) => color(d))
         .style('opacity', '0.6');
 });
 circleFeature.color = function (f) {

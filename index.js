@@ -1,3 +1,3 @@
-import postgapViewer from './src/postgap';
+import postgapViewer from './src/postgap2';
 
 export default postgapViewer;

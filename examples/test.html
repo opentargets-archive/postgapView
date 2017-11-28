@@ -11,7 +11,8 @@
 
     <!-- TnT Genome -->
     <link rel="stylesheet" href="https://tntvis.github.io/tnt.genome/build/tnt.genome.css" type="text/css" />
-    <script src="https://tntvis.github.io/tnt.genome/build/tnt.genome.min.js" charset="utf-8"></script>
+    <!--<script src="https://tntvis.github.io/tnt.genome/build/tnt.genome.js" charset="utf-8"></script>-->
+    <script src="tnt.genome.js" charset="utf-8"></script>
 
     <!-- TnT Tooltips -->
     <link rel="stylesheet" href="https://tntvis.github.io/tnt.tooltip/build/tnt.tooltip.css" type="text/css"/>
@@ -21,19 +22,39 @@
     <script src="../build/ot-postgap.js"></script>
     <link rel="stylesheet" href="../build/ot-postgap.css" type="text/css"/>
 
+    <!-- Roboto font -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
     <style>
-        #page {
-            min-height: 2000px;
+        #tnt_tooltip_snpTooltip {
+            pointer-events : none;
         }
-        #genomeContainer, #infoContainer {
-            margin-left: 100px;
+        .tnt_tooltip {
+            border-color: #eeeeee;
+            color: #666666;
+            border-width: 1px;
         }
-        .tnt_node_display_elem, .tnt_tree_node_proxy, .tnt_tree_link {
-            display: none;
+
+        /*#page {*/
+            /*min-height: 2000px;*/
+        /*}*/
+        /*#genomeContainer, #infoContainer {*/
+            /*margin-left: 100px;*/
+        /*}*/
+        /*.tnt_node_display_elem, .tnt_tree_node_proxy, .tnt_tree_link {*/
+            /*display: none;*/
+        /*}*/
+        /*#tnt_tooltip_leadSnpTooltip, #tnt_tooltip_ldSnpTooltip {*/
+            /*pointer-events: none;*/
+        /*}*/
+
+        .tnt_track text {
+            font-family: 'Roboto', sans-serif;
         }
-        #tnt_tooltip_leadSnpTooltip, #tnt_tooltip_ldSnpTooltip {
-            pointer-events: none;
+        .tnt_name {
+            font-family: 'Roboto', sans-serif;
         }
+
         .tnt_track path,
         .tnt_track line {
             fill: none;
@@ -43,13 +64,6 @@
         }
         .tnt_framed {
             border: none;
-        }
-        .tnt_exons {
-            stroke: #004500 !important;
-            fill: #8da0cb !important;
-        }
-        .tnt_name {
-            fill: #027be3;
         }
         /*.tnt_track text {*/
             /*font-size: 0.9em;*/

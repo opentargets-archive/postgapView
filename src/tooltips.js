@@ -1,22 +1,6 @@
 /* global tnt:true */
 
 
-function gTooltip(d) {
-    return {
-        header: d.external_name,
-        rows: [
-            {
-                label: 'id',
-                value: d.gene_id,
-            },
-            {
-                label: 'desc',
-                value: d.description,
-            },
-        ],
-    };
-}
-
 function tTooltip(d) {
     return {
         header: d.display_name,
@@ -34,18 +18,77 @@ function tTooltip(d) {
 }
 
 export function geneTooltip(d) {
-    const table = tnt.tooltip.table()
-        .width(120);
-
-    if (d.isGene) {
-        table
-            .call(this, gTooltip(d));
-    }
-    else {
-        table
-            .call(this, tTooltip(d));
-    }
+    tnt.tooltip.table()
+        .width(120)
+        .call(this, tTooltip(d));
 }
+
+let st;
+export function snpTooltip(d, target) {
+    const o = {};
+    o.header = `Variant ${d.id}`;
+    o.rows = [];
+    // Scores
+    o.rows.push({
+        label: `${target} scores`,
+        value: '',
+    });
+    o.rows = [...o.rows, ...Object.keys(d.targets[target].funcgen).map((f) => {
+        return {
+            label: f.split('_')[0],
+            value: d.targets[target].funcgen[f],
+        };
+    })];
+
+    // Diseases
+    o.rows.push({
+        label: 'Diseases',
+        value: '',
+    });
+    o.rows = [...o.rows, ...Object.keys(d.diseases).map((e) => {
+        return {
+            label: e,
+            value: `${d.diseases[e].studies.length} publications`,
+        };
+    })];
+
+    // Other targets
+    o.rows.push({
+        label: 'Other targets',
+        value: '',
+    });
+    Object.keys(d.targets).forEach((t) => {
+        if (t !== target) {
+            o.rows.push({
+                label: t,
+                value: d.targets[t].score,
+            });
+        }
+    });
+
+    // Lead snps
+    o.rows.push({
+        label: 'GWAS SNPs in LD',
+        value: '',
+    });
+    o.rows = [...o.rows, ...Object.keys(d.leadSnps).map((s) => {
+        return {
+            label: s,
+            value: d.leadSnps[s].leadSnp,
+        };
+    })];
+
+    st = tnt.tooltip.table()
+        .id('snpTooltip')
+        .show_closer(false)
+        .width(120)
+        .call(this, o);
+
+    return st;
+}
+snpTooltip.close = () => {
+    st.close();
+};
 
 let leadTooltip;
 export function leadSnpTooltip(d) {

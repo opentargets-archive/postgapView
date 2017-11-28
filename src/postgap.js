@@ -657,8 +657,6 @@ function getGene(id) {
 }
 
 function getEnsemblSnps(snps) {
-    console.log('snps...');
-    console.log(snps);
     const url = rest.url()
         .endpoint('variation/:species/')
         .parameters({

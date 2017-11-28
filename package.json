@@ -22,7 +22,6 @@
     "httpplease-promises": "^0.3.0",
     "sass": "^0.5.0",
     "tnt.api": "^0.1.1",
-    "tnt.genome": "^0.1.7",
     "tnt.rest": "^0.1.1",
     "vinyl-buffer": "^1.0.0"
   },
