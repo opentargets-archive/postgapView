@@ -9,7 +9,7 @@ import clusterFeature from './clusterFeature';
 import snpFeature from './snpFeature';
 import snpDiseaseFeature from './snpDiseaseFeature';
 import connectorFeature from './connectorFeature';
-import { geneTooltip, snpTooltip } from './tooltips';
+import { geneTooltip, snpTooltip, snpTextualInfo, clusterTextualInfo } from './tooltips';
 
 const boardColor = '#FFFFFF';
 let selectedSnp;
@@ -84,6 +84,7 @@ function transcript(config) {
             if (selectedSnp) {
                 const els = transcriptTrack.data().elements();
                 const from = selectedSnp.pos;
+                const maxScore = selectedSnp.maxScore;
                 els.forEach((t) => {
                     Object.keys(selectedSnp.targets).forEach((g) => {
                         if (g === t.gene.id) {
@@ -91,12 +92,12 @@ function transcript(config) {
                                 from,
                                 to1: t.start,
                                 to2: t.end,
-                                id: t.id,
+                                id: `${t.id}-${from}`,
+                                isBest: (selectedSnp.targets[g].score === maxScore),
                             }];
                         }
                     });
                 });
-                console.log('elements... ', els);
             }
 
             const neededHeight = types.expanded.needed_slots * types.expanded.slot_height;
@@ -137,14 +138,19 @@ function snpFlatLabel(config) {
                     .style('stroke-width', '2px')
                     .style('fill', '#FF5665')
                     .style('opacity', '0.8');
-                track.g
+                const text = track.g
                     .append('text')
                     .attr('x', 12)
                     .attr('y', 20)
                     .attr('alignment-baseline', 'middle')
                     .style('font-size', '0.75em')
                     .style('fill', '#666666')
-                    .text(`Variants associated with ${config.gene}`);
+                    .html('Variants associated with ');
+                text
+                    .append('tspan')
+                    .attr('alignment-baseline', 'middle')
+                    .style('fill', '#FF5665')
+                    .text(config.gene);
 
                 track.g
                     .append('circle')
@@ -162,7 +168,7 @@ function snpFlatLabel(config) {
                     .attr('alignment-baseline', 'middle')
                     .style('font-size', '0.75em')
                     .style('fill', '#666666')
-                    .text('Same variants associated with other genes');
+                    .text('Same variants associated with other genes with a better score');
             }),
         );
         // No data
@@ -172,23 +178,30 @@ function snpFlatLabel(config) {
 // snp flat track
 const snpTrackHeight = 100;
 function snpFlat(config) {
-    // const genome = this;
+    const genome = this;
     let snpClusterData;
     const rest = config.rest;
     const snpFlatTrack = tnt.board.track()
+        .id('snpFlatTrack')
         .height(snpTrackHeight)
         .color(boardColor)
         .display(snpFeature
             .on('mouseover', function (d) {
-                return snpTooltip.call(this, d, config.gene);
+                return snpTextualInfo.call(this, d, config.gene);
             })
             .on('mouseout', () => {
-                snpTooltip.close();
+                snpTextualInfo.close();
             })
-            .on('click', (d) => {
+            .on('click', function (d) {
+                snpTooltip.call(this, d, config.gene);
                 // update the gene track with the connectors to this SNP
                 selectedSnp = d;
                 const els = transcriptTrack.data().elements();
+                // clear prev connectors
+                els.forEach(t => {
+                    delete (t.connectors);
+                });
+
                 const from = d.pos;
                 els.forEach((t) => {
                     Object.keys(d.targets).forEach((g) => {
@@ -213,11 +226,14 @@ function snpFlat(config) {
                 console.log('clicked on rsId... ', d);
                 console.log('clusters to choose from... ', snpClusterData);
 
+                clusterLabelTrack.height(50);
+                genome.tracks(genome.tracks());
+
                 // Update cluster track
                 snpClusterTrack.data().elements([]);
                 snpClusterTrack.display().update.call(snpClusterTrack);
                 const clusterArr = Object.keys(d.leadSnps)
-                    .map(l => snpClusterData[l].targets)
+                    .map(l => snpClusterData[l].diseases)
                     .reduce((acc, val) => [...acc, ...Object.keys(val).map(r => val[r])], []);
                 console.log('clusterArr... ', clusterArr);
                 snpClusterTrack.data().elements(clusterArr);
@@ -326,13 +342,13 @@ function setPositions2Snps(allSnps, processedSnps, processedDiseases, processedC
 
     Object.keys(processedClusters).forEach(gwasSnp => {
         const c = processedClusters[gwasSnp];
-        Object.keys(c.targets).forEach(t => {
-            const target = c.targets[t];
-            target.snps.forEach((snp) => {
+        Object.keys(c.diseases).forEach(d => {
+            const disease = c.diseases[d];
+            disease.snps.forEach((snp) => {
                 snp.pos = oSnpsPos[snp.rsId];
             });
-            target.snps = target.snps.filter(d => d.pos);
-            [target.start, target.end] = d3.extent(target.snps, (d) => d.pos);
+            disease.snps = disease.snps.filter(d => d.pos);
+            [disease.start, disease.end] = d3.extent(disease.snps, (d) => d.pos);
         });
     });
 }
@@ -372,32 +388,52 @@ function processSnps2(snps, config) {
         uniqueSnps[rsId] = true;
 
         // New processed gwas SNP / target (only if associated with target)
-        // if (ensId === config.gene) {
-        if (!processedClusters[leadSnp]) {
-            processedClusters[leadSnp] = {
-                leadSnp,
-                targets: {},
-                // snps: [],
-                // display_label: leadSnp,
-            };
+        if (ensId === config.gene) {
+            if (!processedClusters[leadSnp]) {
+                processedClusters[leadSnp] = {
+                    leadSnp,
+                    targets: {},
+                    diseases: {},
+                    // snps: [],
+                    // display_label: leadSnp,
+                };
+            }
+            const c = processedClusters[leadSnp];
+            // if (!c.targets[ensId]) {
+            //     c.targets[ensId] = {
+            //         external_name: leadSnp,
+            //         display_label: leadSnp,
+            //         id: `${leadSnp}-${ensId}`,
+            //         target: ensId,
+            //         snps: [],
+            //     };
+            // }
+            if (!c.diseases[efoId]) {
+                c.diseases[efoId] = {
+                    external_name: `${leadSnp} - ${efoId}`,
+                    display_label: `${efoId} (via ${leadSnp})`,
+                    id: `${leadSnp}-${efoId}`,
+                    disease: efoId,
+                    gwasSnp: leadSnp,
+                    snps: [],
+                };
+            }
+            if (rsId === leadSnp) {
+                c.diseases[efoId].score = pvalue;
+            }
+            // c.targets[ensId].snps.push({
+            //     target: ensId,
+            //     gwasSnp: leadSnp,
+            //     rsId,
+            //     id: `${leadSnp}-${ensId}-${rsId}`,
+            // });
+            c.diseases[efoId].snps.push({
+                disease: efoId,
+                gwasSnp: leadSnp,
+                rsId,
+                id: `${leadSnp}-${efoId}-${rsId}`,
+            });
         }
-        const c = processedClusters[leadSnp];
-        if (!c.targets[ensId]) {
-            c.targets[ensId] = {
-                external_name: leadSnp,
-                display_label: leadSnp,
-                id: `${leadSnp}-${ensId}`,
-                target: ensId,
-                snps: [],
-            };
-        }
-        c.targets[ensId].snps.push({
-            target: ensId,
-            gwasSnp: leadSnp,
-            rsId,
-            id: `${leadSnp}-${ensId}-${rsId}`,
-        });
-        // }
 
         // New processed diseases... only if associated with the target
         if (ensId === config.gene) {
@@ -461,7 +497,9 @@ function processSnps2(snps, config) {
 
         // If this is the selected gene, grab its score
         if (ensId === config.gene) {
-            g.score = maxScore;
+            if (!g.score || (g.score < maxScore)) {
+                g.score = maxScore;
+            }
         }
 
         // disease and studies
@@ -491,20 +529,45 @@ function processSnps2(snps, config) {
     };
 }
 
+// snp cluster track label
+let clusterLabelTrack;
+function snpClusterLabel() {
+    clusterLabelTrack = tnt.board.track()
+        .id('clusterLabelTrack')
+        .height(0)
+        .color(boardColor)
+        .display(tnt.board.track.feature()
+            .create(() => {})
+            .move(() => {})
+            .fixed(function () {
+                const track = this;
+                track.g
+                    .append('text')
+                    .attr('x', 2)
+                    .attr('y', 20)
+                    .attr('alignment-baseline', 'middle')
+                    .style('font-size', '0.75em')
+                    .style('fill', '#666666')
+                    .text('Disease-associated variants clusters');
+            }),
+        );
+    return clusterLabelTrack;
+}
+
 // snp cluster track
-let clusterTrackHeight = 150; // 0 by default (no snp selected)
+let clusterTrackHeight = 0; // 0 by default (no snp selected)
 let snpClusterTrack;
 function snpCluster(config) {
     const genome = this;
     snpClusterTrack = tnt.board.track()
+        .id('clusterTrack')
         .height(clusterTrackHeight)
         .color(boardColor)
         .display(clusterFeature
-            .color((d) => {
-                if (d.target === config.gene) {
-                    return '#FF5665';
-                }
-                return '#758CAB';
+            .color(() => '#758CAB')
+            .on('mouseover', clusterTextualInfo)
+            .on('mouseout', () => {
+                clusterTextualInfo.close();
             })
             .on('click', (d) => {
                 console.log('clicked on a cluster...');
@@ -793,6 +856,7 @@ function processSnps(snps) {
 export {
     sequence,
     transcript,
+    snpClusterLabel,
     snpCluster,
     // snpCluster2,
     snpFlat,

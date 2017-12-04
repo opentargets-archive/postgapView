@@ -55,14 +55,22 @@ const connectorFeature = tnt.board.track.feature()
                 });
             });
 
-        connectorsSel.selectAll('.connector')
-            .data((d) => d.connectors, (d) => `${d.from}-${d.id}`)
+        const con = connectorsSel.selectAll('.connector')
+            .data((d) => d.connectors, (d) => d.id);
+
+        con
             .enter()
             .append('path')
             .attr('class', 'connector')
-            .style('fill', '#cccccc')
+            .style('fill', (d) => {
+                console.log(d);
+                if (d.isBest) {
+                    return '#FF5665';
+                }
+                return '#cccccc';
+            })
             .style('stroke', 'none')
-            .style('opacity', 0.5)
+            .style('opacity', 0.4)
             .attr('d', (d) => {
                 const tPos = (d.slot) * slotHeight;
                 const from = xScale(d.from);
@@ -70,6 +78,8 @@ const connectorFeature = tnt.board.track.feature()
                 const to2 = xScale(d.to2);
                 return getPath(from, to1, to2, tPos, y);
             });
+
+        con.exit().remove();
     })
     .move(function (sel) {
         const track = this;

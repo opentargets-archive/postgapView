@@ -13,6 +13,7 @@ import {
     sequence as sequenceTrack,
     transcript as transcriptTrack,
     snpFlat as snpFlatTrack,
+    snpClusterLabel as snpClusterLabelTrack,
     snpCluster as snpClusterTrack,
     // snpCluster2 as snpClusterTrack2,
     snpFlatLabel as snpFlatLabelTrack,
@@ -72,6 +73,7 @@ function buildBrowser(postgapData, container, container2) {
             .add_track(transcriptTrack.call(genome, config))
             .add_track(snpFlatLabelTrack.call(genome, config))
             .add_track(snpFlatTrack.call(genome, config))
+            .add_track(snpClusterLabelTrack.call(genome, config))
             .add_track(snpClusterTrack.call(genome, config))
             .add_track(diseaseLabelTrack.call(genome, config))
             .add_track(diseaseTrack.call(genome, config));

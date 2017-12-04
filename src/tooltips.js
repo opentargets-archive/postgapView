@@ -6,6 +6,10 @@ function tTooltip(d) {
         header: d.display_name,
         rows: [
             {
+                label: 'id',
+                value: d.id,
+            },
+            {
                 label: 'type',
                 value: d.object_type,
             },
@@ -23,7 +27,59 @@ export function geneTooltip(d) {
         .call(this, tTooltip(d));
 }
 
-let st;
+// cluster textual info
+let clusterTextTooltip = {};
+export function clusterTextualInfo(d) {
+    const o = {};
+    o.header = `Variant cluster associated with ${d.disease}`;
+    o.body = `This is a variant cluster associated with ${d.disease} via ${d.gwasSnp} with an score of ${d.score}`;
+    clusterTextTooltip = tnt.tooltip.plain()
+        .width(400)
+        .id('clusterTextualInfo')
+        .show_closer(false)
+        .call(this, o);
+}
+clusterTextualInfo.close = () => {
+    clusterTextTooltip.close();
+};
+
+// snp textual info
+let snpTextTooltip = {};
+export function snpTextualInfo(d, target) {
+    const o = {};
+    o.header = `Variant ${d.id}`;
+    // Diseases...
+    const diseases = Object.keys(d.diseases);
+    const targets = Object.keys(d.targets);
+    const clusters = Object.keys(d.leadSnps);
+    const msgs = [];
+    msgs.push('<ul>');
+    if (diseases.length) {
+        msgs.push(`<li><span class="nowrap">This variant is associated with ${diseases.length} diseases (${diseases.join(', ')})</span></li>`);
+    }
+    if (targets.length) {
+        msgs.push(`<li><span class="nowrap">This variant is associated with ${targets.length} targets (${targets.join(', ')})</span></li>`);
+    }
+    if (d.maxScore > d.score) {
+        // msgs[msgs.length - 1] += ` but ${target} is not the best target for this variant`;
+        msgs.push(`<li><span class="nowrap">The best target for this variant is not ${target}</span></li>`)
+    }
+    if (clusters.length) {
+        msgs.push(`<li><span class="nowrap">This variant is part of ${clusters.length} clusters of variants</span></li>`);
+    }
+    msgs.push('</ul>');
+    o.body = msgs.join('');
+    snpTextTooltip = tnt.tooltip.plain()
+        .width(400)
+        .id('variantTextualInfo')
+        .show_closer(false)
+        .call(this, o);
+}
+snpTextualInfo.close = () => {
+    snpTextTooltip.close();
+};
+
+
 export function snpTooltip(d, target) {
     const o = {};
     o.header = `Variant ${d.id}`;
@@ -78,23 +134,17 @@ export function snpTooltip(d, target) {
         };
     })];
 
-    st = tnt.tooltip.table()
+    const st = tnt.tooltip.table()
         .id('snpTooltip')
-        .show_closer(false)
         .width(120)
         .call(this, o);
 
     return st;
 }
-snpTooltip.close = () => {
-    st.close();
-};
 
-let leadTooltip;
 export function leadSnpTooltip(d) {
-    leadTooltip = tnt.tooltip.table()
+    const leadTooltip = tnt.tooltip.table()
         .id('leadSnpTooltip')
-        .show_closer(false)
         .width(120)
         .call(this, {
             header: d.lead_snp.rsid,
@@ -115,13 +165,9 @@ export function leadSnpTooltip(d) {
         });
     return leadTooltip;
 }
-leadSnpTooltip.close = () => {
-    leadTooltip.close();
-};
 
-let ldTooltip;
 export function ldSnpTooltip(d) {
-    ldTooltip = tnt.tooltip.table()
+    const ldTooltip = tnt.tooltip.table()
         .id('ldSnpTooltip')
         .show_closer(false)
         .width(120)
@@ -168,7 +214,3 @@ export function ldSnpTooltip(d) {
         });
     return ldTooltip;
 }
-ldSnpTooltip.close = () => {
-    ldTooltip.close();
-};
-
