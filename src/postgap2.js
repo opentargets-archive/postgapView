@@ -28,6 +28,8 @@ const rest = tntRest()
 const config = {
     rest,
     gene: 'ENSG00000134243', // SORT1
+    // disease: 'EFO_0004518', // Myocardial infarction
+    disease: 'EFO_0004261', // Myocardial infarction
     width: 950,
 };
 

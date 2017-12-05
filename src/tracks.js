@@ -145,7 +145,7 @@ function snpFlatLabel(config) {
                     .attr('alignment-baseline', 'middle')
                     .style('font-size', '0.75em')
                     .style('fill', '#666666')
-                    .html('Variants associated with ');
+                    .text('Variants associated with ');
                 text
                     .append('tspan')
                     .attr('alignment-baseline', 'middle')
@@ -161,14 +161,25 @@ function snpFlatLabel(config) {
                     .style('stroke-width', '2px')
                     .style('fill', '#758CAB')
                     .style('opacity', '0.5');
-                track.g
+
+                const text2 = track.g
                     .append('text')
                     .attr('x', 12)
                     .attr('y', 35)
                     .attr('alignment-baseline', 'middle')
                     .style('font-size', '0.75em')
                     .style('fill', '#666666')
-                    .text('Same variants associated with other genes with a better score');
+                    .text('Same variants associated with ');
+                text2
+                    .append('tspan')
+                    .attr('alignment-baseline', 'middle')
+                    .style('fill', '#758CAB')
+                    .text('other genes');
+                text2
+                    .append('tspan')
+                    .attr('alignment-baseline', 'middle')
+                    .style('fill', '#666666')
+                    .text(' with a better score');
             }),
         );
         // No data
@@ -268,7 +279,7 @@ function snpFlat(config) {
                         console.log('clusters... ', processedClusters);
 
                         console.log(`${Object.keys(processedDiseases).length} unique diseases...`);
-                        // console.log(processedDiseases);
+                        console.log(processedDiseases);
 
                         // make a new call to ensembl to get the position of all the SNPs
                         const allPromises = getEnsemblSnps(config.rest, Object.keys(uniqueSnps));
@@ -301,20 +312,23 @@ function snpFlat(config) {
                                 // EFO_0004518: serum creatinine measurement
 
                                 // Disease-Snp track update
-                                const thisDisease = processedDiseases.EFO_0004518;
+                                // const thisDisease = processedDiseases.EFO_0004518;
                                 const diseaseTrackData = diseaseTrack.data();
 
                                 // TODO: (Needs fixing) There may not be snp if we are out of range with the gene
-                                const diseaseSnps = Object.keys(thisDisease.snps)
-                                    .map((rsId) => thisDisease.snps[rsId])
-                                    .filter(s => s.pos); // Remove those without position
-                                diseaseTrackData.elements(diseaseSnps);
-                                diseaseTrack.display().update.call(diseaseTrack);
+                                // const diseaseSnps = Object.keys(thisDisease.snps)
+                                //     .map((rsId) => thisDisease.snps[rsId])
+                                //     .filter(s => s.pos); // Remove those without position
+                                // diseaseTrackData.elements(diseaseSnps);
+                                // diseaseTrack.display().update.call(diseaseTrack);
 
                                 // Remove snps without position
                                 allClusters = allClusters.filter((d) => d.pos);
                                 console.log('all flat snps...');
                                 console.log(allClusters);
+
+                                diseaseTrackData.elements(allClusters);
+                                diseaseTrack.display().update.call(diseaseTrack);
 
                                 return allClusters;
                             });
@@ -477,6 +491,8 @@ function processSnps2(snps, config) {
             processedSnps[rsId] = {
                 id: rsId,
                 maxScore: -Infinity,
+                bestPval: 1,
+                pvalue: 1,
                 targets: {},
                 diseases: {},
                 leadSnps: {},
@@ -503,6 +519,17 @@ function processSnps2(snps, config) {
         }
 
         // disease and studies
+        if (pvalue < g.bestPval) {
+            g.bestPval = pvalue;
+        }
+
+        // If this is the selected disease, grab its pval
+        if (efoId === config.disease) {
+            if (!g.pvalue || (g.pvalue > pvalue)) {
+                g.pvalue = pvalue;
+            }
+        }
+
         if (!g.diseases[efoId]) {
             g.diseases[efoId] = {
                 disease: efoId,
@@ -595,9 +622,9 @@ function snpCluster(config) {
 }
 
 // disease track label
-function diseaseSnpsLabel() {
+function diseaseSnpsLabel(config) {
     const diseaseSnpsLabelTrack = tnt.board.track()
-        .height(30)
+        .height(50)
         .color(boardColor)
         .display(tnt.board.track.feature()
             .create(() => {})
@@ -614,14 +641,38 @@ function diseaseSnpsLabel() {
                     .style('fill', '#FF5665')
                     .style('opacity', '0.8');
 
-                track.g
+                const text1 = track.g
                     .append('text')
                     .attr('x', 12)
                     .attr('y', 20)
                     .attr('alignment-baseline', 'middle')
                     .style('font-size', '0.75em')
                     .style('fill', '#666666')
-                    .text('Variants associated with Myocardial infarction');
+                    .text(`Variants associated with ${config.gene} and `);
+                text1
+                    .append('tspan')
+                    .attr('alignment-baseline', 'middle')
+                    .style('fill', '#FF5665')
+                    .text(config.disease);
+
+                track.g
+                    .append('circle')
+                    .attr('cx', 5)
+                    .attr('cy', 35)
+                    .attr('r', 3)
+                    .style('stroke', '#758CAB')
+                    .style('stroke-width', '2px')
+                    .style('fill', '#758CAB')
+                    .style('opacity', '0.8');
+
+                track.g
+                    .append('text')
+                    .attr('x', 12)
+                    .attr('y', 35)
+                    .attr('alignment-baseline', 'middle')
+                    .style('font-size', '0.75em')
+                    .style('fill', '#666666')
+                    .text(`Variants associated with ${config.gene} and other diseases with a better pvalue`);
             }),
         );
     return diseaseSnpsLabelTrack;

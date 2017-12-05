@@ -11,7 +11,6 @@ function getPath(from, to1, to2, tPos, y) {
 
 const connectorFeature = tnt.board.track.feature()
     .distribute(function (transcripts) {
-        console.log('connector transcripts... ', transcripts.data());
         const track = this;
         const display = track.display();
         const xScale = display.scale();
@@ -36,7 +35,6 @@ const connectorFeature = tnt.board.track.feature()
             });
     })
     .create(function (sel) {
-        console.log('connector create... ', sel.data());
         const track = this;
         // Same as: var xScale = transcript_feature.scale();
         const display = track.display();
@@ -63,7 +61,6 @@ const connectorFeature = tnt.board.track.feature()
             .append('path')
             .attr('class', 'connector')
             .style('fill', (d) => {
-                console.log(d);
                 if (d.isBest) {
                     return '#FF5665';
                 }
