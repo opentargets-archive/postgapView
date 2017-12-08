@@ -28,6 +28,7 @@ g.append('line')
     .attr('x2', (d) => xScale(d.pos))
     .attr('y1', (d) => yScale(0))
     .attr('y2', (d) => yScale(1))
+    .style('stroke-width', 2)
     .style('stroke', 'green');
 });
 

@@ -10,6 +10,7 @@ import snpFeature from './snpFeature';
 import snpMarker from './snpMarker';
 import snpDiseaseFeature from './snpDiseaseFeature';
 import connectorFeature from './connectorFeature';
+import lineConnectorFeature from './lineConnectorFeature';
 import { geneTooltip, snpTooltip, snpTextualInfo, clusterTextualInfo } from './tooltips';
 
 const boardColor = '#FFFFFF';
@@ -485,6 +486,40 @@ function snpLDMarker(config) {
                                 diseaseTrackData.elements(allClusters);
                                 diseaseTrack.display().update.call(diseaseTrack);
 
+
+                                // Lead SNPs
+                                // TODO: Move data logic for snpLeadMarker here...
+                                const leadSnps = processSnps2LeadSnps(allSnps);
+                                // const leadSnpWithPos = leadSnps.map(d => {
+                                //     const snpData = allClusters.filter(d2 => (d2.id === d))[0]
+                                //     return {
+                                //         id: d,
+                                //         pos: d2.pos
+                                //     };
+                                // });
+                                const leadSnpPos = {};
+                                leadSnps.forEach(d => {
+                                    const snpData = allClusters.filter(d2 => (d2.id === d))[0];
+                                    leadSnpPos[d] = snpData.pos;
+                                });
+                                let snpConnections = [];
+                                allClusters.forEach(ld => {
+                                    snpConnections = snpConnections.concat(Object.keys(ld.leadSnps).map(lead => ({
+                                        id: `${lead}-${ld.id}`,
+                                        from: ld.pos,
+                                        to: leadSnpPos[lead],
+                                        r2: parseFloat(ld.leadSnps[lead].r2),
+                                    })));
+                                });
+                                console.log('snpConnections...');
+                                console.log(snpConnections);
+
+                                // Snp-Lead Snp connectors
+                                const snpConnectorTrackData = snpConnectorTrack.data();
+                                snpConnectorTrackData.elements(snpConnections);
+                                snpConnectorTrack.display().update.call(snpConnectorTrack);
+
+
                                 return allClusters;
                             });
                     });
@@ -641,6 +676,18 @@ function snpLeadMarker(config) {
 
     return snpFlatTrack;
 }
+
+let snpConnectorTrack;
+function snpConnector() {
+    snpConnectorTrack = tnt.board.track()
+        .id('snpConnectorTrack')
+        .height(50)
+        .color(boardColor)
+        .display(lineConnectorFeature);
+
+    return snpConnectorTrack;
+}
+
 
 function snpData2pos(ensemblData) {
     return ensemblData.map(d => ({
@@ -1231,6 +1278,7 @@ export {
     // snpCluster2,
     snpLDMarker,
     snpLeadMarker,
+    snpConnector,
     // snpFlat,
     snpFlatLabel,
     disease,

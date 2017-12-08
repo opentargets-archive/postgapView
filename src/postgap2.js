@@ -17,6 +17,7 @@ import {
     // snpFlat as snpFlatTrack,
     snpClusterLabel as snpClusterLabelTrack,
     snpCluster as snpClusterTrack,
+    snpConnector as snpConnectorTrack,
     // snpCluster2 as snpClusterTrack2,
     snpFlatLabel as snpFlatLabelTrack,
     disease as diseaseTrack,
@@ -78,6 +79,7 @@ function buildBrowser(postgapData, container, container2) {
             .add_track(snpFlatLabelTrack.call(genome, config))
             // .add_track(snpFlatTrack.call(genome, config))
             .add_track(snpLDMarkerTrack.call(genome, config))
+            .add_track(snpConnectorTrack.call(genome, config))
             .add_track(snpLeadMarkerTrack.call(genome, config))
             .add_track(snpClusterLabelTrack.call(genome, config))
             .add_track(snpClusterTrack.call(genome, config))
