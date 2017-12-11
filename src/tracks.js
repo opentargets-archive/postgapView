@@ -11,6 +11,7 @@ import snpMarker from './snpMarker';
 import snpDiseaseFeature from './snpDiseaseFeature';
 import connectorFeature from './connectorFeature';
 import lineConnectorFeature from './lineConnectorFeature';
+import diseaseFeature from './diseaseFeature';
 import { geneTooltip, snpTooltip, snpTextualInfo, clusterTextualInfo } from './tooltips';
 
 const boardColor = '#FFFFFF';
@@ -513,6 +514,18 @@ function snpLDMarker(config) {
                                 });
                                 console.log('snpConnections...');
                                 console.log(snpConnections);
+
+
+                                // Disease labels
+                                const diseaseNames = {};
+                                allClusters.forEach(ld => {
+                                    Object.keys(ld.diseases).forEach(diseaseName => {
+                                        diseaseNames[diseaseName] = true;
+                                    });
+                                });
+                                const diseaseLabelTrackData = diseaseLabelTrack.data();
+                                diseaseLabelTrackData.elements(Object.keys(diseaseNames).sort());
+                                diseaseLabelTrack.display().update.call(diseaseLabelTrack);
 
                                 // Snp-Lead Snp connectors
                                 const snpConnectorTrackData = snpConnectorTrack.data();
@@ -1061,6 +1074,23 @@ function disease() {
     return diseaseTrack;
 }
 
+// disease track
+const diseaseLabelTrackHeight = 100;
+let diseaseLabelTrack; // Needs to be accessible to update the data
+function diseaseLabel() {
+    diseaseLabelTrack = tnt.board.track()
+        .height(diseaseLabelTrackHeight)
+        .color(boardColor)
+        .display(diseaseFeature,
+            // .on('click', (d) => {
+            //     console.log(d);
+            // }),
+        );
+        // No data, this is controlled by the snpFlatTrack
+
+    return diseaseLabelTrack;
+}
+
 // snp cluster track
 let clusterTrackHeight2 = 50;
 function snpCluster2(config) {
@@ -1283,5 +1313,6 @@ export {
     snpFlatLabel,
     disease,
     diseaseSnpsLabel,
+    diseaseLabel,
 };
 

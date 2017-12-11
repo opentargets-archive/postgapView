@@ -22,6 +22,7 @@ import {
     snpFlatLabel as snpFlatLabelTrack,
     disease as diseaseTrack,
     diseaseSnpsLabel as diseaseLabelTrack,
+    diseaseLabel as diseaseNameLabelTrack,
 } from './tracks';
 
 const rest = tntRest()
@@ -81,7 +82,8 @@ function buildBrowser(postgapData, container, container2) {
             .add_track(snpLDMarkerTrack.call(genome, config))
             .add_track(snpConnectorTrack.call(genome, config))
             .add_track(snpLeadMarkerTrack.call(genome, config))
-            .add_track(snpClusterLabelTrack.call(genome, config))
+            .add_track(diseaseNameLabelTrack.call(genome, config))
+            // .add_track(snpClusterLabelTrack.call(genome, config))
             .add_track(snpClusterTrack.call(genome, config))
             .add_track(diseaseLabelTrack.call(genome, config))
             .add_track(diseaseTrack.call(genome, config));

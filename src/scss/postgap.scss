@@ -1,5 +1,10 @@
 .tnt_track path.snp-connector {
     fill: none;
     stroke: #999;
-    stroke-width: 2;
+    // stroke-width: 2;
+}
+
+.tnt_track .disease-label {
+    font-size: 10px;
+    color: #777;
 }
