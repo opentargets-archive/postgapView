@@ -11,6 +11,7 @@ import snpMarker from './snpMarker';
 import snpDiseaseFeature from './snpDiseaseFeature';
 import connectorFeature from './connectorFeature';
 import lineConnectorFeature from './lineConnectorFeature';
+import halfFixedLineConnectorFeature from './halfFixedLineConnectorFeature';
 import diseaseFeature from './diseaseFeature';
 import { geneTooltip, snpTooltip, snpTextualInfo, clusterTextualInfo } from './tooltips';
 
@@ -512,8 +513,8 @@ function snpLDMarker(config) {
                                         r2: parseFloat(ld.leadSnps[lead].r2),
                                     })));
                                 });
-                                console.log('snpConnections...');
-                                console.log(snpConnections);
+                                // console.log('snpConnections...');
+                                // console.log(snpConnections);
 
 
                                 // Disease labels
@@ -531,6 +532,33 @@ function snpLDMarker(config) {
                                 const snpConnectorTrackData = snpConnectorTrack.data();
                                 snpConnectorTrackData.elements(snpConnections);
                                 snpConnectorTrack.display().update.call(snpConnectorTrack);
+
+                                // Lead Snp-Disease connectors
+                                // console.log('processedDiseases...');
+                                // console.log(processedDiseases);
+                                let snpDiseaseConnections = {};
+                                Object.keys(processedDiseases).forEach(efoId => {
+                                    const diseaseObj = processedDiseases[efoId];
+                                    Object.keys(diseaseObj.snps).forEach(snpId => {
+                                        const snp = diseaseObj.snps[snpId];
+                                        Object.keys(snp.leadSnps).forEach(leadSnpId => {
+                                            const leadSnp = snp.leadSnps[leadSnpId];
+                                            snpDiseaseConnections[`${efoId}-${leadSnpId}`] = {
+                                                id: `${efoId}-${leadSnpId}`,
+                                                efoId: efoId,
+                                                leadSnpId: leadSnpId,
+                                                leadSnpPos: leadSnpPos[leadSnpId],
+                                                pval: d3.min(leadSnp.studies, d => d.pvalue),
+                                            };
+                                        });
+                                    });
+                                });
+                                snpDiseaseConnections = Object.values(snpDiseaseConnections);
+                                console.log('snpDiseaseConnections...');
+                                console.log(snpDiseaseConnections);
+                                const snpDiseaseConnectorTrackData = snpDiseaseConnectorTrack.data();
+                                snpDiseaseConnectorTrackData.elements(snpDiseaseConnections);
+                                snpDiseaseConnectorTrack.display().update.call(snpDiseaseConnectorTrack);
 
 
                                 return allClusters;
@@ -699,6 +727,17 @@ function snpConnector() {
         .display(lineConnectorFeature);
 
     return snpConnectorTrack;
+}
+
+let snpDiseaseConnectorTrack;
+function snpDiseaseConnector() {
+    snpDiseaseConnectorTrack = tnt.board.track()
+        .id('snpDiseaseConnectorTrack')
+        .height(50)
+        .color(boardColor)
+        .display(halfFixedLineConnectorFeature);
+
+    return snpDiseaseConnectorTrack;
 }
 
 
@@ -1309,6 +1348,7 @@ export {
     snpLDMarker,
     snpLeadMarker,
     snpConnector,
+    snpDiseaseConnector,
     // snpFlat,
     snpFlatLabel,
     disease,
