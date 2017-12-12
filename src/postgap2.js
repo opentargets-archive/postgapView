@@ -78,7 +78,7 @@ function buildBrowser(postgapData, container, container2) {
             .zoom_in(100)
             .add_track(sequenceTrack.call(genome, config))
             .add_track(transcriptTrack.call(genome, config))
-            .add_track(snpFlatLabelTrack.call(genome, config))
+            // .add_track(snpFlatLabelTrack.call(genome, config))
             // .add_track(snpFlatTrack.call(genome, config))
             .add_track(snpLDMarkerTrack.call(genome, config))
             .add_track(snpConnectorTrack.call(genome, config))
