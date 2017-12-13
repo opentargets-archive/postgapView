@@ -16,6 +16,7 @@ import diseaseFeature from './diseaseFeature';
 import { geneTooltip, snpTooltip, snpTextualInfo, clusterTextualInfo } from './tooltips';
 
 const boardColor = '#FFFFFF';
+const snpTrackBackgroundColor = '#EEE';
 let selectedSnp;
 
 // sequence track
@@ -345,7 +346,7 @@ function snpFlatLabel(config) {
 //     return snpFlatTrack;
 // }
 
-const snpMarkerTrackHeight = 10;
+const snpMarkerTrackHeight = 15;
 function snpLDMarker(config) {
     const genome = this;
     let snpClusterData;
@@ -353,7 +354,7 @@ function snpLDMarker(config) {
     const snpFlatTrack = tnt.board.track()
         .id('snpLDMarkerTrack')
         .height(snpMarkerTrackHeight)
-        .color(boardColor)
+        .color(snpTrackBackgroundColor)
         .display(snpMarker
             .on('mouseover', function (d) {
                 return snpTextualInfo.call(this, d, config.gene);
@@ -577,7 +578,7 @@ function snpLeadMarker(config) {
     const snpFlatTrack = tnt.board.track()
         .id('snpLeadMarkerTrack')
         .height(snpMarkerTrackHeight)
-        .color(boardColor)
+        .color(snpTrackBackgroundColor)
         .display(snpMarker)
             // .on('mouseover', function (d) {
             //     return snpTextualInfo.call(this, d, config.gene);
@@ -722,7 +723,7 @@ let snpConnectorTrack;
 function snpConnector() {
     snpConnectorTrack = tnt.board.track()
         .id('snpConnectorTrack')
-        .height(50)
+        .height(100)
         .color(boardColor)
         .display(lineConnectorFeature);
 
@@ -733,7 +734,7 @@ let snpDiseaseConnectorTrack;
 function snpDiseaseConnector() {
     snpDiseaseConnectorTrack = tnt.board.track()
         .id('snpDiseaseConnectorTrack')
-        .height(50)
+        .height(100)
         .color(boardColor)
         .display(halfFixedLineConnectorFeature);
 

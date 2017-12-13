@@ -14,10 +14,25 @@ const halfFixedLineConnectorFeature = tnt.board.track.feature()
         const xScaleText = d3.scale.ordinal()
             .domain(sel.data().map(d => d.efoId).sort())
             .rangePoints(xScale.range());
-        const opacityScale = d3.scale.log()
-            .base(10)
-            .domain(d3.extent(sel.data(), d => d.pval))
-            .range([0, 1]);
+        console.log(d3.extent(sel.data(), d => d.pval));
+        // const opacityScale = d3.scale.log()
+        //     .base(10)
+        //     .domain(d3.extent(sel.data(), d => d.pval))
+        //     .range([0, 1]);
+        const opacityScale = pval => {
+            const mlogp = -Math.log10(pval);
+            if (mlogp < 6) {
+                return 0.2;
+            } else if (mlogp < 7) {
+                return 0.3;
+            } else if (mlogp < 8) {
+                return 0.4;
+            } else if (mlogp < 9) {
+                return 0.5;
+            } else {
+                return 0.6;
+            }
+        }
         const y = track.height();
 
         sel.append('path')

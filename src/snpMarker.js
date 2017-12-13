@@ -7,7 +7,7 @@ const snpMarker = tnt.board.track.feature()
 // Create
 const color1 = '#758CAB';
 const color2 = '#FF5665';
-const offset = 10; // 10 pixels offset
+const offset = 0; // 10 pixels offset
 snpMarker.create(function (el) {
     // console.log(el)
 const xScale = snpMarker.scale();

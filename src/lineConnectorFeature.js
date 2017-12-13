@@ -5,6 +5,21 @@ function getLinePath(topX, topY, bottomX, bottomY) {
     return `M${topX},${topY} C${topX},${controlY}, ${bottomX},${controlY} ${bottomX},${bottomY}`;
 }
 
+// const opacityScale = d3.scale.linear().domain([0.7, 1]).range([0.2, 0.6]) // r2
+const opacityScale = r2 => {
+    if (r2 < 0.8) {
+        return 0.2;
+    } else if (r2 < 0.9) {
+        return 0.3
+    } else if (r2 < 0.95) {
+        return 0.4
+    } else if (r2 < 0.99) {
+        return 0.5
+    } else {
+        return 0.6
+    }
+};
+
 const lineConnectorFeature = tnt.board.track.feature()
     .create(function (sel) {
         const track = this;
@@ -21,7 +36,7 @@ const lineConnectorFeature = tnt.board.track.feature()
                 const toY = y;
                 return getLinePath(fromX, fromY, toX, toY);
             })
-            .attr('stroke-opacity', d => ((d.r2 - 0.6) * 2));
+            .attr('stroke-opacity', d => opacityScale(d.r2));
     })
     .move(function (sel) {
         const track = this;
@@ -38,7 +53,7 @@ const lineConnectorFeature = tnt.board.track.feature()
             return getLinePath(fromX, fromY, toX, toY);
         })
         // .attr('stroke-width', 2)
-        .attr('stroke-opacity', d => ((d.r2 - 0.6) * 2));
+        .attr('stroke-opacity', d => opacityScale(d.r2));
     });
 
 export default lineConnectorFeature;

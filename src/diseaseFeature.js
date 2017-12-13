@@ -15,13 +15,14 @@ diseaseFeature.create(function (el) {
 
     const g = el
         .append('g')
-        .attr('transform', d => `translate(${xScaleText(d)},${(y / 2)})`);
+        // .attr('transform', d => `translate(${xScaleText(d)},${(y / 2)})`);
+        .attr('transform', d => `translate(${xScaleText(d)},5)`);
 
     g.append('text')
         .classed('disease-label', true)
         // .attr('x', d => xScaleText(d))
         // .attr('y', y / 2)
-        .attr('transform', 'rotate(45)')
+        .attr('transform', 'rotate(-90)')
         .text(d => d);
 });
 
