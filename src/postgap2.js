@@ -21,7 +21,7 @@ import {
     snpDiseaseConnector as snpDiseaseConnectorTrack,
     // snpCluster2 as snpClusterTrack2,
     snpFlatLabel as snpFlatLabelTrack,
-    disease as diseaseTrack,
+    // disease as diseaseTrack,
     diseaseSnpsLabel as diseaseLabelTrack,
     diseaseLabel as diseaseNameLabelTrack,
 } from './tracks';
@@ -87,9 +87,9 @@ function buildBrowser(postgapData, container, container2) {
             .add_track(diseaseNameLabelTrack.call(genome, config))
             
             // .add_track(snpClusterLabelTrack.call(genome, config))
-            .add_track(snpClusterTrack.call(genome, config))
+            .add_track(snpClusterTrack.call(genome, config));
             // .add_track(diseaseLabelTrack.call(genome, config))
-            .add_track(diseaseTrack.call(genome, config));
+            // .add_track(diseaseTrack.call(genome, config));
             // .add_track(snpClusterTrack2.call(genome, config));
         genome.start();
         console.log('genome started...');
