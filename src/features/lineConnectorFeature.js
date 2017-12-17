@@ -1,5 +1,5 @@
 /* global tnt:true */
-import { r2ColourScale } from './colourScales';
+import { r2ColourScale } from '../colourScales';
 
 function getLinePath(topX, topY, bottomX, bottomY) {
     const controlY = (bottomY - topY) / 2;

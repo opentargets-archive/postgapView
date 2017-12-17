@@ -5,14 +5,13 @@
 
 import axios from 'axios';
 import { getData, getEnsemblSnps } from './data';
-import clusterFeature from './clusterFeature';
-import snpMarker from './snpMarker';
+import snpMarker from './features/snpMarker';
 import connectorFeature from './connectorFeature';
-import lineConnectorFeature from './lineConnectorFeature';
-import halfFixedLineConnectorFeature from './halfFixedLineConnectorFeature';
-import diseaseFeature from './diseaseFeature';
+import lineConnectorFeature from './features/lineConnectorFeature';
+import halfFixedLineConnectorFeature from './features/halfFixedLineConnectorFeature';
+import diseaseFeature from './features/diseaseFeature';
 import { geneTooltip, snpTooltip, snpTextualInfo, clusterTextualInfo } from './tooltips';
-import legendFeature from './legendFeature';
+import legendFeature from './features/legendFeature';
 
 const boardColor = '#FFFFFF';
 const snpTrackBackgroundColor = '#EEE';
@@ -865,46 +864,6 @@ function snpClusterLabel() {
     return clusterLabelTrack;
 }
 
-// snp cluster track
-let clusterTrackHeight = 0; // 0 by default (no snp selected)
-let snpClusterTrack;
-function snpCluster(config) {
-    const genome = this;
-    snpClusterTrack = tnt.board.track()
-        .id('clusterTrack')
-        .height(clusterTrackHeight)
-        .color(boardColor)
-        .display(clusterFeature
-            .color(() => '#758CAB')
-            .on('mouseover', clusterTextualInfo)
-            .on('mouseout', () => {
-                clusterTextualInfo.close();
-            })
-            .on('click', (d) => {
-                console.log('clicked on a cluster...');
-                console.log(d);
-            }),
-        )
-        .data(tnt.board.track.data.sync()
-            .retriever(() => snpClusterTrack.data().elements()),
-        );
-        // No data (it comes from the flat snp track
-
-    snpClusterTrack.display().layout()
-        .fixed_slot_type('expanded')
-        .keep_slots(false)
-        .on_layout_run((types) => {
-            const neededHeight = types.expanded.needed_slots * types.expanded.slot_height;
-            if (neededHeight !== clusterTrackHeight) {
-                clusterTrackHeight = neededHeight;
-                snpClusterTrack.height(neededHeight);
-                genome.tracks(genome.tracks());
-            }
-        });
-
-    return snpClusterTrack;
-}
-
 // disease track label
 function diseaseSnpsLabel(config) {
     const diseaseSnpsLabelTrack = tnt.board.track()
@@ -1072,16 +1031,11 @@ function processSnps(snps) {
 export {
     // sequence,
     transcript,
-    snpClusterLabel,
-    snpCluster,
-    // snpCluster2,
     snpLDMarker,
     snpLeadMarker,
     snpConnector,
     snpDiseaseConnector,
-    // snpFlat,
     snpFlatLabel,
-    // disease,
     diseaseSnpsLabel,
     diseaseLabel,
     legend,

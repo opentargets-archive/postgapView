@@ -14,7 +14,7 @@
 //         return 0.6
 //     }
 // };
-import { r2ColourScale, pvalColourScale } from './colourScales';
+import { r2ColourScale, pvalColourScale } from '../colourScales';
 
 
 const superscript = "⁰¹²³⁴⁵⁶⁷⁸⁹";

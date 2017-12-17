@@ -6,24 +6,15 @@ import tntRest from 'tnt.rest';
 import spinner from 'cttv.spinner';
 import axios from 'axios';
 import { getData, getEnsemblSnps } from './data';
-
-import circleFeature from './circleFeature';
-
-
 import sequenceTrack from './tracks/sequenceTrack';
 import {
     // sequence as sequenceTrack,
     transcript as transcriptTrack,
     snpLDMarker as snpLDMarkerTrack,
     snpLeadMarker as snpLeadMarkerTrack,
-    // snpFlat as snpFlatTrack,
-    snpClusterLabel as snpClusterLabelTrack,
-    snpCluster as snpClusterTrack,
     snpConnector as snpConnectorTrack,
     snpDiseaseConnector as snpDiseaseConnectorTrack,
-    // snpCluster2 as snpClusterTrack2,
     snpFlatLabel as snpFlatLabelTrack,
-    // disease as diseaseTrack,
     diseaseSnpsLabel as diseaseLabelTrack,
     diseaseLabel as diseaseNameLabelTrack,
     legend as legendTrack,
@@ -84,20 +75,12 @@ function buildBrowser(postgapData, container, container2) {
             .zoom_in(100)
             .add_track(sequenceTrack.call(genome, config))
             .add_track(transcriptTrack.call(genome, config))
-            // .add_track(snpFlatLabelTrack.call(genome, config))
-            // .add_track(snpFlatTrack.call(genome, config))
             .add_track(snpLDMarkerTrack.call(genome, config))
             .add_track(snpConnectorTrack.call(genome, config))
             .add_track(snpLeadMarkerTrack.call(genome, config))
             .add_track(snpDiseaseConnectorTrack.call(genome, config))
             .add_track(diseaseNameLabelTrack.call(genome, config))
-            
-            // .add_track(snpClusterLabelTrack.call(genome, config))
-            .add_track(snpClusterTrack.call(genome, config))
             .add_track(legendTrack.call(genome, config));
-            // .add_track(diseaseLabelTrack.call(genome, config))
-            // .add_track(diseaseTrack.call(genome, config));
-            // .add_track(snpClusterTrack2.call(genome, config));
         genome.start();
         console.log('genome started...');
     });

@@ -1,5 +1,5 @@
 /* global tnt:true */
-import { pvalColourScale } from './colourScales';
+import { pvalColourScale } from '../colourScales';
 
 function getLinePath(topX, topY, bottomX, bottomY) {
     const controlY = (bottomY - topY) / 2;
