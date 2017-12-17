@@ -24,6 +24,7 @@ import {
     // disease as diseaseTrack,
     diseaseSnpsLabel as diseaseLabelTrack,
     diseaseLabel as diseaseNameLabelTrack,
+    legend as legendTrack,
 } from './tracks';
 // import cttvRestApi from 'cttv.api';
 
@@ -72,6 +73,7 @@ function buildBrowser(postgapData, container, container2) {
             .chr(chr)
             .from(snpsExtent[0])
             .to(snpsExtent[1])
+            // .extend_canvas({left: 100, right: 100}) // adds space around pannable space
             .width(config.width);
         genome.rest().protocol('https');
 
@@ -89,7 +91,8 @@ function buildBrowser(postgapData, container, container2) {
             .add_track(diseaseNameLabelTrack.call(genome, config))
             
             // .add_track(snpClusterLabelTrack.call(genome, config))
-            .add_track(snpClusterTrack.call(genome, config));
+            .add_track(snpClusterTrack.call(genome, config))
+            .add_track(legendTrack.call(genome, config));
             // .add_track(diseaseLabelTrack.call(genome, config))
             // .add_track(diseaseTrack.call(genome, config));
             // .add_track(snpClusterTrack2.call(genome, config));

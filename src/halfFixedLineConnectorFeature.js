@@ -1,4 +1,5 @@
 /* global tnt:true */
+import { pvalColourScale } from './colourScales';
 
 function getLinePath(topX, topY, bottomX, bottomY) {
     const controlY = (bottomY - topY) / 2;
@@ -44,7 +45,9 @@ const halfFixedLineConnectorFeature = tnt.board.track.feature()
                 const toY = y;
                 return getLinePath(fromX, fromY, toX, toY);
             })
-            .attr('stroke-opacity', d => opacityScale(d.pval));
+            .style('stroke-opacity', 0.4)
+            .style('stroke', d => pvalColourScale(d.pval));
+            // .attr('stroke-opacity', d => opacityScale(d.pval));
     })
     .move(function (sel) {
         const track = this;
@@ -67,7 +70,8 @@ const halfFixedLineConnectorFeature = tnt.board.track.feature()
                 const toY = y;
                 return getLinePath(fromX, fromY, toX, toY);
             })
-            .attr('stroke-opacity', d => opacityScale(d.pval));
+            .style('stroke', d => pvalColourScale(d.pval));
+            // .attr('stroke-opacity', d => opacityScale(d.pval));
     });
 
 export default halfFixedLineConnectorFeature;

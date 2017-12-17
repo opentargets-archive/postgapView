@@ -14,6 +14,7 @@ import lineConnectorFeature from './lineConnectorFeature';
 import halfFixedLineConnectorFeature from './halfFixedLineConnectorFeature';
 import diseaseFeature from './diseaseFeature';
 import { geneTooltip, snpTooltip, snpTextualInfo, clusterTextualInfo } from './tooltips';
+import legendFeature from './legendFeature';
 
 const boardColor = '#FFFFFF';
 const snpTrackBackgroundColor = '#EEE';
@@ -190,6 +191,16 @@ function snpFlatLabel(config) {
         );
         // No data
     return snpLabelTrack;
+}
+
+
+function legend(config) {
+    const legendTrack = tnt.board.track()
+        .height(80)
+        .color(boardColor)
+        .display(legendFeature);
+        // No data
+    return legendTrack;
 }
 
 // // snp flat track
@@ -529,6 +540,11 @@ function snpLDMarker(config) {
                                         }
                                     });
                                 });
+
+                                // const snpConnectionComparator = (a, b) {
+                                //     if (a.)
+                                // }
+                                snpConnections = _.sortBy(snpConnections, d => d.r2);
                                 // console.log('snpConnections...');
                                 // console.log(snpConnections);
 
@@ -1370,5 +1386,6 @@ export {
     // disease,
     diseaseSnpsLabel,
     diseaseLabel,
+    legend,
 };
 

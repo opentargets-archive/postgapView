@@ -1,4 +1,5 @@
 /* global tnt:true */
+import { r2ColourScale } from './colourScales';
 
 function getLinePath(topX, topY, bottomX, bottomY) {
     const controlY = (bottomY - topY) / 2;
@@ -36,7 +37,9 @@ const lineConnectorFeature = tnt.board.track.feature()
                 const toY = y;
                 return getLinePath(fromX, fromY, toX, toY);
             })
-            .attr('stroke-opacity', d => opacityScale(d.r2));
+            .style('stroke-opacity', 0.4)
+            .style('stroke', d => r2ColourScale(d.r2));
+            // .attr('stroke-opacity', d => opacityScale(d.r2));
     })
     .move(function (sel) {
         const track = this;
@@ -53,7 +56,8 @@ const lineConnectorFeature = tnt.board.track.feature()
             return getLinePath(fromX, fromY, toX, toY);
         })
         // .attr('stroke-width', 2)
-        .attr('stroke-opacity', d => opacityScale(d.r2));
+        .style('stroke', d => r2ColourScale(d.r2));
+        // .attr('stroke-opacity', d => opacityScale(d.r2));
     });
 
 export default lineConnectorFeature;
