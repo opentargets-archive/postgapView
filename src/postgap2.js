@@ -25,6 +25,7 @@ import {
     diseaseSnpsLabel as diseaseLabelTrack,
     diseaseLabel as diseaseNameLabelTrack,
 } from './tracks';
+// import cttvRestApi from 'cttv.api';
 
 const rest = tntRest()
     .protocol('https')
@@ -35,12 +36,13 @@ const config = {
     gene: 'ENSG00000134243', // SORT1
     // disease: 'EFO_0004518', // Myocardial infarction
     disease: 'EFO_0004261', // Myocardial infarction
+    cttvApi: null, // cttvRestApi().prefix("https://www.targetvalidation.org/api/"),
     width: 950,
 };
 
 export default function () {
     const render = function (container, container2) {
-        getData(config.gene)
+        getData(config.gene, config.cttvApi)
             .then((resp) => {
                 buildBrowser(resp.data, container, container2);
             })

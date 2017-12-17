@@ -422,7 +422,7 @@ function snpLDMarker(config) {
                 return rest.call(regionUrl)
                     .then((resp) => {
                         // TODO: Get all the postgap SNPS for those genes. For now just look in the files
-                        const promises = resp.body.map((d) => getData(d.id)).filter((d) => d);
+                        const promises = resp.body.map((d) => getData(d.id, config.cttvApi)).filter((d) => d);
                         return axios.all(promises);
                     })
                     .then((resps) => {
@@ -502,17 +502,32 @@ function snpLDMarker(config) {
                                 // });
                                 const leadSnpPos = {};
                                 leadSnps.forEach(d => {
-                                    const snpData = allClusters.filter(d2 => (d2.id === d))[0];
-                                    leadSnpPos[d] = snpData.pos;
+                                    const snpData = allClusters.filter(d2 => (d2.id === d));
+                                    if (snpData.length === 1) {
+                                        leadSnpPos[d] = snpData[0].pos;
+                                    } else {
+                                        console.log(`LEAD SNP ${d} NOT AN LD SNP`);
+                                    }
                                 });
                                 let snpConnections = [];
                                 allClusters.forEach(ld => {
-                                    snpConnections = snpConnections.concat(Object.keys(ld.leadSnps).map(lead => ({
-                                        id: `${lead}-${ld.id}`,
-                                        from: ld.pos,
-                                        to: leadSnpPos[lead],
-                                        r2: parseFloat(ld.leadSnps[lead].r2),
-                                    })));
+                                    // snpConnections = snpConnections.concat(Object.keys(ld.leadSnps).map(lead => ({
+                                    //     id: `${lead}-${ld.id}`,
+                                    //     from: ld.pos,
+                                    //     to: leadSnpPos[lead],
+                                    //     r2: parseFloat(ld.leadSnps[lead].r2),
+                                    // })));
+                                    Object.keys(ld.leadSnps).forEach(lead => {
+                                        if (Object.keys(leadSnpPos).indexOf(lead) >= 0) {
+                                            // exists in ld set
+                                            snpConnections.push({
+                                                id: `${lead}-${ld.id}`,
+                                                from: ld.pos,
+                                                to: leadSnpPos[lead],
+                                                r2: parseFloat(ld.leadSnps[lead].r2),
+                                            });
+                                        }
+                                    });
                                 });
                                 // console.log('snpConnections...');
                                 // console.log(snpConnections);
@@ -646,7 +661,7 @@ function snpLeadMarker(config) {
                 return rest.call(regionUrl)
                     .then((resp) => {
                         // TODO: Get all the postgap SNPS for those genes. For now just look in the files
-                        const promises = resp.body.map((d) => getData(d.id)).filter((d) => d);
+                        const promises = resp.body.map((d) => getData(d.id, config.cttvApi)).filter((d) => d);
                         return axios.all(promises);
                     })
                     .then((resps) => {
@@ -791,7 +806,7 @@ function processSnps2(snps, config) {
         const efoId = snp.disease.id.split('/').pop();
         const pvalue = snp.evidence.variant2disease.resource_score.value;
         const literature = snp.evidence.variant2disease.provenance_type.literature.references.map((l) => l.lit_id.split('/')[5]);
-        const scoresRaw = snp.evidence.gene2variant.funcgen;
+        const scoresRaw = snp.evidence.gene2variant.metadata.funcgen;
         const r2 = snp.unique_association_fields.r2;
 
         // Take only the these scores
@@ -1272,7 +1287,7 @@ function processSnps(snps) {
         const efoId = snp.disease.id.split('/').pop();
         const pvalue = snp.evidence.variant2disease.resource_score.value;
         const literature = snp.evidence.variant2disease.provenance_type.literature.references.map((l) => l.lit_id.split('/')[5]);
-        const scoresRaw = snp.evidence.gene2variant.funcgen;
+        const scoresRaw = snp.evidence.gene2variant.metadata.funcgen;
 
         // Take only the these scores
         // (there are other fields in the scores object that are not scores strictly)
