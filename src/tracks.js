@@ -6,9 +6,7 @@
 import axios from 'axios';
 import { getData, getEnsemblSnps } from './data';
 import clusterFeature from './clusterFeature';
-import snpFeature from './snpFeature';
 import snpMarker from './snpMarker';
-import snpDiseaseFeature from './snpDiseaseFeature';
 import connectorFeature from './connectorFeature';
 import lineConnectorFeature from './lineConnectorFeature';
 import halfFixedLineConnectorFeature from './halfFixedLineConnectorFeature';
