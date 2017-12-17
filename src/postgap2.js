@@ -9,8 +9,10 @@ import { getData, getEnsemblSnps } from './data';
 import funnelFeature from './funnelFeature';
 import circleFeature from './circleFeature';
 import namesFeature from './namesFeature';
+
+import sequenceTrack from './tracks/sequenceTrack';
 import {
-    sequence as sequenceTrack,
+    // sequence as sequenceTrack,
     transcript as transcriptTrack,
     snpLDMarker as snpLDMarkerTrack,
     snpLeadMarker as snpLeadMarkerTrack,

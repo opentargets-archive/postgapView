@@ -20,16 +20,6 @@ const boardColor = '#FFFFFF';
 const snpTrackBackgroundColor = '#EEE';
 let selectedSnp;
 
-// sequence track
-function sequence() {
-    return tnt.board.track()
-        .height(30)
-        .color('white')
-        .display(tnt.board.track.feature.genome.sequence())
-        .data(tnt.board.track.data.genome.sequence()
-            .limit(150),
-        );
-}
 
 let genomeHeight = 50;
 let transcriptTrack; // We need to access it from the snpFlatTrack
@@ -1372,7 +1362,7 @@ function processSnps(snps) {
 }
 
 export {
-    sequence,
+    // sequence,
     transcript,
     snpClusterLabel,
     snpCluster,
