@@ -10,7 +10,7 @@ import connectorFeature from './features/connectorFeature';
 import lineConnectorFeature from './features/lineConnectorFeature';
 import halfFixedLineConnectorFeature from './features/halfFixedLineConnectorFeature';
 import diseaseFeature from './features/diseaseFeature';
-import { geneTooltip, snpTooltip, snpTextualInfo, clusterTextualInfo } from './tooltips';
+import { geneTooltip, snpTooltip, snpTextualInfo } from './tooltips';
 
 const boardColor = '#FFFFFF';
 const snpTrackBackgroundColor = '#EEE';
