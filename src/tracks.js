@@ -52,6 +52,8 @@ function transcript(config) {
     const tDistribute = transcriptFeature.distribute();
     const cDistribute = connectorFeature.distribute();
     transcriptFeature.distribute(function (data) {
+        // console.log('within distribute');
+        // console.log(data);
         cDistribute.call(this, data);
         tDistribute.call(this, data);
     });
@@ -177,187 +179,6 @@ function snpLDMarker(config) {
                 transcriptTrack.display().update.call(transcriptTrack);
             }),
         );
-        // .data(tnt.board.track.data.async()
-        //     .retriever((loc) => {
-        //         const regionUrl = config.rest.url()
-        //             .endpoint('overlap/region/:species/:region')
-        //             .parameters({
-        //                 species: loc.species,
-        //                 region: `${loc.chr}:${loc.from}-${loc.to}`,
-        //                 feature: 'gene',
-        //             });
-
-        //         // TEST!
-        //         getAllDataForLocation(loc, config)
-
-        //         return rest.call(regionUrl)
-        //             .then((resp) => {
-        //                 // TODO: Get all the postgap SNPS for those genes. For now just look in the files
-        //                 const promises = resp.body.map((d) => getData(d.id, config.cttvApi)).filter((d) => d);
-        //                 return axios.all(promises);
-        //             })
-        //             .then((resps) => {
-        //                 // join all snps
-        //                 const allSnps = resps.reduce((acc, val) => [...acc, ...val.data], []);
-        //                 const {
-        //                     processedClusters,
-        //                     processedDiseases,
-        //                     uniqueSnps,
-        //                     processedSnps,
-        //                 } = processSnps2(allSnps, config);
-
-        //                 console.log('clusters... ', processedClusters);
-
-        //                 console.log(`${Object.keys(processedDiseases).length} unique diseases...`);
-        //                 console.log(processedDiseases);
-
-        //                 // make a new call to ensembl to get the position of all the SNPs
-        //                 const allPromises = getEnsemblSnps(config.rest, Object.keys(uniqueSnps));
-        //                 return axios.all(allPromises)
-        //                     .then((allResps) => {
-        //                         const allSnpsFromEnsembl = allResps.reduce((acc, val) => [...acc, ...Object.keys(val.body).map((k) => val.body[k])], []);
-        //                         setPositions2Snps(allSnpsFromEnsembl,
-        //                             processedSnps,
-        //                             processedDiseases,
-        //                             processedClusters);
-
-        //                         // snpClusterData = [...Object.keys(processedClusters).map(c => processedClusters[c])];
-        //                         snpClusterData = processedClusters;
-
-        //                         // Convert snps into array
-        //                         let allClusters = Object.keys(processedSnps)
-        //                             .map((snpId) => processedSnps[snpId]);
-
-        //                         // Convert diseases into array
-        //                         // const allDiseases = Object.keys(processedDiseases)
-        //                         //     .map((efoId) => processedDiseases[efoId]);
-        //                         // console.log('all diseases...');
-        //                         // console.log(allDiseases);
-        //                         // Update the disease track for disease diabetes mellitus (EFO_0000400)
-        //                         // EFO_0000275: atrial fibrillation
-        //                         // EFO_0000400: diabetes mellitus
-        //                         // EFO_0000311: cancer
-        //                         // EFO_0000180: HIV-infection
-        //                         // EFO_0000612: Myocardial infarction
-        //                         // EFO_0004518: serum creatinine measurement
-
-        //                         // Disease-Snp track update
-        //                         // const thisDisease = processedDiseases.EFO_0004518;
-        //                         // const diseaseTrackData = diseaseTrack.data();
-
-        //                         // TODO: (Needs fixing) There may not be snp if we are out of range with the gene
-        //                         // const diseaseSnps = Object.keys(thisDisease.snps)
-        //                         //     .map((rsId) => thisDisease.snps[rsId])
-        //                         //     .filter(s => s.pos); // Remove those without position
-        //                         // diseaseTrackData.elements(diseaseSnps);
-        //                         // diseaseTrack.display().update.call(diseaseTrack);
-
-        //                         // Remove snps without position
-        //                         allClusters = allClusters.filter((d) => d.pos);
-        //                         console.log('all flat snps...');
-        //                         console.log(allClusters);
-
-        //                         // diseaseTrackData.elements(allClusters);
-        //                         // diseaseTrack.display().update.call(diseaseTrack);
-
-
-        //                         // Lead SNPs
-        //                         // TODO: Move data logic for snpLeadMarker here...
-        //                         const leadSnps = processSnps2LeadSnps(allSnps);
-        //                         // const leadSnpWithPos = leadSnps.map(d => {
-        //                         //     const snpData = allClusters.filter(d2 => (d2.id === d))[0]
-        //                         //     return {
-        //                         //         id: d,
-        //                         //         pos: d2.pos
-        //                         //     };
-        //                         // });
-        //                         const leadSnpPos = {};
-        //                         leadSnps.forEach(d => {
-        //                             const snpData = allClusters.filter(d2 => (d2.id === d));
-        //                             if (snpData.length === 1) {
-        //                                 leadSnpPos[d] = snpData[0].pos;
-        //                             } else {
-        //                                 console.log(`LEAD SNP ${d} NOT AN LD SNP`);
-        //                             }
-        //                         });
-        //                         let snpConnections = [];
-        //                         allClusters.forEach(ld => {
-        //                             // snpConnections = snpConnections.concat(Object.keys(ld.leadSnps).map(lead => ({
-        //                             //     id: `${lead}-${ld.id}`,
-        //                             //     from: ld.pos,
-        //                             //     to: leadSnpPos[lead],
-        //                             //     r2: parseFloat(ld.leadSnps[lead].r2),
-        //                             // })));
-        //                             Object.keys(ld.leadSnps).forEach(lead => {
-        //                                 if (Object.keys(leadSnpPos).indexOf(lead) >= 0) {
-        //                                     // exists in ld set
-        //                                     snpConnections.push({
-        //                                         id: `${lead}-${ld.id}`,
-        //                                         from: ld.pos,
-        //                                         to: leadSnpPos[lead],
-        //                                         r2: parseFloat(ld.leadSnps[lead].r2),
-        //                                     });
-        //                                 }
-        //                             });
-        //                         });
-
-        //                         // const snpConnectionComparator = (a, b) {
-        //                         //     if (a.)
-        //                         // }
-        //                         snpConnections = _.sortBy(snpConnections, d => d.r2);
-        //                         // console.log('snpConnections...');
-        //                         // console.log(snpConnections);
-
-
-        //                         // Disease labels
-        //                         const diseaseNames = {};
-        //                         allClusters.forEach(ld => {
-        //                             Object.keys(ld.diseases).forEach(diseaseName => {
-        //                                 diseaseNames[diseaseName] = true;
-        //                             });
-        //                         });
-        //                         const diseaseLabelTrackData = diseaseLabelTrack.data();
-        //                         diseaseLabelTrackData.elements(Object.keys(diseaseNames).sort());
-        //                         diseaseLabelTrack.display().update.call(diseaseLabelTrack);
-
-        //                         // Snp-Lead Snp connectors
-        //                         const snpConnectorTrackData = snpConnectorTrack.data();
-        //                         snpConnectorTrackData.elements(snpConnections);
-        //                         snpConnectorTrack.display().update.call(snpConnectorTrack);
-
-        //                         // Lead Snp-Disease connectors
-        //                         // console.log('processedDiseases...');
-        //                         // console.log(processedDiseases);
-        //                         let snpDiseaseConnections = {};
-        //                         Object.keys(processedDiseases).forEach(efoId => {
-        //                             const diseaseObj = processedDiseases[efoId];
-        //                             Object.keys(diseaseObj.snps).forEach(snpId => {
-        //                                 const snp = diseaseObj.snps[snpId];
-        //                                 Object.keys(snp.leadSnps).forEach(leadSnpId => {
-        //                                     const leadSnp = snp.leadSnps[leadSnpId];
-        //                                     snpDiseaseConnections[`${efoId}-${leadSnpId}`] = {
-        //                                         id: `${efoId}-${leadSnpId}`,
-        //                                         efoId: efoId,
-        //                                         leadSnpId: leadSnpId,
-        //                                         leadSnpPos: leadSnpPos[leadSnpId],
-        //                                         pval: d3.min(leadSnp.studies, d => d.pvalue),
-        //                                     };
-        //                                 });
-        //                             });
-        //                         });
-        //                         snpDiseaseConnections = Object.values(snpDiseaseConnections);
-        //                         console.log('snpDiseaseConnections...');
-        //                         console.log(snpDiseaseConnections);
-        //                         const snpDiseaseConnectorTrackData = snpDiseaseConnectorTrack.data();
-        //                         snpDiseaseConnectorTrackData.elements(snpDiseaseConnections);
-        //                         snpDiseaseConnectorTrack.display().update.call(snpDiseaseConnectorTrack);
-
-
-        //                         return allClusters;
-        //                     });
-        //             });
-        //     }),
-        // );
 
     return ldSnpTrack;
 }
@@ -417,7 +238,7 @@ let snpConnectorTrack;
 function snpConnector() {
     snpConnectorTrack = tnt.board.track()
         .id('snpConnectorTrack')
-        // .label('Linkage disequilibrium (r²)')
+        .label('Linkage<br/>disequilibrium')
         .height(100)
         .color(boardColor)
         .display(lineConnectorFeature);
@@ -450,8 +271,6 @@ function diseaseLabel() {
             //     console.log(d);
             // }),
         );
-        // No data, this is controlled by the snpFlatTrack
-
     return diseaseLabelTrack;
 }
 
