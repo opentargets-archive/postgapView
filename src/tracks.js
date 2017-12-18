@@ -23,12 +23,6 @@ let transcriptTrack; // We need to access it from the snpFlatTrack
 // Transcript track
 function transcript(config) {
     const genome = this;
-    // const transcriptFeature = tnt.board.track.feature.genome.transcript()
-    //     .color(() => '#577399')
-    //     .on('click', (d) => {
-    //         console.log(d);
-    //     });
-
     const transcriptFeature = tnt.board.track.feature.genome.transcript()
         .color((d) => {
             if (d.gene && (d.gene.id === config.gene)) {
@@ -235,23 +229,6 @@ function snpLDMarker(config) {
                 transcriptTrack.display().update.call(transcriptTrack);
                 transcriptTrack.data().elements(els);
                 transcriptTrack.display().update.call(transcriptTrack);
-
-                // // update the cluster track
-                // console.log('clicked on rsId... ', d);
-                // console.log('clusters to choose from... ', snpClusterData);
-
-                // clusterLabelTrack.height(50);
-                // genome.tracks(genome.tracks());
-
-                // // Update cluster track
-                // snpClusterTrack.data().elements([]);
-                // snpClusterTrack.display().update.call(snpClusterTrack);
-                // const clusterArr = Object.keys(d.leadSnps)
-                //     .map(l => snpClusterData[l].diseases)
-                //     .reduce((acc, val) => [...acc, ...Object.keys(val).map(r => val[r])], []);
-                // console.log('clusterArr... ', clusterArr);
-                // snpClusterTrack.data().elements(clusterArr);
-                // snpClusterTrack.display().update.call(snpClusterTrack);
             }),
         )
         .data(tnt.board.track.data.async()
@@ -479,23 +456,6 @@ function snpLeadMarker(config) {
             //     transcriptTrack.display().update.call(transcriptTrack);
             //     transcriptTrack.data().elements(els);
             //     transcriptTrack.display().update.call(transcriptTrack);
-
-            //     // // update the cluster track
-            //     // console.log('clicked on rsId... ', d);
-            //     // console.log('clusters to choose from... ', snpClusterData);
-
-            //     // clusterLabelTrack.height(50);
-            //     // genome.tracks(genome.tracks());
-
-            //     // // Update cluster track
-            //     // snpClusterTrack.data().elements([]);
-            //     // snpClusterTrack.display().update.call(snpClusterTrack);
-            //     // const clusterArr = Object.keys(d.leadSnps)
-            //     //     .map(l => snpClusterData[l].diseases)
-            //     //     .reduce((acc, val) => [...acc, ...Object.keys(val).map(r => val[r])], []);
-            //     // console.log('clusterArr... ', clusterArr);
-            //     // snpClusterTrack.data().elements(clusterArr);
-            //     // snpClusterTrack.display().update.call(snpClusterTrack);
             // }),
         // )
         .data(tnt.board.track.data.async()
@@ -529,52 +489,6 @@ function snpLeadMarker(config) {
                                 console.log('lead snp ensembl...', allLeadSnpsFromEnsembl);
                                 console.log('lead snp ensembl...', finalData);
                                 return finalData;
-
-                                // setPositions2Snps(allSnpsFromEnsembl,
-                                //     processedSnps,
-                                //     processedDiseases,
-                                //     processedClusters);
-
-                                // snpClusterData = [...Object.keys(processedClusters).map(c => processedClusters[c])];
-                                // snpClusterData = processedClusters;
-
-                                // Convert snps into array
-                                // let allClusters = Object.keys(processedSnps)
-                                //     .map((snpId) => processedSnps[snpId]);
-
-                                // Convert diseases into array
-                                // const allDiseases = Object.keys(processedDiseases)
-                                //     .map((efoId) => processedDiseases[efoId]);
-                                // console.log('all diseases...');
-                                // console.log(allDiseases);
-                                // Update the disease track for disease diabetes mellitus (EFO_0000400)
-                                // EFO_0000275: atrial fibrillation
-                                // EFO_0000400: diabetes mellitus
-                                // EFO_0000311: cancer
-                                // EFO_0000180: HIV-infection
-                                // EFO_0000612: Myocardial infarction
-                                // EFO_0004518: serum creatinine measurement
-
-                                // Disease-Snp track update
-                                // const thisDisease = processedDiseases.EFO_0004518;
-                                // const diseaseTrackData = diseaseTrack.data();
-
-                                // TODO: (Needs fixing) There may not be snp if we are out of range with the gene
-                                // const diseaseSnps = Object.keys(thisDisease.snps)
-                                //     .map((rsId) => thisDisease.snps[rsId])
-                                //     .filter(s => s.pos); // Remove those without position
-                                // diseaseTrackData.elements(diseaseSnps);
-                                // diseaseTrack.display().update.call(diseaseTrack);
-
-                                // Remove snps without position
-                                // allClusters = allClusters.filter((d) => d.pos);
-                                // console.log('all flat snps...');
-                                // console.log(allClusters);
-
-                                // diseaseTrackData.elements(allClusters);
-                                // diseaseTrack.display().update.call(diseaseTrack);
-
-                                // return allClusters;
                             });
                     });
             }),
@@ -587,6 +501,7 @@ let snpConnectorTrack;
 function snpConnector() {
     snpConnectorTrack = tnt.board.track()
         .id('snpConnectorTrack')
+        // .label('Linkage disequilibrium (r²)')
         .height(100)
         .color(boardColor)
         .display(lineConnectorFeature);
@@ -598,6 +513,7 @@ let snpDiseaseConnectorTrack;
 function snpDiseaseConnector() {
     snpDiseaseConnectorTrack = tnt.board.track()
         .id('snpDiseaseConnectorTrack')
+        // .label('GWAS p-value')
         .height(100)
         .color(boardColor)
         .display(halfFixedLineConnectorFeature);
@@ -946,86 +862,6 @@ function ensemblSnps2Array(allSnps) {
         }
     }
     return oSnps;
-}
-
-function processSnps(snps) {
-    const uniqueSNPs = {};
-    const processedSNPs = {};
-
-    // Group by gene and lead snp
-    snps.forEach((snp) => {
-        const ensId = snp.target.id.split('/').pop();
-        const leadSnp = snp.evidence.variant2disease.lead_snp_rsid;
-        const rsId = snp.variant.id.split('/')[4];
-        const efoId = snp.disease.id.split('/').pop();
-        const pvalue = snp.evidence.variant2disease.resource_score.value;
-        const literature = snp.evidence.variant2disease.provenance_type.literature.references.map((l) => l.lit_id.split('/')[5]);
-        const scoresRaw = snp.evidence.gene2variant.metadata.funcgen;
-
-        // Take only the these scores
-        // (there are other fields in the scores object that are not scores strictly)
-        const scoreSources = ['gtex_score', 'fantom5_score', 'dhs_score', 'pchic_score', 'regulome_score'];
-        const scores = Object.keys(scoresRaw)
-            .filter((key) => scoreSources.includes(key))
-            .reduce((obj, key) => {
-                obj[key] = scoresRaw[key];
-                return obj;
-            }, {});
-
-        // Filter out snps with max individual score < 0.2
-        const maxScore = d3.max(Object.keys(scores).map((d) => scores[d] || 0));
-        if (maxScore < 0.2) {
-            return;
-        }
-
-        if (!processedSNPs[ensId]) {
-            processedSNPs[ensId] = {
-                id: ensId,
-                clusters: {},
-            };
-        }
-
-        const g = processedSNPs[ensId];
-        if (!g.clusters[leadSnp]) {
-            g.clusters[leadSnp] = {
-                target: ensId,
-                disease: efoId,
-                gwasSnp: leadSnp,
-                id: `${leadSnp}-${ensId}`,
-                display_label: leadSnp,
-                oSnps: {}, // object of snps, will be converted to array of snps
-            };
-        }
-
-        const cluster = g.clusters[leadSnp];
-        if (!uniqueSNPs[rsId]) {
-            uniqueSNPs[rsId] = true;
-        }
-        cluster.oSnps[rsId] = {
-            rsId,
-            gwasSnps: leadSnp,
-            target: ensId,
-            scores,
-            diseases: {},
-        };
-
-        const diseases = cluster.oSnps[rsId].diseases;
-        if (!diseases[efoId]) {
-            diseases[efoId] = {
-                efoId,
-                studies: [],
-            };
-        }
-        diseases[efoId].studies.push({
-            pvalue,
-            literature,
-        });
-    });
-
-    return {
-        uniqueSNPs,
-        processedSNPs,
-    };
 }
 
 export {
