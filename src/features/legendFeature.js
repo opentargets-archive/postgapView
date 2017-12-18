@@ -60,7 +60,7 @@ const legendFeature = tnt.board.track.feature()
             .shapeWidth(30)
             .orient('horizontal')
             .scale(r2ColourScale)
-            .title('Linkage Disequilibrium (r^2)');
+            .title('Linkage disequilibrium');
 
         g.append('g')
             .attr('transform', 'translate(5, 5)')
