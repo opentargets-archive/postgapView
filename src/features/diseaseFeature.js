@@ -2,28 +2,28 @@
 /* global d3:true */
 
 const diseaseFeature = tnt.board.track.feature()
-.index((d) => d);
+.index((d) => d.id);
 
 // Create
 diseaseFeature.create(function (el) {
     const track = this;
     const xScale = diseaseFeature.scale();
-    const xScaleText = d3.scale.ordinal()
-        .domain(el.data())
-        .rangePoints(xScale.range());
+    const xScaleText = d3.scale.linear()
+        .domain([0, 1])
+        .range(xScale.range());
     const y = track.height();
 
     const g = el
         .append('g')
         // .attr('transform', d => `translate(${xScaleText(d)},${(y / 2)})`);
-        .attr('transform', d => `translate(${xScaleText(d)},5)`);
+        .attr('transform', d => `translate(${xScaleText(d.pos)},5)`);
 
     g.append('text')
         .classed('disease-label', true)
         // .attr('x', d => xScaleText(d))
         // .attr('y', y / 2)
         .attr('transform', 'rotate(-90)')
-        .text(d => d);
+        .text(d => d.name);
 });
 
 // Move

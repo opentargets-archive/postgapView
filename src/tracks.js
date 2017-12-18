@@ -33,7 +33,7 @@ function transcript(config) {
             // }
             return '#758CAB';
         })
-        .on('click', geneTooltip);
+        // .on('click', geneTooltip);
 
     const tCreate = transcriptFeature.create();
     const cCreate = connectorFeature.create();
@@ -73,6 +73,10 @@ function transcript(config) {
                     // update leadSnps
                     leadSnpTrack.data().elements(Object.values(allData.leadSnps));
                     leadSnpTrack.display().update.call(leadSnpTrack);
+
+                    // update diseases
+                    diseaseLabelTrack.data().elements(Object.values(allData.diseases));
+                    diseaseLabelTrack.display().update.call(diseaseLabelTrack);
 
                     // update ldSnp-leadSnp connectors
                     snpConnectorTrack.data().elements(Object.values(allData.ldSnpLeadSnps));

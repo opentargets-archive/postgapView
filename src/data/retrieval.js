@@ -103,6 +103,18 @@ export function getAllDataForLocation(loc, config) {
             genesObjsLookup[geneObj.Parent] = geneObj;
         });
 
+        // to give disease position (between 0 and 1)
+        let diseaseIds = {};
+        evidenceObjs.forEach(evidenceObj => {
+            diseaseIds[evidenceObj.disease.id] = true;
+        });
+        diseaseIds = Object.keys(diseaseIds).sort();
+        const diseasePoss = {};
+        for (let i = 0; i < diseaseIds.length; i++) {
+            const diseaseId = diseaseIds[i];
+            diseasePoss[diseaseId] = (i * 1.0) / diseaseIds.length;
+        }
+
         // iterate the evidence objects and construct all the data lists for individual tracks
         // note: just augment the gene obj and lead snp obj passed in
         const geneLdSnps = {};
@@ -134,6 +146,7 @@ export function getAllDataForLocation(loc, config) {
             const geneLdSnpId = `${geneId}-${ldSnpId}`;
             const ldSnpLeadSnpId = `${ldSnpId}-${leadSnpId}`;
             const leadSnpDiseaseId = `${leadSnpId}-${efoId}`;
+            const diseasePos = diseasePoss[efoId];
 
             // GENE
             if (!genes[geneId]) {
@@ -171,6 +184,7 @@ export function getAllDataForLocation(loc, config) {
                 diseases[efoId] = {
                     id: efoId,
                     name: evidenceObj.disease.name,
+                    pos: diseasePos,
                 };
             }
 
@@ -203,6 +217,7 @@ export function getAllDataForLocation(loc, config) {
                     leadSnpId,
                     leadSnpPos,
                     efoId,
+                    efoPos: diseasePos,
                     pvalue,
                 };
             }
