@@ -5,7 +5,7 @@
 
 import axios from 'axios';
 import { getData, getEnsemblSnps } from './data';
-import snpMarker from './features/snpMarker';
+import snpFeature from './features/snpFeautre';
 import connectorFeature from './connectorFeature';
 import lineConnectorFeature from './features/lineConnectorFeature';
 import halfFixedLineConnectorFeature from './features/halfFixedLineConnectorFeature';
@@ -184,16 +184,16 @@ function legend(config) {
     return legendTrack;
 }
 
-const snpMarkerTrackHeight = 15;
+const snpFeatureTrackHeight = 15;
 function snpLDMarker(config) {
     const genome = this;
     let snpClusterData;
     const rest = config.rest;
     const snpFlatTrack = tnt.board.track()
         .id('snpLDMarkerTrack')
-        .height(snpMarkerTrackHeight)
+        .height(snpFeatureTrackHeight)
         .color(snpTrackBackgroundColor)
-        .display(snpMarker
+        .display(snpFeature
             .on('mouseover', function (d) {
                 return snpTextualInfo.call(this, d, config.gene);
             })
@@ -418,9 +418,9 @@ function snpLeadMarker(config) {
     const rest = config.rest;
     const snpFlatTrack = tnt.board.track()
         .id('snpLeadMarkerTrack')
-        .height(snpMarkerTrackHeight)
+        .height(snpFeatureTrackHeight)
         .color(snpTrackBackgroundColor)
-        .display(snpMarker)
+        .display(snpFeature)
             // .on('mouseover', function (d) {
             //     return snpTextualInfo.call(this, d, config.gene);
             // })

@@ -1,13 +1,13 @@
 /* global tnt:true */
 /* global d3:true */
 
-const snpMarker = tnt.board.track.feature()
+const snpFeature = tnt.board.track.feature()
     .index((d) => d.id);
 
 // Create
 const offset = 0; // 10 pixels offset
-snpMarker.create(function (el) {
-    const xScale = snpMarker.scale();
+snpFeature.create(function (el) {
+    const xScale = snpFeature.scale();
     const track = this;
     const y = track.height();
 
@@ -29,11 +29,11 @@ snpMarker.create(function (el) {
 });
 
 // Move
-snpMarker.move((el) => {
-    const xScale = snpMarker.scale();
+snpFeature.move((el) => {
+    const xScale = snpFeature.scale();
 
     el.select('line.ld-snp-marker')
         .attr('x1', (d) => xScale(d.pos))
         .attr('x2', (d) => xScale(d.pos));
 });
-export default snpMarker;
+export default snpFeature;
