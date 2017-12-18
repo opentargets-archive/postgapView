@@ -6,6 +6,7 @@
 // import axios from 'axios';
 // import { getData, getEnsemblSnps } from './data';
 import snpFeature from './features/snpFeature';
+import leadSnpFeature from './features/leadSnpFeature';
 import connectorFeature from './features/connectorFeature';
 import lineConnectorFeature from './features/lineConnectorFeature';
 import halfFixedLineConnectorFeature from './features/halfFixedLineConnectorFeature';
@@ -192,7 +193,7 @@ function snpLeadMarker(config) {
         .id('snpLeadMarkerTrack')
         .height(snpFeatureTrackHeight)
         .color(snpTrackBackgroundColor)
-        .display(snpFeature);
+        .display(leadSnpFeature);
             // .on('mouseover', function (d) {
             //     return snpTextualInfo.call(this, d, config.gene);
             // })
