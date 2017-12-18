@@ -14,8 +14,6 @@ import {
     snpLeadMarker as snpLeadMarkerTrack,
     snpConnector as snpConnectorTrack,
     snpDiseaseConnector as snpDiseaseConnectorTrack,
-    snpFlatLabel as snpFlatLabelTrack,
-    diseaseSnpsLabel as diseaseLabelTrack,
     diseaseLabel as diseaseNameLabelTrack,
     legend as legendTrack,
 } from './tracks';

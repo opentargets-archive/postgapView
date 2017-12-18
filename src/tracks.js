@@ -98,82 +98,6 @@ function transcript(config) {
     return transcriptTrack;
 }
 
-// snp flat track label
-
-function snpFlatLabel(config) {
-    const snpLabelTrack = tnt.board.track()
-        .height(50)
-        .color(boardColor)
-        .display(tnt.board.track.feature()
-            .create(() => {})
-            .move(() => {})
-            .fixed(function (width) {
-                const track = this;
-                track.g
-                    .append('line')
-                    .attr('x1', 0)
-                    .attr('x2', width)
-                    .attr('y1', 5)
-                    .attr('y2', 5)
-                    .style('stroke', '#dddddd');
-
-                track.g
-                    .append('circle')
-                    .attr('cx', 5)
-                    .attr('cy', 20)
-                    .attr('r', 3)
-                    .style('stroke', '#FF5665')
-                    .style('stroke-width', '2px')
-                    .style('fill', '#FF5665')
-                    .style('opacity', '0.8');
-                const text = track.g
-                    .append('text')
-                    .attr('x', 12)
-                    .attr('y', 20)
-                    .attr('alignment-baseline', 'middle')
-                    .style('font-size', '0.75em')
-                    .style('fill', '#666666')
-                    .text('Variants associated with ');
-                text
-                    .append('tspan')
-                    .attr('alignment-baseline', 'middle')
-                    .style('fill', '#FF5665')
-                    .text(config.gene);
-
-                track.g
-                    .append('circle')
-                    .attr('cx', 5)
-                    .attr('cy', 35)
-                    .attr('r', 3)
-                    .style('stroke', '#758CAB')
-                    .style('stroke-width', '2px')
-                    .style('fill', '#758CAB')
-                    .style('opacity', '0.5');
-
-                const text2 = track.g
-                    .append('text')
-                    .attr('x', 12)
-                    .attr('y', 35)
-                    .attr('alignment-baseline', 'middle')
-                    .style('font-size', '0.75em')
-                    .style('fill', '#666666')
-                    .text('Same variants associated with ');
-                text2
-                    .append('tspan')
-                    .attr('alignment-baseline', 'middle')
-                    .style('fill', '#758CAB')
-                    .text('other genes');
-                text2
-                    .append('tspan')
-                    .attr('alignment-baseline', 'middle')
-                    .style('fill', '#666666')
-                    .text(' with a better score');
-            }),
-        );
-        // No data
-    return snpLabelTrack;
-}
-
 
 function legend(config) {
     const legendTrack = tnt.board.track()
@@ -755,88 +679,6 @@ function processSnps2LeadSnps(snps) {
     return Object.keys(uniqueLeadSnps);
 }
 
-// snp cluster track label
-let clusterLabelTrack;
-function snpClusterLabel() {
-    clusterLabelTrack = tnt.board.track()
-        .id('clusterLabelTrack')
-        .height(0)
-        .color(boardColor)
-        .display(tnt.board.track.feature()
-            .create(() => {})
-            .move(() => {})
-            .fixed(function () {
-                const track = this;
-                track.g
-                    .append('text')
-                    .attr('x', 2)
-                    .attr('y', 20)
-                    .attr('alignment-baseline', 'middle')
-                    .style('font-size', '0.75em')
-                    .style('fill', '#666666')
-                    .text('Disease-associated variants clusters');
-            }),
-        );
-    return clusterLabelTrack;
-}
-
-// disease track label
-function diseaseSnpsLabel(config) {
-    const diseaseSnpsLabelTrack = tnt.board.track()
-        .height(50)
-        .color(boardColor)
-        .display(tnt.board.track.feature()
-            .create(() => {})
-            .move(() => {})
-            .fixed(function () {
-                const track = this;
-                track.g
-                    .append('circle')
-                    .attr('cx', 5)
-                    .attr('cy', 20)
-                    .attr('r', 3)
-                    .style('stroke', '#FF5665')
-                    .style('stroke-width', '2px')
-                    .style('fill', '#FF5665')
-                    .style('opacity', '0.8');
-
-                const text1 = track.g
-                    .append('text')
-                    .attr('x', 12)
-                    .attr('y', 20)
-                    .attr('alignment-baseline', 'middle')
-                    .style('font-size', '0.75em')
-                    .style('fill', '#666666')
-                    .text(`Variants associated with ${config.gene} and `);
-                text1
-                    .append('tspan')
-                    .attr('alignment-baseline', 'middle')
-                    .style('fill', '#FF5665')
-                    .text(config.disease);
-
-                track.g
-                    .append('circle')
-                    .attr('cx', 5)
-                    .attr('cy', 35)
-                    .attr('r', 3)
-                    .style('stroke', '#758CAB')
-                    .style('stroke-width', '2px')
-                    .style('fill', '#758CAB')
-                    .style('opacity', '0.8');
-
-                track.g
-                    .append('text')
-                    .attr('x', 12)
-                    .attr('y', 35)
-                    .attr('alignment-baseline', 'middle')
-                    .style('font-size', '0.75em')
-                    .style('fill', '#666666')
-                    .text(`Variants associated with ${config.gene} and other diseases with a better pvalue`);
-            }),
-        );
-    return diseaseSnpsLabelTrack;
-}
-
 // disease track
 const diseaseLabelTrackHeight = 100;
 let diseaseLabelTrack; // Needs to be accessible to update the data
@@ -865,14 +707,11 @@ function ensemblSnps2Array(allSnps) {
 }
 
 export {
-    // sequence,
     transcript,
     snpLDMarker,
     snpLeadMarker,
     snpConnector,
     snpDiseaseConnector,
-    snpFlatLabel,
-    diseaseSnpsLabel,
     diseaseLabel,
     legend,
 };
