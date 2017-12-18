@@ -11,7 +11,6 @@ import lineConnectorFeature from './features/lineConnectorFeature';
 import halfFixedLineConnectorFeature from './features/halfFixedLineConnectorFeature';
 import diseaseFeature from './features/diseaseFeature';
 import { geneTooltip, snpTooltip, snpTextualInfo, clusterTextualInfo } from './tooltips';
-import legendFeature from './features/legendFeature';
 
 const boardColor = '#FFFFFF';
 const snpTrackBackgroundColor = '#EEE';
@@ -99,14 +98,7 @@ function transcript(config) {
 }
 
 
-function legend(config) {
-    const legendTrack = tnt.board.track()
-        .height(80)
-        .color(boardColor)
-        .display(legendFeature);
-        // No data
-    return legendTrack;
-}
+
 
 const snpFeatureTrackHeight = 15;
 function snpLDMarker(config) {
@@ -713,6 +705,5 @@ export {
     snpConnector,
     snpDiseaseConnector,
     diseaseLabel,
-    legend,
 };
 

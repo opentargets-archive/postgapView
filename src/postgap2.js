@@ -7,6 +7,7 @@ import spinner from 'cttv.spinner';
 import axios from 'axios';
 import { getData, getEnsemblSnps } from './data';
 import sequenceTrack from './tracks/sequenceTrack';
+import legendTrack from './tracks/legendTrack';
 import {
     // sequence as sequenceTrack,
     transcript as transcriptTrack,
@@ -15,7 +16,6 @@ import {
     snpConnector as snpConnectorTrack,
     snpDiseaseConnector as snpDiseaseConnectorTrack,
     diseaseLabel as diseaseNameLabelTrack,
-    legend as legendTrack,
 } from './tracks';
 // import cttvRestApi from 'cttv.api';
 
