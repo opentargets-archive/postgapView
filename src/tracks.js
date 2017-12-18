@@ -11,6 +11,7 @@ import lineConnectorFeature from './features/lineConnectorFeature';
 import halfFixedLineConnectorFeature from './features/halfFixedLineConnectorFeature';
 import diseaseFeature from './features/diseaseFeature';
 import { geneTooltip, snpTooltip, snpTextualInfo } from './tooltips';
+import { getAllDataForLocation } from './data/retrieval';
 
 const boardColor = '#FFFFFF';
 const snpTrackBackgroundColor = '#EEE';
@@ -156,6 +157,10 @@ function snpLDMarker(config) {
                         region: `${loc.chr}:${loc.from}-${loc.to}`,
                         feature: 'gene',
                     });
+
+                // TEST!
+                getAllDataForLocation(loc, config)
+
                 return rest.call(regionUrl)
                     .then((resp) => {
                         // TODO: Get all the postgap SNPS for those genes. For now just look in the files
