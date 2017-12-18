@@ -97,11 +97,6 @@ export function getAllDataForLocation(loc, config) {
     }).then(leadSnpIds => getEnsemblDataForSnps(leadSnpIds, config.rest));
 
     return Promise.all([geneObjsPromise, evidenceObjsPromise, leadSnpIdsPromise]).then(([geneObjs, evidenceObjs, leadSnpObjs]) => {
-        console.log('all promises worked!');
-        console.log(geneObjs);
-        console.log(evidenceObjs);
-        console.log(leadSnpObjs);
-
         // for lookup
         const genesObjsLookup = {};
         geneObjs.forEach(geneObj => {
@@ -196,6 +191,8 @@ export function getAllDataForLocation(loc, config) {
                     ldSnpId,
                     leadSnpId,
                     r2,
+                    from: ldSnpPos,
+                    to: leadSnpPos,
                 };
             }
 
@@ -204,6 +201,7 @@ export function getAllDataForLocation(loc, config) {
                 leadSnpDiseases[leadSnpDiseaseId] = {
                     id: leadSnpDiseaseId,
                     leadSnpId,
+                    leadSnpPos,
                     efoId,
                     pvalue,
                 };
@@ -211,7 +209,7 @@ export function getAllDataForLocation(loc, config) {
         });
 
         const allData = {
-            genes,
+            genes: geneObjs,
             geneLdSnps,
             ldSnps,
             ldSnpLeadSnps,
@@ -219,7 +217,6 @@ export function getAllDataForLocation(loc, config) {
             leadSnpDiseases,
             diseases,
         };
-        console.log(allData);
         return allData;
     });
 }
