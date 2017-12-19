@@ -20,34 +20,70 @@ export default function geneLdSnpTooltip(d) {
                 //     label: 'Gene Rank',
                 //     value: d.fg_scores.rank,
                 // },
+                // SECTION
+                {
+                    label: 'POSTGAP score',
+                    value: '',
+                },
+                {
+                    label: 'Score',
+                    value: d.funcgen.ot_g2v_score,
+                },
+                {
+                    label: 'Top contributor',
+                    value: d.funcgen.ot_g2v_score_types,
+                },
+                // SECTION
+                {
+                    label: 'Variant Effect Predictor',
+                    value: '',
+                },
+                {
+                    label: 'Score',
+                    value: d.funcgen.vep_score,
+                },
                 // {
-                //     label: 'Score',
-                //     value: d.fg_scores.postgap_score,
+                //     label: 'Mean',
+                //     value: d.funcgen.vep_mean,
                 // },
                 // {
-                //     label: 'Scores',
-                //     value: '',
+                //     label: 'Sum',
+                //     value: d.funcgen.vep_sum,
                 // },
+                // SECTION
+                {
+                    label: 'Functional genomics',
+                    value: '',
+                },
+                {
+                    label: 'GTEx',
+                    value: d.funcgen.gtex_score,
+                },
+                {
+                    label: 'PCHiC',
+                    value: d.funcgen.pchic_score,
+                },
                 {
                     label: 'Fantom5',
                     value: d.funcgen.fantom5_score,
                 },
-                // {
-                //     label: 'GTEx',
-                //     value: d.fg_scores.gtex_ecore, // Typo in the data!
-                // },
-                // {
-                //     label: 'DHS',
-                //     value: d.fg_scores.dhs_score,
-                // },
-                // {
-                //     label: 'Pchic',
-                //     value: d.fg_scores.pchic_score,
-                // },
-                // {
-                //     label: 'Regulome',
-                //     value: d.fg_scores.regulome_score,
-                // },
+                {
+                    label: 'DHS',
+                    value: d.funcgen.dhs_score,
+                },
+                // SECTION
+                {
+                    label: 'Other information',
+                    value: '',
+                },
+                {
+                    label: 'Nearest target to variant',
+                    value: d.funcgen.is_nearest_gene,
+                },
+                {
+                    label: 'Regulome',
+                    value: d.funcgen.regulome_score,
+                },
             ],
         });
     return tooltip;
