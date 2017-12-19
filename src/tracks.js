@@ -24,7 +24,8 @@ import leadSnpTooltip from './tooltips/leadSnpTooltip';
 import ldSnpTooltip from './tooltips/ldSnpTooltip';
 import geneTooltip from './tooltips/geneTooltip';
 import diseaseTooltip from './tooltips/diseaseTooltip';
-
+import leadSnpDiseaseTooltip from './tooltips/leadSnpDiseaseTooltip';
+import ldSnpLeadSnpTooltip from './tooltips/ldSnpLeadSnpTooltip';
 
 const boardColor = '#FFFFFF';
 const snpTrackBackgroundColor = '#EEE';
@@ -270,8 +271,10 @@ function snpConnector() {
         .label('Linkage disequilibrium')
         .height(100)
         .color(boardColor)
-        .display(lineConnectorFeature);
-
+        .display(lineConnectorFeature
+            .on('mouseover', ldSnpLeadSnpTooltip)
+            .on('mouseout', () => { ldSnpLeadSnpTooltip.close(); }),
+        );
     return snpConnectorTrack;
 }
 
@@ -282,7 +285,10 @@ function snpDiseaseConnector() {
         .label('-log(GWAS p-value)')
         .height(100)
         .color(boardColor)
-        .display(halfFixedLineConnectorFeature);
+        .display(halfFixedLineConnectorFeature
+            .on('mouseover', leadSnpDiseaseTooltip)
+            .on('mouseout', () => { leadSnpDiseaseTooltip.close(); }),
+        );
 
     return snpDiseaseConnectorTrack;
 }

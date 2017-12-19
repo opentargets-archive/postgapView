@@ -1,7 +1,9 @@
 /* global tnt:true */
-export default function leadSnpDiseaseTooltip(d) {
-    const tooltip = tnt.tooltip.table()
+let tooltip = {};
+function leadSnpDiseaseTooltip(d) {
+    tooltip = tnt.tooltip.table()
         .id('leadSnpDiseaseTooltip')
+        .show_closer(false)
         .width(120)
         .call(this, {
             header: `${d.efoName} - ${d.leadSnpId} evidence`,
@@ -22,3 +24,6 @@ export default function leadSnpDiseaseTooltip(d) {
         });
     return tooltip;
 }
+leadSnpDiseaseTooltip.close = () => { tooltip.close(); };
+
+export default leadSnpDiseaseTooltip;

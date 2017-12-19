@@ -1,7 +1,9 @@
 /* global tnt:true */
-export default function leadSnpDiseaseTooltip(d) {
-    const tooltip = tnt.tooltip.table()
-        .id('leadSnpDiseaseTooltip')
+let tooltip = {};
+function ldSnpLeadSnpTooltip(d) {
+    tooltip = tnt.tooltip.table()
+        .id('ldSnpLeadSnpTooltip')
+        .show_closer(false)
         .width(120)
         .call(this, {
             header: `${d.ldSnpId} - ${d.leadSnpId} evidence`,
@@ -15,10 +17,13 @@ export default function leadSnpDiseaseTooltip(d) {
                     value: d.ldSnpId,
                 },
                 {
-                    label: 'LD (r',
-                    value: d.lead_snp.source,
+                    label: 'Linkage disequilibrium (r2)',
+                    value: d.r2,
                 },
             ],
         });
     return tooltip;
 }
+ldSnpLeadSnpTooltip.close = () => { tooltip.close(); };
+
+export default ldSnpLeadSnpTooltip;
