@@ -19,9 +19,11 @@ import halfFixedLineConnectorFeature from './features/halfFixedLineConnectorFeat
 import diseaseFeature from './features/diseaseFeature';
 
 // tooltips
-import { geneTooltip, snpTooltip, snpTextualInfo } from './tooltips';
+import { snpTooltip, snpTextualInfo } from './tooltips';
 import leadSnpTooltip from './tooltips/leadSnpTooltip';
 import ldSnpTooltip from './tooltips/ldSnpTooltip';
+import geneTooltip from './tooltips/geneTooltip';
+import diseaseTooltip from './tooltips/diseaseTooltip';
 
 
 const boardColor = '#FFFFFF';
@@ -44,6 +46,8 @@ function transcript(config) {
             // }
             return '#758CAB';
         })
+        .on('mouseover', geneTooltip)
+        .on('mouseout', () => { geneTooltip.close(); })
         // .on('click', geneTooltip);
 
     const tCreate = transcriptFeature.create();
@@ -291,10 +295,9 @@ function diseaseLabel() {
     diseaseLabelTrack = tnt.board.track()
         .height(diseaseLabelTrackHeight)
         .color(boardColor)
-        .display(diseaseFeature,
-            // .on('click', (d) => {
-            //     console.log(d);
-            // }),
+        .display(diseaseFeature
+            .on('mouseover', diseaseTooltip)
+            .on('mouseout', () => { diseaseTooltip.close(); }),
         );
     return diseaseLabelTrack;
 }

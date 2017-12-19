@@ -1,7 +1,9 @@
 /* global tnt:true */
-export default function geneTooltip(d) {
-    const tooltip = tnt.tooltip.table()
+let tooltip = {};
+function geneTooltip(d) {
+    tooltip = tnt.tooltip.table()
         .id('geneTooltip')
+        .show_closer(false)
         .width(120)
         .call(this, {
             header: d.gene_symbol,
@@ -22,3 +24,6 @@ export default function geneTooltip(d) {
         });
     return tooltip;
 }
+geneTooltip.close = () => { tooltip.close(); };
+
+export default geneTooltip;

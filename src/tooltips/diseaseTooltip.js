@@ -1,7 +1,9 @@
 /* global tnt:true */
-export default function diseaseTooltip(d) {
-    const tooltip = tnt.tooltip.table()
+let tooltip = {};
+function diseaseTooltip(d) {
+    tooltip = tnt.tooltip.table()
         .id('diseaseTooltip')
+        .show_closer(false)
         .width(120)
         .call(this, {
             header: d.name,
@@ -22,3 +24,6 @@ export default function diseaseTooltip(d) {
         });
     return tooltip;
 }
+diseaseTooltip.close = () => { tooltip.close(); };
+
+export default diseaseTooltip;
