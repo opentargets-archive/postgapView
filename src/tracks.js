@@ -134,7 +134,7 @@ function transcript(config) {
             const neededHeight = types.expanded.needed_slots * types.expanded.slot_height;
             if (neededHeight !== genomeHeight) {
                 genomeHeight = neededHeight;
-                transcriptTrack.height(neededHeight);
+                transcriptTrack.height(neededHeight + 50); // 50 gives more space for connectors
                 genome.tracks(genome.tracks());
             }
         });
