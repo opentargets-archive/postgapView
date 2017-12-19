@@ -9,30 +9,46 @@ const geneLdSnpFeature = tnt.board.track.feature()
     .index((d) => d.id);
 
 geneLdSnpFeature.distribute(function (transcripts) {
+    console.log('geneLdSnpFeature.distribute start');
     const track = this;
     const display = track.display();
     const xScale = display.scale();
     const slotHeight = display.layout().gene_slot().slot_height;
     const y = track.height();
 
-    const currSlots = {};
-    transcripts.data().forEach((t) => {
-        currSlots[t.id] = t.slot;
-    });
+    // const currSlots = {};
+    // transcripts.data().forEach((t, i) => {
+    //     if (i === 0) { console.log('each transcript...'); console.log(t); }
+    //     currSlots[t.id] = t.slot;
+    // });
 
-    transcripts.selectAll('path')
-        .transition()
-        .duration(200)
-        .attr('d', (d) => {
+    // override path's d.slot here?
+    const connectorsSel = transcripts
+        .filter((t) => t.ldSnps);
+    connectorsSel
+        .data()
+        .forEach((d) => {
+            Object.values(d.ldSnps).forEach((c) => {
+                c.slot = d.slot;
+            });
+        });
+
+    transcripts.selectAll('.gene-ld-snp-connector')
+        // .transition()
+        // .duration(200)
+        .attr('d', (d, i) => {
+            if (i === 0) { console.log('each d...'); console.log(d); }
             const fromX = xScale(d.geneTss);
             const toX = xScale(d.ldSnpPos);
-            const fromY = currSlots[d.id] * slotHeight;
+            // const fromY = currSlots[d.geneId] * slotHeight;
+            const fromY = d.slot * slotHeight;
             const toY = y;
             return getLinePath(fromX, fromY, toX, toY);
         });
 });
 
 geneLdSnpFeature.create(function (sel) {
+    console.log('geneLdSnpFeature.create start');
     const track = this;
     const display = track.display();
     const xScale = display.scale();
@@ -59,7 +75,6 @@ geneLdSnpFeature.create(function (sel) {
         .attr('d', (d) => {
             const fromX = xScale(d.geneTss);
             const toX = xScale(d.ldSnpPos);
-            // const fromY = 0;
             const fromY = (d.slot) * slotHeight;
             const toY = y;
             return getLinePath(fromX, fromY, toX, toY);
@@ -78,26 +93,23 @@ geneLdSnpFeature.move(function (sel) {
     const xScale = display.scale();
     const slotHeight = display.layout().gene_slot().slot_height;
     const y = track.height();
+    const connectorsSel = sel
+        .filter((t) => t.ldSnps);
 
-    const currSlots = {};
-    sel.data().forEach((t) => {
-        currSlots[t.id] = t.slot;
-    });
+    // const currSlots = {};
+    // connectorsSel.data().forEach((t) => {
+    //     currSlots[t.id] = t.slot;
+    // });
+    // console.log(currSlots);
 
-    sel.selectAll('path')
-        // .attr('d', (d) => {
-        //     // var tPos = (d.slot) * slot_height;
-        //     const tPos = (currSlots[d.id]) * slotHeight;
-        //     const from = xScale(d.from);
-        //     const to1 = xScale(d.to1);
-        //     const to2 = xScale(d.to2);
-        //     return getLinePath(from, to1, to2, tPos, y);
-        // });
-        .attr('d', (d) => {
+    connectorsSel.selectAll('.gene-ld-snp-connector')
+        .attr('d', (d, i) => {
+            // if (i === 0) { console.log(d); console.log(this); }
             const fromX = xScale(d.geneTss);
             const toX = xScale(d.ldSnpPos);
             // const fromY = 0;
-            const fromY = (currSlots[d.id]) * slotHeight;
+            // const fromY = (currSlots[d.geneId]) * slotHeight;
+            const fromY = d.slot * slotHeight;
             const toY = y;
             return getLinePath(fromX, fromY, toX, toY);
         });
