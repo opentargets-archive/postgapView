@@ -6,7 +6,7 @@ function ldSnpLeadSnpTooltip(d) {
         .show_closer(false)
         .width(120)
         .call(this, {
-            header: `${d.ldSnpId} - ${d.leadSnpId} evidence`,
+            header: 'Linkage disequilibrium',
             rows: [
                 {
                     label: 'GWAS variant',
@@ -17,8 +17,8 @@ function ldSnpLeadSnpTooltip(d) {
                     value: d.ldSnpId,
                 },
                 {
-                    label: 'Linkage disequilibrium (r2)',
-                    value: d.r2,
+                    label: 'r²',
+                    value: parseFloat(d.r2).toPrecision(3),
                 },
             ],
         });

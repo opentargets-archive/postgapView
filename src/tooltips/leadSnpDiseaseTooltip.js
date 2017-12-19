@@ -6,14 +6,18 @@ function leadSnpDiseaseTooltip(d) {
         .show_closer(false)
         .width(120)
         .call(this, {
-            header: `${d.efoName} - ${d.leadSnpId} evidence`,
+            header: 'GWAS evidence',
             rows: [
-                // {
-                //     label: 'disease',
-                //     value: d.efoName,
-                // },
                 {
-                    label: 'p-value',
+                    label: 'GWAS variant',
+                    value: d.leadSnpId,
+                },
+                {
+                    label: 'Disease',
+                    value: d.efoName,
+                },
+                {
+                    label: 'GWAS p-value',
                     value: d.pvalue.toPrecision(2),
                 },
                 // {
