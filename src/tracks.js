@@ -5,15 +5,24 @@
 
 // import axios from 'axios';
 // import { getData, getEnsemblSnps } from './data';
+
+// data
+import { getAllDataForLocation } from './data/retrieval';
+
+// features
 import snpFeature from './features/snpFeature';
 import leadSnpFeature from './features/leadSnpFeature';
-import connectorFeature from './features/connectorFeature';
+// import connectorFeature from './features/connectorFeature';
+import geneLdSnpFeature from './features/geneLdSnpFeature';
 import lineConnectorFeature from './features/lineConnectorFeature';
 import halfFixedLineConnectorFeature from './features/halfFixedLineConnectorFeature';
 import diseaseFeature from './features/diseaseFeature';
+
+// tooltips
 import { geneTooltip, snpTooltip, snpTextualInfo } from './tooltips';
 import leadSnpTooltip from './tooltips/leadSnpTooltip';
-import { getAllDataForLocation } from './data/retrieval';
+// import ldSnpTooltip from './tooltips/ldSnpTooltip';
+
 
 const boardColor = '#FFFFFF';
 const snpTrackBackgroundColor = '#EEE';
@@ -38,21 +47,21 @@ function transcript(config) {
         // .on('click', geneTooltip);
 
     const tCreate = transcriptFeature.create();
-    const cCreate = connectorFeature.create();
+    const cCreate = geneLdSnpFeature.create();
     transcriptFeature.create(function (els) {
         cCreate.call(this, els);
         tCreate.call(this, els);
     });
 
     const tMove = transcriptFeature.move();
-    const cMove = connectorFeature.move();
+    const cMove = geneLdSnpFeature.move();
     transcriptFeature.move(function (els) {
         cMove.call(this, els);
         tMove.call(this, els);
     });
 
     const tDistribute = transcriptFeature.distribute();
-    const cDistribute = connectorFeature.distribute();
+    const cDistribute = geneLdSnpFeature.distribute();
     transcriptFeature.distribute(function (data) {
         // console.log('within distribute');
         // console.log(data);
