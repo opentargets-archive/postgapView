@@ -149,19 +149,24 @@ export function getAllDataForLocation(loc, config) {
             const diseasePos = diseasePoss[efoId];
 
             // GENE
-            if (!genes[geneId]) {
-                genes[geneId] = {
-                    id: geneId,
-                    // transcriptId: geneObj.id,
-                    exons: geneObj.exons,
-                    introns: geneObj.introns,
-                    strand: geneObj.strand,
-                    start: geneObj.start,
-                    end: geneObj.end,
-                    display_name: geneObj.display_name,
-                    display_label: geneObj.display_label,
-                };
+            if (!geneObj.ldSnps) {
+                geneObj.ldSnps = {};
+                // console.log(geneObj);
             }
+            // if (!genes[geneId]) {
+            //     genes[geneId] = {
+            //         id: geneId,
+            //         // transcriptId: geneObj.id,
+            //         exons: geneObj.exons,
+            //         introns: geneObj.introns,
+            //         strand: geneObj.strand,
+            //         start: geneObj.start,
+            //         end: geneObj.end,
+            //         display_name: geneObj.display_name,
+            //         display_label: geneObj.display_label,
+            //         ldSnps: {},
+            //     };
+            // }
 
             // LD SNP
             if (!ldSnps[ldSnpId]) {
@@ -191,6 +196,13 @@ export function getAllDataForLocation(loc, config) {
             // GENE-LD SNP
             if (!geneLdSnps[geneLdSnpId]) {
                 geneLdSnps[geneLdSnpId] = {
+                    id: geneLdSnpId,
+                    geneId,
+                    ldSnpId,
+                    funcgen,
+                };
+
+                geneObj.ldSnps[geneLdSnpId] = {
                     id: geneLdSnpId,
                     geneId,
                     ldSnpId,

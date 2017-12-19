@@ -1,9 +1,14 @@
-.tnt_track path.snp-connector,
+.tnt_track path.ld-snp-lead-snp-connector,
 .tnt_track path.snp-disease-connector {
     fill: none;
     stroke: #ccc; // #999;
     stroke-width: 2;
+    &.highlight {
+        stroke: orangered;
+    }
 }
+
+
 
 .tnt_track .disease-label {
     font-size: 10px;

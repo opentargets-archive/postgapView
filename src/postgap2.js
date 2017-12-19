@@ -7,7 +7,7 @@ import spinner from 'cttv.spinner';
 import axios from 'axios';
 import { getData, getEnsemblSnps } from './data';
 import sequenceTrack from './tracks/sequenceTrack';
-import legendTrack from './tracks/legendTrack';
+// import legendTrack from './tracks/legendTrack';
 import {
     // sequence as sequenceTrack,
     transcript as transcriptTrack,
@@ -78,7 +78,7 @@ function buildBrowser(postgapData, container, container2) {
             .add_track(snpLeadMarkerTrack.call(genome, config))
             .add_track(snpDiseaseConnectorTrack.call(genome, config))
             .add_track(diseaseNameLabelTrack.call(genome, config))
-            .add_track(legendTrack.call(genome, config));
+            // .add_track(legendTrack.call(genome, config));
         genome.start();
         console.log('genome started...');
     });

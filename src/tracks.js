@@ -12,6 +12,7 @@ import lineConnectorFeature from './features/lineConnectorFeature';
 import halfFixedLineConnectorFeature from './features/halfFixedLineConnectorFeature';
 import diseaseFeature from './features/diseaseFeature';
 import { geneTooltip, snpTooltip, snpTextualInfo } from './tooltips';
+import leadSnpTooltip from './tooltips/leadSnpTooltip';
 import { getAllDataForLocation } from './data/retrieval';
 
 const boardColor = '#FFFFFF';
@@ -60,6 +61,7 @@ function transcript(config) {
     });
 
     transcriptTrack = tnt.board.track()
+        // .label('Target and POSTGAP score')
         .height(genomeHeight)
         .color(boardColor)
         .display(transcriptFeature)
@@ -140,6 +142,7 @@ function snpLDMarker(config) {
     const rest = config.rest;
     ldSnpTrack = tnt.board.track()
         .id('snpLDMarkerTrack')
+        .label('Variant')
         .height(snpFeatureTrackHeight)
         .color(snpTrackBackgroundColor)
         .display(snpFeature
@@ -191,16 +194,25 @@ function snpLeadMarker(config) {
     const rest = config.rest;
     leadSnpTrack = tnt.board.track()
         .id('snpLeadMarkerTrack')
+        .label('GWAS variant')
         .height(snpFeatureTrackHeight)
         .color(snpTrackBackgroundColor)
-        .display(leadSnpFeature);
+        .display(leadSnpFeature
             // .on('mouseover', function (d) {
-            //     return snpTextualInfo.call(this, d, config.gene);
+            //     return leadSnpTooltip.call(this, d, config.gene);
             // })
             // .on('mouseout', () => {
             //     snpTextualInfo.close();
             // })
-            // .on('click', function (d) {
+            .on('click', function (d) {
+                leadSnpTooltip.call(this, d, config.gene);
+
+                // highlight ldSnp-leadSnp connnectors
+                d3.selectAll('.ld-snp-lead-snp-connector')
+                    .classed('highlight', false)
+                    .filter(d2 => (d2.leadSnpId === d.id))
+                    .classed('highlight', true);
+
             //     snpTooltip.call(this, d, config.gene);
             //     // update the gene track with the connectors to this SNP
             //     selectedSnp = d;
@@ -229,8 +241,8 @@ function snpLeadMarker(config) {
             //     transcriptTrack.display().update.call(transcriptTrack);
             //     transcriptTrack.data().elements(els);
             //     transcriptTrack.display().update.call(transcriptTrack);
-            // }),
-        // )
+            }),
+        );
 
     return leadSnpTrack;
 }
@@ -239,7 +251,7 @@ let snpConnectorTrack;
 function snpConnector() {
     snpConnectorTrack = tnt.board.track()
         .id('snpConnectorTrack')
-        .label('Linkage<br/>disequilibrium')
+        .label('Linkage disequilibrium')
         .height(100)
         .color(boardColor)
         .display(lineConnectorFeature);
@@ -251,7 +263,7 @@ let snpDiseaseConnectorTrack;
 function snpDiseaseConnector() {
     snpDiseaseConnectorTrack = tnt.board.track()
         .id('snpDiseaseConnectorTrack')
-        // .label('GWAS p-value')
+        .label('-log(GWAS p-value)')
         .height(100)
         .color(boardColor)
         .display(halfFixedLineConnectorFeature);
