@@ -282,7 +282,7 @@ function snpDiseaseConnector() {
 
 
 // disease track
-const diseaseLabelTrackHeight = 100;
+const diseaseLabelTrackHeight = 300;
 let diseaseLabelTrack; // Needs to be accessible to update the data
 function diseaseLabel() {
     diseaseLabelTrack = tnt.board.track()
