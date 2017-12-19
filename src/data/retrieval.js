@@ -131,6 +131,7 @@ export function getAllDataForLocation(loc, config) {
             const ldSnpPos = evidenceObj.variant.pos;
             const leadSnpId = evidenceObj.evidence.variant2disease.lead_snp_rsid;
             const efoId = evidenceObj.disease.id;
+            const efoName = evidenceObj.disease.name;
             const pvalue = evidenceObj.evidence.variant2disease.resource_score.value;
             const funcgen = evidenceObj.evidence.gene2variant.metadata.funcgen;
             const r2 = evidenceObj.unique_association_fields.r2;
@@ -141,6 +142,7 @@ export function getAllDataForLocation(loc, config) {
 
             // key info from geneObjs
             const geneObj = genesObjsLookup[geneId];
+            const geneTss = geneObj.start;
 
             // derived
             const geneLdSnpId = `${geneId}-${ldSnpId}`;
@@ -188,7 +190,7 @@ export function getAllDataForLocation(loc, config) {
             if (!diseases[efoId]) {
                 diseases[efoId] = {
                     id: efoId,
-                    name: evidenceObj.disease.name,
+                    name: efoName,
                     pos: diseasePos,
                 };
             }
@@ -205,7 +207,9 @@ export function getAllDataForLocation(loc, config) {
                 geneObj.ldSnps[geneLdSnpId] = {
                     id: geneLdSnpId,
                     geneId,
+                    geneTss,
                     ldSnpId,
+                    ldSnpPos,
                     funcgen,
                 };
             }
@@ -229,6 +233,7 @@ export function getAllDataForLocation(loc, config) {
                     leadSnpId,
                     leadSnpPos,
                     efoId,
+                    efoName,
                     efoPos: diseasePos,
                     pvalue,
                 };
