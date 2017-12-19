@@ -7,6 +7,7 @@ import spinner from 'cttv.spinner';
 import axios from 'axios';
 import { getData, getEnsemblSnps } from './data';
 import sequenceTrack from './tracks/sequenceTrack';
+import geneLabelTrack from './tracks/geneLabelTrack';
 // import legendTrack from './tracks/legendTrack';
 import {
     // sequence as sequenceTrack,
@@ -72,12 +73,13 @@ function buildBrowser(postgapData, container, container2) {
         genome
             .zoom_in(100)
             .add_track(sequenceTrack.call(genome, config))
+            .add_track(geneLabelTrack.call(genome, config))
             .add_track(transcriptTrack.call(genome, config))
             .add_track(snpLDMarkerTrack.call(genome, config))
             .add_track(snpConnectorTrack.call(genome, config))
             .add_track(snpLeadMarkerTrack.call(genome, config))
             .add_track(snpDiseaseConnectorTrack.call(genome, config))
-            .add_track(diseaseNameLabelTrack.call(genome, config))
+            .add_track(diseaseNameLabelTrack.call(genome, config));
             // .add_track(legendTrack.call(genome, config));
         genome.start();
         console.log('genome started...');
