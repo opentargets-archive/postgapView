@@ -13,9 +13,11 @@ const halfFixedLineConnectorFeature = tnt.board.track.feature()
         const track = this;
         const display = track.display();
         const xScale = display.scale();
+        const xStart = xScale.range()[0];
+        const xEnd = xScale.range()[1];
         const xScaleText = d3.scale.linear()
             .domain([0, 1])
-            .range(xScale.range());
+            .range([xStart + 30, xEnd - 30]);
         const y = track.height();
 
         sel.append('path')
@@ -34,9 +36,11 @@ const halfFixedLineConnectorFeature = tnt.board.track.feature()
         const track = this;
         const display = track.display();
         const xScale = display.scale();
+        const xStart = xScale.range()[0];
+        const xEnd = xScale.range()[1];
         const xScaleText = d3.scale.linear()
             .domain([0, 1])
-            .range(xScale.range());
+            .range([xStart + 30, xEnd - 30]);
         const y = track.height();
 
         sel.select('path')
@@ -48,6 +52,27 @@ const halfFixedLineConnectorFeature = tnt.board.track.feature()
                 return getLinePath(fromX, fromY, toX, toY);
             })
             .style('stroke', d => pvalColourScale(d.pvalue));
+    })
+    .fixed(function (width) {
+        // const track = this;
+        // const g = track.g;
+        // const slider = thresholdSlider();
+
+        // slider.value(0);
+        // slider.callback(_.debounce(function () {
+        //     console.log('callback!');
+        //     // TODO: Here should show/hide the connections based on the value
+
+        //     d3.selectAll('.lead-snp-disease-connector')
+        //         .classed('below-slider-threshold', false)
+        //         .filter(d => (d.pvalue < slider.value()))
+        //         .classed('below-slider-threshold', true);
+        // }, 300));
+        
+        // const gContainer = g.append('g')
+        //                     .classed('slider-container', true)
+        //                     .attr('transform', 'translate(5,25)');
+        // gContainer.call(slider, [0, 100]);
     });
 
 export default halfFixedLineConnectorFeature;

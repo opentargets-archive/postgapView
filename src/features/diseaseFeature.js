@@ -8,9 +8,11 @@ const diseaseFeature = tnt.board.track.feature()
 diseaseFeature.create(function (el) {
     const track = this;
     const xScale = diseaseFeature.scale();
+    const xStart = xScale.range()[0];
+    const xEnd = xScale.range()[1];
     const xScaleText = d3.scale.linear()
         .domain([0, 1])
-        .range(xScale.range());
+        .range([xStart + 30, xEnd - 30]);
     const y = track.height();
 
     const g = el
@@ -24,6 +26,8 @@ diseaseFeature.create(function (el) {
         // .attr('y', y / 2)
         .attr('transform', 'rotate(-90)')
         .text(d => d.name);
+
+    el.exit().remove();
 });
 
 // Move
