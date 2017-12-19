@@ -6,7 +6,7 @@ export default function geneLabelTrack(config) {
         .label('Target and POSTGAP score')
         .height(20)
         .color('white')
-        .display(tnt.board.track.feature());
+        .display(tnt.board.track.feature().move(() => {}).create(() => {}));
         // No data
     return track;
 }
