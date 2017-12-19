@@ -65,8 +65,9 @@ function transcript(config) {
     transcriptFeature.distribute(function (data) {
         // console.log('within distribute');
         // console.log(data);
-        cDistribute.call(this, data);
+        // cDistribute.call(this, data);
         tDistribute.call(this, data);
+        cDistribute.call(this, data);
     });
 
     transcriptTrack = tnt.board.track()
@@ -207,50 +208,50 @@ function snpLeadMarker(config) {
         .height(snpFeatureTrackHeight)
         .color(snpTrackBackgroundColor)
         .display(leadSnpFeature
-            // .on('mouseover', function (d) {
-            //     return leadSnpTooltip.call(this, d, config.gene);
-            // })
-            // .on('mouseout', () => {
-            //     snpTextualInfo.close();
-            // })
-            .on('click', function (d) {
-                leadSnpTooltip.call(this, d, config.gene);
+            .on('mouseover', leadSnpTooltip)
+            .on('mouseout', () => { leadSnpTooltip.close(); })
+            // .on('click', function (d) {
+            //     // leadSnpTooltip().show_closer(true).call(this, d);
 
-                // highlight ldSnp-leadSnp connnectors
-                d3.selectAll('.ld-snp-lead-snp-connector')
-                    .classed('highlight', false)
-                    .filter(d2 => (d2.leadSnpId === d.id))
-                    .classed('highlight', true);
+            //     // highlight ldSnp-leadSnp connnectors
+            //     d3.selectAll('.ld-snp-lead-snp-connector')
+            //         .classed('highlight', false)
+            //         .filter(d2 => {
+            //             console.log(d2);
+            //             console.log(d);
+            //             return d2.leadSnpId === d.id;
+            //         })
+            //         .classed('highlight', true);
 
-            //     snpTooltip.call(this, d, config.gene);
-            //     // update the gene track with the connectors to this SNP
-            //     selectedSnp = d;
-            //     const els = transcriptTrack.data().elements();
-            //     // clear prev connectors
-            //     els.forEach(t => {
-            //         delete (t.connectors);
-            //     });
+            // //     snpTooltip.call(this, d, config.gene);
+            // //     // update the gene track with the connectors to this SNP
+            // //     selectedSnp = d;
+            // //     const els = transcriptTrack.data().elements();
+            // //     // clear prev connectors
+            // //     els.forEach(t => {
+            // //         delete (t.connectors);
+            // //     });
 
-            //     const from = d.pos;
-            //     els.forEach((t) => {
-            //         Object.keys(d.targets).forEach((g) => {
-            //             if (g === t.gene.id) {
-            //                 t.connectors = [{
-            //                     from,
-            //                     to1: t.start,
-            //                     to2: t.end,
-            //                     id: t.id,
-            //                 }];
-            //             }
-            //         });
-            //     });
+            // //     const from = d.pos;
+            // //     els.forEach((t) => {
+            // //         Object.keys(d.targets).forEach((g) => {
+            // //             if (g === t.gene.id) {
+            // //                 t.connectors = [{
+            // //                     from,
+            // //                     to1: t.start,
+            // //                     to2: t.end,
+            // //                     id: t.id,
+            // //                 }];
+            // //             }
+            // //         });
+            // //     });
 
-            //     // Update transcript track
-            //     transcriptTrack.data().elements([]);
-            //     transcriptTrack.display().update.call(transcriptTrack);
-            //     transcriptTrack.data().elements(els);
-            //     transcriptTrack.display().update.call(transcriptTrack);
-            }),
+            // //     // Update transcript track
+            // //     transcriptTrack.data().elements([]);
+            // //     transcriptTrack.display().update.call(transcriptTrack);
+            // //     transcriptTrack.data().elements(els);
+            // //     transcriptTrack.display().update.call(transcriptTrack);
+            // }),
         );
 
     return leadSnpTrack;

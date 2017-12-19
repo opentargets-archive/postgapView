@@ -1,6 +1,7 @@
 /* global tnt:true */
-export default function leadSnpTooltip(d) {
-    const leadTooltip = tnt.tooltip.table()
+let tooltip = {};
+function leadSnpTooltip(d) {
+    tooltip = tnt.tooltip.table()
         .id('leadSnpTooltip')
         .show_closer(false)
         .width(120)
@@ -26,5 +27,8 @@ export default function leadSnpTooltip(d) {
                 // },
             ],
         });
-    return leadTooltip;
+    return tooltip;
 }
+leadSnpTooltip.close = () => { tooltip.close(); };
+
+export default leadSnpTooltip;
