@@ -1,6 +1,7 @@
 /* global tnt:true */
-export default function ldSnpTooltip(d) {
-    const ldTooltip = tnt.tooltip.table()
+let tooltip = {};
+function ldSnpTooltip(d) {
+    tooltip = tnt.tooltip.table()
         .id('ldSnpTooltip')
         .show_closer(false)
         .width(120)
@@ -49,5 +50,8 @@ export default function ldSnpTooltip(d) {
                 // },
             ],
         });
-    return ldTooltip;
+    return tooltip;
 }
+ldSnpTooltip.close = () => { tooltip.close(); };
+
+export default ldSnpTooltip;

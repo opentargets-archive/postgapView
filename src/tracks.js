@@ -21,7 +21,7 @@ import diseaseFeature from './features/diseaseFeature';
 // tooltips
 import { geneTooltip, snpTooltip, snpTextualInfo } from './tooltips';
 import leadSnpTooltip from './tooltips/leadSnpTooltip';
-// import ldSnpTooltip from './tooltips/ldSnpTooltip';
+import ldSnpTooltip from './tooltips/ldSnpTooltip';
 
 
 const boardColor = '#FFFFFF';
@@ -156,42 +156,44 @@ function snpLDMarker(config) {
         .height(snpFeatureTrackHeight)
         .color(snpTrackBackgroundColor)
         .display(snpFeature
-            .on('mouseover', function (d) {
-                return snpTextualInfo.call(this, d, config.gene);
-            })
-            .on('mouseout', () => {
-                snpTextualInfo.close();
-            })
-            .on('click', function (d) {
-                snpTooltip.call(this, d, config.gene);
-                // update the gene track with the connectors to this SNP
-                selectedSnp = d;
-                const els = transcriptTrack.data().elements();
-                // clear prev connectors
-                els.forEach(t => {
-                    delete (t.connectors);
-                });
+            .on('mouseover', ldSnpTooltip)
+            .on('mouseout', () => { ldSnpTooltip.close(); })
+            // .on('mouseover', function (d) {
+            //     return snpTextualInfo.call(this, d, config.gene);
+            // })
+            // .on('mouseout', () => {
+            //     snpTextualInfo.close();
+            // })
+            // .on('click', function (d) {
+            //     snpTooltip.call(this, d, config.gene);
+            //     // update the gene track with the connectors to this SNP
+            //     selectedSnp = d;
+            //     const els = transcriptTrack.data().elements();
+            //     // clear prev connectors
+            //     els.forEach(t => {
+            //         delete (t.connectors);
+            //     });
 
-                const from = d.pos;
-                els.forEach((t) => {
-                    Object.keys(d.targets).forEach((g) => {
-                        if (g === t.gene.id) {
-                            t.connectors = [{
-                                from,
-                                to1: t.start,
-                                to2: t.end,
-                                id: t.id,
-                            }];
-                        }
-                    });
-                });
+            //     const from = d.pos;
+            //     els.forEach((t) => {
+            //         Object.keys(d.targets).forEach((g) => {
+            //             if (g === t.gene.id) {
+            //                 t.connectors = [{
+            //                     from,
+            //                     to1: t.start,
+            //                     to2: t.end,
+            //                     id: t.id,
+            //                 }];
+            //             }
+            //         });
+            //     });
 
-                // Update transcript track
-                transcriptTrack.data().elements([]);
-                transcriptTrack.display().update.call(transcriptTrack);
-                transcriptTrack.data().elements(els);
-                transcriptTrack.display().update.call(transcriptTrack);
-            }),
+            //     // Update transcript track
+            //     transcriptTrack.data().elements([]);
+            //     transcriptTrack.display().update.call(transcriptTrack);
+            //     transcriptTrack.data().elements(els);
+            //     transcriptTrack.display().update.call(transcriptTrack);
+            // }),
         );
 
     return ldSnpTrack;
