@@ -1,4 +1,5 @@
-export function ldSnpTooltip(d) {
+/* global tnt:true */
+export default function ldSnpTooltip(d) {
     const ldTooltip = tnt.tooltip.table()
         .id('ldSnpTooltip')
         .show_closer(false)

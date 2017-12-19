@@ -1,8 +1,8 @@
 /* global tnt:true */
-
 export default function leadSnpTooltip(d) {
     const leadTooltip = tnt.tooltip.table()
         .id('leadSnpTooltip')
+        .show_closer(false)
         .width(120)
         .call(this, {
             header: d.id,

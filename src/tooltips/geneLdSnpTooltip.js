@@ -1,10 +1,12 @@
-export function geneLdSnpTooltip(d) {
+/* global tnt:true */
+export default function geneLdSnpTooltip(d) {
     const tooltip = tnt.tooltip.table()
         .id('geneLdSnpTooltip')
         .show_closer(false)
         .width(120)
         .call(this, {
-            header: d.id,
+            // header: d.id,
+            header: `${d.gene_symbol}-${d.ldSnpId} evidence`,
             rows: [
                 // TODO: What to show about a gene - ld snp?
                 // * gene name, snp id
@@ -26,10 +28,10 @@ export function geneLdSnpTooltip(d) {
                 //     label: 'Scores',
                 //     value: '',
                 // },
-                // {
-                //     label: 'Fantom5',
-                //     value: d.fg_scores.fantom5_score,
-                // },
+                {
+                    label: 'Fantom5',
+                    value: d.funcgen.fantom5_score,
+                },
                 // {
                 //     label: 'GTEx',
                 //     value: d.fg_scores.gtex_ecore, // Typo in the data!
