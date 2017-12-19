@@ -1,51 +1,50 @@
 /* global d3:true */
 // Inspiration: http://bl.ocks.org/KKostya/6540747
 // Note: Advantage of this is that it can be embedded within an svg
-export function thresholdSlider() {
+export default function thresholdSlider() {
     let margin = {
         top: 5,
         left: 15,
         right: 10,
         bottom: 5,
     };
-    let width = 300 - margin.left - margin.right;
-    let height = 40 - margin.top - margin.bottom;
-    let brush = d3.svg.brush();
+    const width = 100 - margin.left - margin.right;
+    const height = 40 - margin.top - margin.bottom;
+    const brush = d3.svg.brush();
     let handle;
     let slider;
     let value = 0;
     let upd = function (d) { value = d; };
-    let cback = function (d) {};
+    let cback = function () {};
 
-    let x = d3.scale.linear()
+    const x = d3.scale.linear()
         .domain([0, 1])
         .range([0, width])
         .clamp(true);
 
-    function chart(el, xExtent)
-    {
+    function chart(el, xExtent) {
         x.domain(xExtent);
 
         brush.x(x).extent([0, 0])
              .on('brush', brushed);
 
-        let svg = el.attr('width', width + margin.left + margin.right)
+        const container = el.attr('width', width + margin.left + margin.right)
             .attr('height', height + margin.top + margin.bottom)
             .append('g')
             .classed('threshold-slider', true)
             .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-        svg.append('g')
+        container.append('g')
            .attr('class', 'x axis')
            .attr('transform', 'translate(0,' + (height / 2) + ')')
            .call(d3.svg.axis().scale(x).orient('bottom').tickSize(0).tickPadding(12));
 
-        slider = svg.append('g')
+        slider = container.append('g')
             .attr('class', 'slider')
             .call(brush);
 
         slider.selectAll('.extent,.resize').remove();
-        slider.select('.background').attr('height',height)
+        slider.select('.background').attr('height', height);
 
         handle = slider.append('circle')
             .attr('class', 'handle')
@@ -65,9 +64,9 @@ export function thresholdSlider() {
         };
     }
 
-    chart.margin = function(_) { if (!arguments.length) return margin; margin = _; return chart; };
-    chart.callback = function(_) { if (!arguments.length) return cback; cback = _; return chart; };
-    chart.value = function(_) { if (!arguments.length) return value; upd(_); return chart; };
+    chart.margin = function (_) { if (!arguments.length) return margin; margin = _; return chart; };
+    chart.callback = function (_) { if (!arguments.length) return cback; cback = _; return chart; };
+    chart.value = function (_) { if (!arguments.length) return value; upd(_); return chart; };
 
     return chart;
 }
