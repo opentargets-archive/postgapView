@@ -148,5 +148,26 @@ const geneLdSnpFeature = tnt.board.track.feature()
         //         return getLinePath(fromX, fromY, toX, toY);
         //     });
     });
+    // .fixed(function (width) {
+        // const track = this;
+        // const g = track.g;
+        // const slider = thresholdSlider();
+
+        // slider.value(0);
+        // slider.callback(_.debounce(function () {
+        //     console.log('callback!');
+        //     // TODO: Here should show/hide the connections based on the value
+
+        //     d3.selectAll('.gene-ld-snp-connector')
+        //         .classed('below-slider-threshold', false)
+        //         .filter(d => (d.funcgen.ot_g2v_score < slider.value()))
+        //         .classed('below-slider-threshold', true);
+        // }, 300));
+        
+        // const gContainer = g.append('g')
+        //                     .classed('slider-container', true)
+        //                     .attr('transform', 'translate(5,25)');
+        // gContainer.call(slider, [0, 1]);
+    // });
 
 export default geneLdSnpFeature;
