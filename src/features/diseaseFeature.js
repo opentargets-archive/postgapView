@@ -27,7 +27,7 @@ diseaseFeature.create(function (el) {
         .attr('transform', 'rotate(-90)')
         .text(d => d.name);
 
-    el.exit().remove();
+    // el.exit().remove();
 });
 
 // Move
