@@ -39,6 +39,7 @@ After: variants in linkage disequilibrium with a GWAS
 * Filter for variant2gene score (which aggregates VEP, GTEx, PCHiC, DHS, Fantom5, Nearest) using slider (on gene-variant links)
 * Filter for individual functional genomics scores (VEP, GTEx, PCHiC, DHS, Fantom5, Nearest) using slider or checkbox (on gene-variant links)
 * Links out where possible to external sources
+  * GTEx: Request was made for boxplot link or embedding found [here](https://www.gtexportal.org/home/eqtls/byGene?geneId=braf&tissueName=All)
 
 ## Known bugs
 * Render ordering of gene, gene-variant links (genes should always be on top)
