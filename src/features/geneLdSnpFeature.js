@@ -1,4 +1,5 @@
 /* global tnt:true */
+import { v2gScoreColourScale } from '../colourScales';
 
 function getLinePath(topX, topY, bottomX, bottomY) {
     const controlY = (bottomY + topY) / 2;
@@ -79,8 +80,9 @@ geneLdSnpFeature.create(function (sel) {
             const toY = y;
             return getLinePath(fromX, fromY, toX, toY);
         })
-        .style('stroke-opacity', 0.4)
-        .style('stroke', 'coral');
+        // .style('stroke-opacity', 0.4)
+        // .style('stroke', 'coral');
+        .style('stroke-opacity', d => v2gScoreColourScale(d.ot_g2v_score));
 
 
     con.exit().remove();

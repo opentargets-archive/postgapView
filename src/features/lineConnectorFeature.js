@@ -23,8 +23,8 @@ const lineConnectorFeature = tnt.board.track.feature()
                 const toY = y;
                 return getLinePath(fromX, fromY, toX, toY);
             })
-            .style('stroke-opacity', 0.4)
-            .style('stroke', d => r2ColourScale(d.r2));
+            // .style('stroke-opacity', 0.4)
+            .style('stroke-opacity', d => r2ColourScale(d.r2));
     })
     .move(function (sel) {
         const track = this;
@@ -40,7 +40,7 @@ const lineConnectorFeature = tnt.board.track.feature()
             const toY = y;
             return getLinePath(fromX, fromY, toX, toY);
         })
-        .style('stroke', d => r2ColourScale(d.r2));
+        // .style('stroke-opacity', d => r2ColourScale(d.r2));
     })
     .fixed(function (width) {
         // const track = this;

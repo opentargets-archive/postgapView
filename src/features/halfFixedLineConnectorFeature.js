@@ -29,8 +29,8 @@ const halfFixedLineConnectorFeature = tnt.board.track.feature()
                 const toY = y;
                 return getLinePath(fromX, fromY, toX, toY);
             })
-            .style('stroke-opacity', 0.4)
-            .style('stroke', d => pvalColourScale(d.pvalue));
+            // .style('stroke-opacity', 0.4)
+            .style('stroke-opacity', d => pvalColourScale(d.pvalue));
     })
     .move(function (sel) {
         const track = this;
@@ -51,7 +51,7 @@ const halfFixedLineConnectorFeature = tnt.board.track.feature()
                 const toY = y;
                 return getLinePath(fromX, fromY, toX, toY);
             })
-            .style('stroke', d => pvalColourScale(d.pvalue));
+            // .style('stroke-opacity', d => pvalColourScale(d.pvalue));
     })
     .fixed(function (width) {
         // const track = this;
