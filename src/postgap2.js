@@ -22,6 +22,7 @@ import {
 
 const rest = tntRest()
     .protocol('https')
+    // .domain('grch37.rest.ensembl.org');
     .domain('rest.ensembl.org');
 
 const config = {
