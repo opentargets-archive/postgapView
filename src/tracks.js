@@ -217,48 +217,23 @@ function snpLeadMarker(config) {
         .display(leadSnpFeature
             .on('mouseover', leadSnpTooltip)
             .on('mouseout', () => { leadSnpTooltip.close(); })
-            // .on('click', function (d) {
-            //     // leadSnpTooltip().show_closer(true).call(this, d);
+            .on('click', function (d) {
+                // highlight ldSnp-leadSnp connnectors
+                d3.selectAll('.ld-snp-lead-snp-connector')
+                    .classed('highlight', false)
+                    .filter(d2 => {
+                        return d2.leadSnpId === d.id;
+                    })
+                    .classed('highlight', true);
 
-            //     // highlight ldSnp-leadSnp connnectors
-            //     d3.selectAll('.ld-snp-lead-snp-connector')
-            //         .classed('highlight', false)
-            //         .filter(d2 => {
-            //             console.log(d2);
-            //             console.log(d);
-            //             return d2.leadSnpId === d.id;
-            //         })
-            //         .classed('highlight', true);
-
-            // //     snpTooltip.call(this, d, config.gene);
-            // //     // update the gene track with the connectors to this SNP
-            // //     selectedSnp = d;
-            // //     const els = transcriptTrack.data().elements();
-            // //     // clear prev connectors
-            // //     els.forEach(t => {
-            // //         delete (t.connectors);
-            // //     });
-
-            // //     const from = d.pos;
-            // //     els.forEach((t) => {
-            // //         Object.keys(d.targets).forEach((g) => {
-            // //             if (g === t.gene.id) {
-            // //                 t.connectors = [{
-            // //                     from,
-            // //                     to1: t.start,
-            // //                     to2: t.end,
-            // //                     id: t.id,
-            // //                 }];
-            // //             }
-            // //         });
-            // //     });
-
-            // //     // Update transcript track
-            // //     transcriptTrack.data().elements([]);
-            // //     transcriptTrack.display().update.call(transcriptTrack);
-            // //     transcriptTrack.data().elements(els);
-            // //     transcriptTrack.display().update.call(transcriptTrack);
-            // }),
+                // highlight leadSnp-disease connnectors
+                d3.selectAll('.lead-snp-disease-connector')
+                    .classed('highlight', false)
+                    .filter(d2 => {
+                        return d2.leadSnpId === d.id;
+                    })
+                    .classed('highlight', true);
+            }),
         );
 
     return leadSnpTrack;

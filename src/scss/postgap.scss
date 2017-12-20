@@ -1,11 +1,13 @@
 .tnt_track path.ld-snp-lead-snp-connector,
-.tnt_track path.snp-disease-connector,
+.tnt_track path.lead-snp-disease-connector,
 .tnt_track path.gene-ld-snp-connector {
     fill: none;
     stroke: #ccc; // #999; #2C5794;
     stroke-width: 1;
+    shape-rendering: crispEdges;
     &.highlight {
         stroke: orangered;
+        stroke-width: 2;
     }
 }
 
@@ -32,4 +34,8 @@
 
 .below-slider-threshold {
     opacity: 0;
+}
+
+circle.handle {
+    pointer-events: all;
 }

@@ -21,7 +21,7 @@ const halfFixedLineConnectorFeature = tnt.board.track.feature()
         const y = track.height();
 
         sel.append('path')
-            .classed('snp-disease-connector', true)
+            .classed('lead-snp-disease-connector', true)
             .attr('d', (d) => {
                 const fromX = xScale(d.leadSnpPos);
                 const toX = xScaleText(d.efoPos);
