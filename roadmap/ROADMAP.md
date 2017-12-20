@@ -1,6 +1,9 @@
-# POSTGAP visualisation
+# POSTGAP table
+You can view the POSTGAP data in a table on the evidence page [here](https://postgap-beta--paratrooper-antelope-70721.netlify.com/evidence/ENSG00000134243/EFO_0004611) (open the 'Genetic associations' tab when the page loads).
 
-[View the demo here (open the 'Variants in genomic context tab' when the page loads)](https://postgap-beta--paratrooper-antelope-70721.netlify.com/target/ENSG00000134243)
+# POSTGAP visualisation
+Warning! The visualisation is dependent on Ensembl's REST API, which has been very slow recently (20 Dec 2017); this means the visualisation can sometimes take 20 secs or more to load.
+You can view the POSTGAP data in our (WORK IN PROGRESS) visualisation [here](https://postgap-beta--paratrooper-antelope-70721.netlify.com/target/ENSG00000134243)  (open the 'Variants in genomic context' tab when the page loads).
 
 ![v0.0.1](v0.0.1.png "Version 0.0.1")
 
