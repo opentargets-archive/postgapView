@@ -15,6 +15,7 @@ Before: Multiple circles on lollipop were found to be confusing (eg. correspondi
 ![gene-variant](old-gene-snp-link.png)
 * GWAS p-value
 ![gwas-variant-disease](old-gwas-snp-disease-link.png)
+
 After: Encode eg. the variant2gene score in the weight of the connecting link between the variant and the gene
 * Aggregated variant2gene score
 ![gene-variant](new-gene-snp-link.png)
