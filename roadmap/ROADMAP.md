@@ -9,12 +9,16 @@
 * Filter for linkage disequilibrium using a slider
 
 ## Justification of changes to previous demo
-### Lollipop charts for variant2gene score and -log pvalue removed:
+### Lollipop charts for variant2gene score and GWAS p-value removed:
 Before: Multiple circles on lollipop were found to be confusing (eg. corresponding to more than one gene per variant)
+* Aggregated variant2gene score
 ![gene-variant](old-gene-snp-link.png)
+* GWAS p-value
 ![gwas-variant-disease](old-gwas-snp-disease-link.png)
-After: Encode eg. the variant2gene score in the weight of the connecting link between the variant and the gene (similarly for -log pvalue between GWAS variant and disease)
+After: Encode eg. the variant2gene score in the weight of the connecting link between the variant and the gene
+* Aggregated variant2gene score
 ![gene-variant](new-gene-snp-link.png)
+* GWAS p-value
 ![gwas-variant-disease](new-gwas-snp-disease-link.png)
 
 ### Cluster bar codes removed:
@@ -29,7 +33,8 @@ After: variants in linkage disequilibrium with a GWAS
   * genes (showing basic gene info)
   * gene-variant links (showing all functional genomics subscores and the aggregated variant2gene score)
 * Filter for GWAS -log(pvalue) using slider (on GWAS variant-disease links)
-* Filter for variant2gene score (which aggregates VEP) using slider (on GWAS variant-disease links)
+* Filter for variant2gene score (which aggregates VEP, GTEx, PCHiC, DHS, Fantom5, Nearest) using slider (on gene-variant links)
+* Filter for individual functional genomics scores (VEP, GTEx, PCHiC, DHS, Fantom5, Nearest) using slider or checkbox (on gene-variant links)
 * Links out where possible to external sources
 
 ## Known bugs
