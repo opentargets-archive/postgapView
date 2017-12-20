@@ -26,7 +26,7 @@ export default function thresholdSlider() {
         x.domain(xExtent);
 
         brush.x(x).extent([0, 0])
-             .on('brush', brushed);
+            .on('brush', brushed);
 
         const container = el.attr('width', width + margin.left + margin.right)
             .attr('height', height + margin.top + margin.bottom)
@@ -53,7 +53,10 @@ export default function thresholdSlider() {
             .attr('r', 9);
 
         function brushed() {
-            if (d3.event.sourceEvent) value = x.invert(d3.mouse(this)[0]);
+            d3.event.sourceEvent.stopPropagation(); 
+            if (d3.event.sourceEvent) {
+                value = x.invert(d3.mouse(this)[0]);
+            }
             upd(value);
             cback();
         }

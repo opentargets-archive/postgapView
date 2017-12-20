@@ -1,6 +1,13 @@
 /* global tnt:true */
 import { r2ColourScale } from '../colourScales';
-// import thresholdSlider from '../thresholdSlider';
+import thresholdSlider from '../thresholdSlider';
+
+// useful function
+d3.selection.prototype.moveToFront = function() {  
+    return this.each(function(){
+      this.parentNode.appendChild(this);
+    });
+  };
 
 function getLinePath(topX, topY, bottomX, bottomY) {
     const controlY = (bottomY - topY) / 2;
@@ -25,6 +32,8 @@ const lineConnectorFeature = tnt.board.track.feature()
             })
             // .style('stroke-opacity', 0.4)
             .style('stroke-opacity', d => r2ColourScale(d.r2));
+
+        track.g.select('.slider-container').moveToFront();
     })
     .move(function (sel) {
         const track = this;
@@ -39,29 +48,28 @@ const lineConnectorFeature = tnt.board.track.feature()
             const fromY = 0;
             const toY = y;
             return getLinePath(fromX, fromY, toX, toY);
-        })
+        });
         // .style('stroke-opacity', d => r2ColourScale(d.r2));
+        track.g.select('.slider-container').moveToFront();
     })
     .fixed(function (width) {
-        // const track = this;
-        // const g = track.g;
-        // const slider = thresholdSlider();
+        const track = this;
+        const g = track.g;
+        const slider = thresholdSlider();
 
-        // slider.value(0.7);
-        // slider.callback(_.debounce(function () {
-        //     console.log('callback!');
-        //     // TODO: Here should show/hide the connections based on the value
+        slider.value(0.7);
+        slider.callback(function () {
+            // Show/hide the connections based on the value
+            g.selectAll('.ld-snp-lead-snp-connector')
+                .classed('below-slider-threshold', false)
+                .filter(d => (d.r2 < slider.value()))
+                .classed('below-slider-threshold', true);
+        });
 
-        //     d3.selectAll('.ld-snp-lead-snp-connector')
-        //         .classed('below-slider-threshold', false)
-        //         .filter(d => (d.r2 < slider.value()))
-        //         .classed('below-slider-threshold', true);
-        // }, 300));
-        
-        // const gContainer = g.append('g')
-        //                     .classed('slider-container', true)
-        //                     .attr('transform', 'translate(5,25)');
-        // gContainer.call(slider, [0.7, 1]);
+        const gContainer = g.append('g')
+                            .classed('slider-container', true)
+                            .attr('transform', 'translate(5,25)');
+        gContainer.call(slider, [0.7, 1]);
     });
 
 export default lineConnectorFeature;
