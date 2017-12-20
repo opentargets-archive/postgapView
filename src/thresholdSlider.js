@@ -37,7 +37,7 @@ export default function thresholdSlider() {
         container.append('g')
            .attr('class', 'x axis')
            .attr('transform', 'translate(0,' + (height / 2) + ')')
-           .call(d3.svg.axis().scale(x).orient('bottom').tickSize(0).tickPadding(12));
+           .call(d3.svg.axis().scale(x).orient('bottom').ticks(3).tickSize(0).tickPadding(12));
 
         slider = container.append('g')
             .attr('class', 'slider')
