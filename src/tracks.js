@@ -47,8 +47,8 @@ function transcript(config) {
             // }
             return '#758CAB';
         })
-        .on('mouseover', geneTooltip)
-        .on('mouseout', () => { geneTooltip.close(); })
+        // .on('mouseover', geneTooltip)
+        // .on('mouseout', () => { geneTooltip.close(); })
         // .on('click', geneTooltip);
 
     const tCreate = transcriptFeature.create();
