@@ -30,6 +30,7 @@ import ldSnpLeadSnpTooltip from './tooltips/ldSnpLeadSnpTooltip';
 // highlights
 import ldSnpHighlight from './highlights/ldSnpHighlight';
 import leadSnpHighlight from './highlights/leadSnpHighlight';
+import diseaseHighlight from './highlights/diseaseHighlight';
 
 const boardColor = '#FFFFFF';
 const snpTrackBackgroundColor = '#EEE';
@@ -267,7 +268,8 @@ function diseaseLabel() {
         .color(boardColor)
         .display(diseaseFeature
             .on('mouseover', diseaseTooltip)
-            .on('mouseout', () => { diseaseTooltip.close(); }),
+            .on('mouseout', () => { diseaseTooltip.close(); })
+            .on('click', diseaseHighlight),
         );
     return diseaseLabelTrack;
 }
