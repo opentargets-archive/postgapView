@@ -15,7 +15,7 @@ import leadSnpFeature from './features/leadSnpFeature';
 // import connectorFeature from './features/connectorFeature';
 import geneLdSnpFeature from './features/geneLdSnpFeature';
 import ldSnpLeadSnpFeature from './features/ldSnpLeadSnpFeature';
-import halfFixedLineConnectorFeature from './features/halfFixedLineConnectorFeature';
+import leadSnpDiseaseFeature from './features/leadSnpDiseaseFeature';
 import diseaseFeature from './features/diseaseFeature';
 
 // tooltips
@@ -260,7 +260,7 @@ function snpDiseaseConnector() {
         .label('-log(GWAS p-value)')
         .height(100)
         .color(boardColor)
-        .display(halfFixedLineConnectorFeature
+        .display(leadSnpDiseaseFeature
             .on('mouseover', leadSnpDiseaseTooltip)
             .on('mouseout', () => { leadSnpDiseaseTooltip.close(); }),
         );

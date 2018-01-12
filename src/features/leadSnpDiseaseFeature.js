@@ -7,7 +7,7 @@ function getLinePath(topX, topY, bottomX, bottomY) {
     return `M${topX},${topY} C${topX},${controlY}, ${bottomX},${controlY} ${bottomX},${bottomY}`;
 }
 
-const halfFixedLineConnectorFeature = tnt.board.track.feature()
+const leadSnpDiseaseFeature = tnt.board.track.feature()
     .index((d) => d.id)
     .create(function (sel) {
         const track = this;
@@ -75,4 +75,4 @@ const halfFixedLineConnectorFeature = tnt.board.track.feature()
         // gContainer.call(slider, [0, 100]);
     });
 
-export default halfFixedLineConnectorFeature;
+export default leadSnpDiseaseFeature;
