@@ -14,7 +14,7 @@ import snpFeature from './features/snpFeature';
 import leadSnpFeature from './features/leadSnpFeature';
 // import connectorFeature from './features/connectorFeature';
 import geneLdSnpFeature from './features/geneLdSnpFeature';
-import lineConnectorFeature from './features/lineConnectorFeature';
+import ldSnpLeadSnpFeature from './features/ldSnpLeadSnpFeature';
 import halfFixedLineConnectorFeature from './features/halfFixedLineConnectorFeature';
 import diseaseFeature from './features/diseaseFeature';
 
@@ -246,7 +246,7 @@ function snpConnector() {
         .label('Linkage disequilibrium')
         .height(100)
         .color(boardColor)
-        .display(lineConnectorFeature
+        .display(ldSnpLeadSnpFeature
             .on('mouseover', ldSnpLeadSnpTooltip)
             .on('mouseout', () => { ldSnpLeadSnpTooltip.close(); }),
         );

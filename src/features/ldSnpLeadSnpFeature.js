@@ -14,7 +14,7 @@ function getLinePath(topX, topY, bottomX, bottomY) {
     return `M${topX},${topY} C${topX},${controlY}, ${bottomX},${controlY} ${bottomX},${bottomY}`;
 }
 
-const lineConnectorFeature = tnt.board.track.feature()
+const ldSnpLeadSnpFeature = tnt.board.track.feature()
     .create(function (sel) {
         const track = this;
         const display = track.display();
@@ -72,4 +72,4 @@ const lineConnectorFeature = tnt.board.track.feature()
         gContainer.call(slider, [0.7, 1]);
     });
 
-export default lineConnectorFeature;
+export default ldSnpLeadSnpFeature;
