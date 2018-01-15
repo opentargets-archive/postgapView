@@ -1,4 +1,6 @@
 /* global tnt:true */
+/* global d3:true */
+
 import { r2ColourScale } from '../colourScales';
 import thresholdSlider from '../thresholdSlider';
 
@@ -59,10 +61,36 @@ const ldSnpLeadSnpFeature = tnt.board.track.feature()
 
         slider.value(0.7);
         slider.callback(function () {
-            // Show/hide the connections based on the value
+            // highlight ldSnp-leadSnp connectors (based on the r2 value)
             g.selectAll('.ld-snp-lead-snp-connector')
                 .classed('below-slider-threshold', false)
                 .filter(d => (d.r2 < slider.value()))
+                .classed('below-slider-threshold', true);
+
+            // highlight gene-ldSnp connectors (based on the r2 value)
+            //   1. get relevant ldSnps connected
+            //      Note: MUST only hide gene-ldSnp connectors if the ldSnp has
+            //            NO ldSnp-leadSnp visible
+            const ldSnpIdsStillVisible = d3.selectAll('.ld-snp-lead-snp-connector:not(.below-slider-threshold)')
+                .data()
+                .map(d => d.ldSnpId);
+            //   2. affect the gene-ldSnp connectors for any of these ldSnps
+            d3.selectAll('.gene-ld-snp-connector')
+                .classed('below-slider-threshold', false)
+                .filter(d2 => (ldSnpIdsStillVisible.indexOf(d2.ldSnpId) === -1))
+                .classed('below-slider-threshold', true);
+
+            // highlight leadSnp-disease connectors (based on the r2 value)
+            //   1. get relevant leadSnps connected
+            //      Note: MUST only hide leadSnp-disease connectors if the leadSnp has
+            //            NO ldSnp-leadSnp visible
+            const leadSnpIdsStillVisible = d3.selectAll('.ld-snp-lead-snp-connector:not(.below-slider-threshold)')
+                .data()
+                .map(d => d.leadSnpId);
+            //   2. affect the leadSnp-disease connectors for any of these leadSnps
+            d3.selectAll('.lead-snp-disease-connector')
+                .classed('below-slider-threshold', false)
+                .filter(d2 => (leadSnpIdsStillVisible.indexOf(d2.leadSnpId) === -1))
                 .classed('below-slider-threshold', true);
         });
 
