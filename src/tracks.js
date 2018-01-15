@@ -19,10 +19,11 @@ import leadSnpDiseaseFeature from './features/leadSnpDiseaseFeature';
 import diseaseFeature from './features/diseaseFeature';
 
 // tooltips
-import { snpTooltip, snpTextualInfo } from './tooltips';
+// import { snpTooltip, snpTextualInfo } from './tooltips';
 import leadSnpTooltip from './tooltips/leadSnpTooltip';
 import ldSnpTooltip from './tooltips/ldSnpTooltip';
 import geneTooltip from './tooltips/geneTooltip';
+import geneLdSnpTooltip from './tooltips/geneLdSnpTooltip';
 import diseaseTooltip from './tooltips/diseaseTooltip';
 import leadSnpDiseaseTooltip from './tooltips/leadSnpDiseaseTooltip';
 import ldSnpLeadSnpTooltip from './tooltips/ldSnpLeadSnpTooltip';
@@ -207,6 +208,8 @@ function geneLdSnpConnector() {
         .height(100)
         .color(boardColor)
         .display(geneLdSnpFeature
+            .on('mouseover', geneLdSnpTooltip)
+            .on('mouseout', () => { geneLdSnpTooltip.close(); })
             .on('click', d => { console.log(d); }),
             // .on('mouseover', ldSnpLeadSnpTooltip)
             // .on('mouseout', () => { ldSnpLeadSnpTooltip.close(); }),

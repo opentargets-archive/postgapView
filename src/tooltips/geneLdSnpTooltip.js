@@ -1,12 +1,13 @@
 /* global tnt:true */
-export default function geneLdSnpTooltip(d) {
-    const tooltip = tnt.tooltip.table()
+let tooltip = {};
+function geneLdSnpTooltip(d) {
+    tooltip = tnt.tooltip.table()
         .id('geneLdSnpTooltip')
         .show_closer(false)
         .width(120)
         .call(this, {
             // header: d.id,
-            header: `${d.gene_symbol}-${d.ldSnpId} evidence`,
+            header: `${d.geneName}-${d.ldSnpId} evidence`,
             rows: [
                 // TODO: What to show about a gene - ld snp?
                 // * gene name, snp id
@@ -88,3 +89,6 @@ export default function geneLdSnpTooltip(d) {
         });
     return tooltip;
 }
+geneLdSnpTooltip.close = () => { tooltip.close(); };
+
+export default geneLdSnpTooltip;

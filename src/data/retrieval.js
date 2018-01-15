@@ -127,6 +127,7 @@ export function getAllDataForLocation(loc, config) {
         evidenceObjs.forEach(evidenceObj => {
             // key info from evidenceObj
             const geneId = evidenceObj.target.id;
+            const geneName = evidenceObj.target.target_name;
             const ldSnpId = evidenceObj.variant.id.split('/').pop();
             const ldSnpPos = evidenceObj.variant.pos;
             const leadSnpId = evidenceObj.evidence.variant2disease.lead_snp_rsid;
@@ -200,6 +201,7 @@ export function getAllDataForLocation(loc, config) {
                 geneLdSnps[geneLdSnpId] = {
                     id: geneLdSnpId,
                     geneId,
+                    geneName,
                     geneTss,
                     ldSnpId,
                     ldSnpPos,

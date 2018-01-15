@@ -35,6 +35,7 @@
 .below-slider-threshold,
 .below-postgap-score-threshold {
     opacity: 0;
+    pointer-events: none;
 }
 
 circle.handle {
