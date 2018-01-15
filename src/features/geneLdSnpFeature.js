@@ -26,8 +26,6 @@ const geneLdSnpFeature = tnt.board.track.feature()
         sel.append('path')
             .classed('gene-ld-snp-connector', true)
             .attr('d', (d) => {
-                console.log(d);
-                console.log(xScale.domain())
                 const fromX = xScale(d.geneTss);
                 const toX = xScale(d.ldSnpPos);
                 const fromY = 0;
@@ -61,40 +59,39 @@ const geneLdSnpFeature = tnt.board.track.feature()
         const g = track.g;
         const slider = thresholdSlider();
 
-        slider.value(0.7);
+        slider.value(0);
         slider.callback(function () {
-            console.log('gene-ldSnp slider!');
-            // // highlight ldSnp-leadSnp connectors (based on the r2 value)
-            // g.selectAll('.ld-snp-lead-snp-connector')
-            //     .classed('below-slider-threshold', false)
-            //     .filter(d => (d.r2 < slider.value()))
-            //     .classed('below-slider-threshold', true);
+            // highlight gene-ldSnp connectors (based on the postgap score)
+            g.selectAll('.gene-ld-snp-connector')
+                .classed('below-postgap-score-threshold', false)
+                .filter(d => (d.funcgen.ot_g2v_score < slider.value()))
+                .classed('below-postgap-score-threshold', true);
 
-            // // highlight gene-ldSnp connectors (based on the r2 value)
-            // //   1. get relevant ldSnps connected
-            // //      Note: MUST only hide gene-ldSnp connectors if the ldSnp has
-            // //            NO ldSnp-leadSnp visible
-            // const ldSnpIdsStillVisible = d3.selectAll('.gene-ld-snp-connector:not(.below-slider-threshold)')
-            //     .data()
-            //     .map(d => d.ldSnpId);
-            // //   2. affect the gene-ldSnp connectors for any of these ldSnps
-            // d3.selectAll('.gene-ld-snp-connector')
-            //     .classed('below-slider-threshold', false)
-            //     .filter(d2 => (ldSnpIdsStillVisible.indexOf(d2.ldSnpId) === -1))
-            //     .classed('below-slider-threshold', true);
+            // highlight ldSnp-leadSnp connectors (based on the postgap score)
+            //   1. get relevant ldSnps connected
+            //      Note: MUST only hide ldSnp-leadSnp connectors if the ldSnp has
+            //            NO gene-ldSnp visible
+            const ldSnpIdsStillVisible = d3.selectAll('.gene-ld-snp-connector:not(.below-postgap-score-threshold)')
+                .data()
+                .map(d => d.ldSnpId);
+            //   2. affect the ldSnp-leadSnp connectors for any of these ldSnps
+            d3.selectAll('.ld-snp-lead-snp-connector')
+                .classed('below-postgap-score-threshold', false)
+                .filter(d2 => (ldSnpIdsStillVisible.indexOf(d2.ldSnpId) === -1))
+                .classed('below-postgap-score-threshold', true);
 
-            // // highlight leadSnp-disease connectors (based on the r2 value)
-            // //   1. get relevant leadSnps connected
-            // //      Note: MUST only hide leadSnp-disease connectors if the leadSnp has
-            // //            NO ldSnp-leadSnp visible
-            // const leadSnpIdsStillVisible = d3.selectAll('.ld-snp-lead-snp-connector:not(.below-slider-threshold)')
-            //     .data()
-            //     .map(d => d.leadSnpId);
-            // //   2. affect the leadSnp-disease connectors for any of these leadSnps
-            // d3.selectAll('.lead-snp-disease-connector')
-            //     .classed('below-slider-threshold', false)
-            //     .filter(d2 => (leadSnpIdsStillVisible.indexOf(d2.leadSnpId) === -1))
-            //     .classed('below-slider-threshold', true);
+            // highlight leadSnp-disease connectors (based on the postgap score)
+            //   1. get relevant leadSnps connected
+            //      Note: MUST only hide leadSnp-disease connectors if the leadSnp has
+            //            NO ldSnp-leadSnp visible
+            const leadSnpIdsStillVisible = d3.selectAll('.ld-snp-lead-snp-connector:not(.below-postgap-score-threshold)')
+                .data()
+                .map(d => d.leadSnpId);
+            //   2. affect the leadSnp-disease connectors for any of these leadSnps
+            d3.selectAll('.lead-snp-disease-connector')
+                .classed('below-postgap-score-threshold', false)
+                .filter(d2 => (leadSnpIdsStillVisible.indexOf(d2.leadSnpId) === -1))
+                .classed('below-postgap-score-threshold', true);
         });
 
         const gContainer = g.append('g')

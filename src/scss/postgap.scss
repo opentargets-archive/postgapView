@@ -32,7 +32,8 @@
     .slider .handle { fill: #fff; stroke: #000; stroke-opacity: .5; stroke-width: 1.25px; pointer-events: none; }
 }
 
-.below-slider-threshold {
+.below-slider-threshold,
+.below-postgap-score-threshold {
     opacity: 0;
 }
 
