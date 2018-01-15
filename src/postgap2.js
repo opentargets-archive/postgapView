@@ -14,6 +14,7 @@ import {
     transcript as transcriptTrack,
     snpLDMarker as snpLDMarkerTrack,
     snpLeadMarker as snpLeadMarkerTrack,
+    geneLdSnpConnector as geneLdSnpConnectorTrack,
     snpConnector as snpConnectorTrack,
     snpDiseaseConnector as snpDiseaseConnectorTrack,
     diseaseLabel as diseaseNameLabelTrack,
@@ -76,6 +77,7 @@ function buildBrowser(postgapData, container, container2) {
             .add_track(sequenceTrack.call(genome, config))
             .add_track(geneLabelTrack.call(genome, config))
             .add_track(transcriptTrack.call(genome, config))
+            .add_track(geneLdSnpConnectorTrack.call(genome, config))
             .add_track(snpLDMarkerTrack.call(genome, config))
             .add_track(snpConnectorTrack.call(genome, config))
             .add_track(snpLeadMarkerTrack.call(genome, config))

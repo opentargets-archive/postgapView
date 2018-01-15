@@ -40,52 +40,18 @@ let selectedSnp;
 let genomeHeight = 50;
 let transcriptTrack; // We need to access it from the snpFlatTrack
 // Transcript track
+
 function transcript(config) {
     const genome = this;
-    const transcriptFeature = tnt.board.track.feature.genome.transcript()
-        .color((d) => {
-            // if (d.gene && (d.gene.id === config.gene)) {
-            //     return '#FF5C5C';
-            // }
-            // if (d.transcript && d.transcript.gene && d.transcript.gene.id === config.gene) {
-            //     return '#FF5C5C';
-            // }
-            return '#758CAB';
-        })
-        // .on('mouseover', geneTooltip)
-        // .on('mouseout', () => { geneTooltip.close(); })
-        // .on('click', geneTooltip);
-        .on('click', (d) => { console.log(d); });
-
-    const tCreate = transcriptFeature.create();
-    const cCreate = geneLdSnpFeature.create();
-    transcriptFeature.create(function (els) {
-        cCreate.call(this, els);
-        tCreate.call(this, els);
-    });
-
-    const tMove = transcriptFeature.move();
-    const cMove = geneLdSnpFeature.move();
-    transcriptFeature.move(function (els) {
-        cMove.call(this, els);
-        tMove.call(this, els);
-    });
-
-    const tDistribute = transcriptFeature.distribute();
-    const cDistribute = geneLdSnpFeature.distribute();
-    transcriptFeature.distribute(function (data) {
-        // console.log('within distribute');
-        // console.log(data);
-        // cDistribute.call(this, data);
-        tDistribute.call(this, data);
-        cDistribute.call(this, data);
-    });
+    const geneFeature = tnt.board.track.feature.genome.transcript()
+    .color(d => ('#758CAB'))
+    .on('click', (d) => { console.log('transcript!'); console.log(d); });
 
     transcriptTrack = tnt.board.track()
         // .label('Target and POSTGAP score')
         .height(genomeHeight)
         .color(boardColor)
-        .display(transcriptFeature)
+        .display(geneFeature)
         .data(tnt.board.track.data.async()
             .retriever((loc) => {
                 return getAllDataForLocation(loc, config).then(allData => {
@@ -104,6 +70,9 @@ function transcript(config) {
                     diseaseLabelTrack.data().elements(Object.values(allData.diseases));
                     diseaseLabelTrack.display().update.call(diseaseLabelTrack);
 
+                    geneLdSnpTrack.data().elements(Object.values(allData.geneLdSnps));
+                    geneLdSnpTrack.display().update.call(geneLdSnpTrack);
+
                     // update ldSnp-leadSnp connectors
                     snpConnectorTrack.data().elements(Object.values(allData.ldSnpLeadSnps));
                     snpConnectorTrack.display().update.call(snpConnectorTrack);
@@ -118,38 +87,38 @@ function transcript(config) {
             }));
         // .data(tnt.board.track.data.genome.canonical());
 
-    // Variable height
-    // expand or contract the height of the gene track as needed
-    transcriptTrack.display().layout()
-        .fixed_slot_type('expanded')
-        .keep_slots(false)
-        .on_layout_run((types) => {
-            // if (selectedSnp) {
-            //     const els = transcriptTrack.data().elements();
-            //     const from = selectedSnp.pos;
-            //     const maxScore = selectedSnp.maxScore;
-            //     els.forEach((t) => {
-            //         Object.keys(selectedSnp.targets).forEach((g) => {
-            //             if (g === t.gene.id) {
-            //                 t.connectors = [{
-            //                     from,
-            //                     to1: t.start,
-            //                     to2: t.end,
-            //                     id: `${t.id}-${from}`,
-            //                     isBest: (selectedSnp.targets[g].score === maxScore),
-            //                 }];
-            //             }
-            //         });
-            //     });
-            // }
+    // // Variable height
+    // // expand or contract the height of the gene track as needed
+    // transcriptTrack.display().layout()
+    //     .fixed_slot_type('expanded')
+    //     .keep_slots(false)
+    //     .on_layout_run((types) => {
+    //         // if (selectedSnp) {
+    //         //     const els = transcriptTrack.data().elements();
+    //         //     const from = selectedSnp.pos;
+    //         //     const maxScore = selectedSnp.maxScore;
+    //         //     els.forEach((t) => {
+    //         //         Object.keys(selectedSnp.targets).forEach((g) => {
+    //         //             if (g === t.gene.id) {
+    //         //                 t.connectors = [{
+    //         //                     from,
+    //         //                     to1: t.start,
+    //         //                     to2: t.end,
+    //         //                     id: `${t.id}-${from}`,
+    //         //                     isBest: (selectedSnp.targets[g].score === maxScore),
+    //         //                 }];
+    //         //             }
+    //         //         });
+    //         //     });
+    //         // }
 
-            const neededHeight = types.expanded.needed_slots * types.expanded.slot_height;
-            if (neededHeight !== genomeHeight) {
-                genomeHeight = neededHeight;
-                transcriptTrack.height(neededHeight + 50); // 50 gives more space for connectors
-                genome.tracks(genome.tracks());
-            }
-        });
+    //         const neededHeight = types.expanded.needed_slots * types.expanded.slot_height;
+    //         if (neededHeight !== genomeHeight) {
+    //             genomeHeight = neededHeight;
+    //             transcriptTrack.height(neededHeight + 50); // 50 gives more space for connectors
+    //             genome.tracks(genome.tracks());
+    //         }
+    //     });
 
     return transcriptTrack;
 }
@@ -230,6 +199,21 @@ function snpLeadMarker(config) {
     return leadSnpTrack;
 }
 
+let geneLdSnpTrack;
+function geneLdSnpConnector() {
+    geneLdSnpTrack = tnt.board.track()
+        .id('geneLdSnpTrack')
+        .label('POSTGAP score')
+        .height(100)
+        .color(boardColor)
+        .display(geneLdSnpFeature
+            .on('click', d => { console.log(d); }),
+            // .on('mouseover', ldSnpLeadSnpTooltip)
+            // .on('mouseout', () => { ldSnpLeadSnpTooltip.close(); }),
+        );
+    return geneLdSnpTrack;
+}
+
 let snpConnectorTrack;
 function snpConnector() {
     snpConnectorTrack = tnt.board.track()
@@ -279,6 +263,7 @@ export {
     transcript,
     snpLDMarker,
     snpLeadMarker,
+    geneLdSnpConnector,
     snpConnector,
     snpDiseaseConnector,
     diseaseLabel,

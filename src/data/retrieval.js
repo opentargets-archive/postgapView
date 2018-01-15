@@ -200,18 +200,20 @@ export function getAllDataForLocation(loc, config) {
                 geneLdSnps[geneLdSnpId] = {
                     id: geneLdSnpId,
                     geneId,
-                    ldSnpId,
-                    funcgen,
-                };
-
-                geneObj.ldSnps[geneLdSnpId] = {
-                    id: geneLdSnpId,
-                    geneId,
                     geneTss,
                     ldSnpId,
                     ldSnpPos,
                     funcgen,
                 };
+
+                // geneObj.ldSnps[geneLdSnpId] = {
+                //     id: geneLdSnpId,
+                //     geneId,
+                //     geneTss,
+                //     ldSnpId,
+                //     ldSnpPos,
+                //     funcgen,
+                // };
             }
 
             // LD SNP-LEAD SNP
