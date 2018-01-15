@@ -10,7 +10,7 @@ const geneLdSnpFeature = tnt.board.track.feature()
     .index((d) => d.id);
 
 geneLdSnpFeature.distribute(function (transcripts) {
-    console.log('geneLdSnpFeature.distribute start');
+    // console.log('geneLdSnpFeature.distribute start');
     const track = this;
     const display = track.display();
     const xScale = display.scale();
@@ -49,7 +49,7 @@ geneLdSnpFeature.distribute(function (transcripts) {
 });
 
 geneLdSnpFeature.create(function (sel) {
-    console.log('geneLdSnpFeature.create start');
+    // console.log('geneLdSnpFeature.create start');
     const track = this;
     const display = track.display();
     const xScale = display.scale();
@@ -73,7 +73,8 @@ geneLdSnpFeature.create(function (sel) {
         .enter()
         .append('path')
         .attr('class', 'gene-ld-snp-connector')
-        .attr('d', (d) => {
+        .attr('d', (d, i) => {
+            // if (i === 0) { console.log(d); console.log(this); }
             const fromX = xScale(d.geneTss);
             const toX = xScale(d.ldSnpPos);
             const fromY = (d.slot) * slotHeight;
@@ -89,7 +90,7 @@ geneLdSnpFeature.create(function (sel) {
 });
 
 geneLdSnpFeature.move(function (sel) {
-    console.log('geneLdSnpFeature.move start');
+    // console.log('geneLdSnpFeature.move start');
     const track = this;
     const display = track.display();
     const xScale = display.scale();
@@ -115,7 +116,7 @@ geneLdSnpFeature.move(function (sel) {
             const toY = y;
             return getLinePath(fromX, fromY, toX, toY);
         });
-    console.log('geneLdSnpFeature.move end');
+    // console.log('geneLdSnpFeature.move end');
 });
     // .fixed(function (width) {
         // const track = this;

@@ -54,10 +54,10 @@ function buildBrowser(postgapData, container, container2) {
     const cluster = getCluster(postgapData);
 
     cluster.then((ensemblSnpsForGene) => {
-        console.log('ensembl snps for gene..');
-        console.log(ensemblSnpsForGene);
+        // console.log('ensembl snps for gene..');
+        // console.log(ensemblSnpsForGene);
         const snpsExtent = calcExtent(ensemblSnpsForGene);
-        console.log(snpsExtent);
+        // console.log(snpsExtent);
         const chr = ensemblSnpsForGene[0].mappings[0].seq_region_name;
 
 
@@ -83,7 +83,7 @@ function buildBrowser(postgapData, container, container2) {
             .add_track(diseaseNameLabelTrack.call(genome, config));
             // .add_track(legendTrack.call(genome, config));
         genome.start();
-        console.log('genome started...');
+        // console.log('genome started...');
     });
 
     //

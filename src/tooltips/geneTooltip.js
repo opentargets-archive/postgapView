@@ -1,7 +1,7 @@
 /* global tnt:true */
 let tooltip = {};
 function geneTooltip(d) {
-    console.log(d);
+    // console.log(d);
     if (!d.ldSnpPos) {
         // handling a gene
         tooltip = tnt.tooltip.table()

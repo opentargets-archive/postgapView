@@ -55,6 +55,7 @@ function transcript(config) {
         // .on('mouseover', geneTooltip)
         // .on('mouseout', () => { geneTooltip.close(); })
         // .on('click', geneTooltip);
+        .on('click', (d) => { console.log(d); });
 
     const tCreate = transcriptFeature.create();
     const cCreate = geneLdSnpFeature.create();
@@ -88,8 +89,8 @@ function transcript(config) {
         .data(tnt.board.track.data.async()
             .retriever((loc) => {
                 return getAllDataForLocation(loc, config).then(allData => {
-                    console.log('allData called by transcript track...');
-                    console.log(allData);
+                    // console.log('allData called by transcript track...');
+                    // console.log(allData);
 
                     // update ldSnps
                     ldSnpTrack.data().elements(Object.values(allData.ldSnps));
