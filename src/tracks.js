@@ -92,38 +92,38 @@ function transcript(config) {
             }));
         // .data(tnt.board.track.data.genome.canonical());
 
-    // // Variable height
-    // // expand or contract the height of the gene track as needed
-    // transcriptTrack.display().layout()
-    //     .fixed_slot_type('expanded')
-    //     .keep_slots(false)
-    //     .on_layout_run((types) => {
-    //         // if (selectedSnp) {
-    //         //     const els = transcriptTrack.data().elements();
-    //         //     const from = selectedSnp.pos;
-    //         //     const maxScore = selectedSnp.maxScore;
-    //         //     els.forEach((t) => {
-    //         //         Object.keys(selectedSnp.targets).forEach((g) => {
-    //         //             if (g === t.gene.id) {
-    //         //                 t.connectors = [{
-    //         //                     from,
-    //         //                     to1: t.start,
-    //         //                     to2: t.end,
-    //         //                     id: `${t.id}-${from}`,
-    //         //                     isBest: (selectedSnp.targets[g].score === maxScore),
-    //         //                 }];
-    //         //             }
-    //         //         });
-    //         //     });
-    //         // }
+    // Variable height
+    // expand or contract the height of the gene track as needed
+    transcriptTrack.display().layout()
+        .fixed_slot_type('expanded')
+        .keep_slots(false)
+        .on_layout_run((types) => {
+            // if (selectedSnp) {
+            //     const els = transcriptTrack.data().elements();
+            //     const from = selectedSnp.pos;
+            //     const maxScore = selectedSnp.maxScore;
+            //     els.forEach((t) => {
+            //         Object.keys(selectedSnp.targets).forEach((g) => {
+            //             if (g === t.gene.id) {
+            //                 t.connectors = [{
+            //                     from,
+            //                     to1: t.start,
+            //                     to2: t.end,
+            //                     id: `${t.id}-${from}`,
+            //                     isBest: (selectedSnp.targets[g].score === maxScore),
+            //                 }];
+            //             }
+            //         });
+            //     });
+            // }
 
-    //         const neededHeight = types.expanded.needed_slots * types.expanded.slot_height;
-    //         if (neededHeight !== genomeHeight) {
-    //             genomeHeight = neededHeight;
-    //             transcriptTrack.height(neededHeight + 50); // 50 gives more space for connectors
-    //             genome.tracks(genome.tracks());
-    //         }
-    //     });
+            const neededHeight = types.expanded.needed_slots * types.expanded.slot_height;
+            if (neededHeight !== genomeHeight) {
+                genomeHeight = neededHeight;
+                transcriptTrack.height(neededHeight + 50); // 50 gives more space for connectors
+                genome.tracks(genome.tracks());
+            }
+        });
 
     return transcriptTrack;
 }
