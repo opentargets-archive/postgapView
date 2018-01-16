@@ -29,6 +29,7 @@ import leadSnpDiseaseTooltip from './tooltips/leadSnpDiseaseTooltip';
 import ldSnpLeadSnpTooltip from './tooltips/ldSnpLeadSnpTooltip';
 
 // highlights
+import geneHighlight from './highlights/geneHighlight';
 import ldSnpHighlight from './highlights/ldSnpHighlight';
 import leadSnpHighlight from './highlights/leadSnpHighlight';
 import diseaseHighlight from './highlights/diseaseHighlight';
@@ -45,8 +46,11 @@ let transcriptTrack; // We need to access it from the snpFlatTrack
 function transcript(config) {
     const genome = this;
     const geneFeature = tnt.board.track.feature.genome.transcript()
-    .color(d => ('#758CAB'))
-    .on('click', (d) => { console.log('transcript!'); console.log(d); });
+        .color(d => ('#758CAB'))
+    // .on('click', (d) => { console.log('transcript!'); console.log(d); });
+        .on('mouseover', geneTooltip)
+        .on('mouseout', () => { geneTooltip.close(); })
+        .on('click', geneHighlight);
 
     transcriptTrack = tnt.board.track()
         // .label('Target and POSTGAP score')
