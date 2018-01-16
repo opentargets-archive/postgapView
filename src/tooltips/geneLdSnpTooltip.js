@@ -1,4 +1,6 @@
 /* global tnt:true */
+const naOr3Sf = v => ((v > 0) ? v.toPrecision(3) : 'N/A');
+
 let tooltip = {};
 function geneLdSnpTooltip(d) {
     tooltip = tnt.tooltip.table()
@@ -6,21 +8,16 @@ function geneLdSnpTooltip(d) {
         .show_closer(false)
         .width(120)
         .call(this, {
-            // header: d.id,
-            header: `${d.geneName}-${d.ldSnpId} evidence`,
+            header: 'POSTGAP evidence',
             rows: [
-                // TODO: What to show about a gene - ld snp?
-                // * gene name, snp id
-                // * funcgen scores?
-
-                // {
-                //     label: 'Associated gene',
-                //     value: d.gene_symbol,
-                // },
-                // {
-                //     label: 'Gene Rank',
-                //     value: d.fg_scores.rank,
-                // },
+                {
+                    label: 'Target',
+                    value: d.geneName,
+                },
+                {
+                    label: 'Variant',
+                    value: d.ldSnpId,
+                },
                 // SECTION
                 {
                     label: 'POSTGAP score',
@@ -28,7 +25,7 @@ function geneLdSnpTooltip(d) {
                 },
                 {
                     label: 'Score',
-                    value: d.funcgen.ot_g2v_score,
+                    value: naOr3Sf(d.funcgen.ot_g2v_score),
                 },
                 {
                     label: 'Top contributor',
@@ -41,16 +38,8 @@ function geneLdSnpTooltip(d) {
                 },
                 {
                     label: 'Score',
-                    value: d.funcgen.vep_score,
+                    value: naOr3Sf(d.funcgen.vep_score),
                 },
-                // {
-                //     label: 'Mean',
-                //     value: d.funcgen.vep_mean,
-                // },
-                // {
-                //     label: 'Sum',
-                //     value: d.funcgen.vep_sum,
-                // },
                 // SECTION
                 {
                     label: 'Functional genomics',
@@ -58,19 +47,19 @@ function geneLdSnpTooltip(d) {
                 },
                 {
                     label: 'GTEx',
-                    value: d.funcgen.gtex_score,
+                    value: naOr3Sf(d.funcgen.gtex_score),
                 },
                 {
                     label: 'PCHiC',
-                    value: d.funcgen.pchic_score,
+                    value: naOr3Sf(d.funcgen.pchic_score),
                 },
                 {
                     label: 'Fantom5',
-                    value: d.funcgen.fantom5_score,
+                    value: naOr3Sf(d.funcgen.fantom5_score),
                 },
                 {
                     label: 'DHS',
-                    value: d.funcgen.dhs_score,
+                    value: naOr3Sf(d.funcgen.dhs_score),
                 },
                 // SECTION
                 {
@@ -79,7 +68,7 @@ function geneLdSnpTooltip(d) {
                 },
                 {
                     label: 'Nearest target to variant',
-                    value: d.funcgen.is_nearest_gene,
+                    value: d.funcgen.is_nearest_gene ? 'Yes' : 'No',
                 },
                 {
                     label: 'Regulome',
