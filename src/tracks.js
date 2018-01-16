@@ -10,6 +10,7 @@
 import { getAllDataForLocation } from './data/retrieval';
 
 // features
+import geneFeature from './features/geneFeature';
 import snpFeature from './features/snpFeature';
 import leadSnpFeature from './features/leadSnpFeature';
 // import connectorFeature from './features/connectorFeature';
@@ -45,9 +46,8 @@ let transcriptTrack; // We need to access it from the snpFlatTrack
 
 function transcript(config) {
     const genome = this;
-    const geneFeature = tnt.board.track.feature.genome.transcript()
+    geneFeature
         .color(d => ('#758CAB'))
-    // .on('click', (d) => { console.log('transcript!'); console.log(d); });
         .on('mouseover', geneTooltip)
         .on('mouseout', () => { geneTooltip.close(); })
         .on('click', geneHighlight);
@@ -144,42 +144,6 @@ function snpLDMarker(config) {
             .on('mouseover', ldSnpTooltip)
             .on('mouseout', () => { ldSnpTooltip.close(); })
             .on('click', ldSnpHighlight),
-            // .on('mouseover', function (d) {
-            //     return snpTextualInfo.call(this, d, config.gene);
-            // })
-            // .on('mouseout', () => {
-            //     snpTextualInfo.close();
-            // })
-            // .on('click', function (d) {
-            //     snpTooltip.call(this, d, config.gene);
-            //     // update the gene track with the connectors to this SNP
-            //     selectedSnp = d;
-            //     const els = transcriptTrack.data().elements();
-            //     // clear prev connectors
-            //     els.forEach(t => {
-            //         delete (t.connectors);
-            //     });
-
-            //     const from = d.pos;
-            //     els.forEach((t) => {
-            //         Object.keys(d.targets).forEach((g) => {
-            //             if (g === t.gene.id) {
-            //                 t.connectors = [{
-            //                     from,
-            //                     to1: t.start,
-            //                     to2: t.end,
-            //                     id: t.id,
-            //                 }];
-            //             }
-            //         });
-            //     });
-
-            //     // Update transcript track
-            //     transcriptTrack.data().elements([]);
-            //     transcriptTrack.display().update.call(transcriptTrack);
-            //     transcriptTrack.data().elements(els);
-            //     transcriptTrack.display().update.call(transcriptTrack);
-            // }),
         );
 
     return ldSnpTrack;
@@ -215,8 +179,6 @@ function geneLdSnpConnector() {
             .on('mouseover', geneLdSnpTooltip)
             .on('mouseout', () => { geneLdSnpTooltip.close(); })
             .on('click', d => { console.log(d); }),
-            // .on('mouseover', ldSnpLeadSnpTooltip)
-            // .on('mouseout', () => { ldSnpLeadSnpTooltip.close(); }),
         );
     return geneLdSnpTrack;
 }

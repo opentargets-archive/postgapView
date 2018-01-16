@@ -1,6 +1,7 @@
 .tnt_track path.ld-snp-lead-snp-connector,
 .tnt_track path.lead-snp-disease-connector,
-.tnt_track path.gene-ld-snp-connector {
+.tnt_track path.gene-ld-snp-connector,
+.tnt_track line.gene-ld-snp-connector {
     fill: none;
     stroke: #ccc; // #999; #2C5794;
     stroke-width: 1;

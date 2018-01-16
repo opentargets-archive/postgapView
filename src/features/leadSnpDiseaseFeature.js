@@ -1,6 +1,7 @@
 /* global tnt:true */
 /* global d3:true */
 import { pvalColourScale } from '../colourScales';
+import thresholdSlider from '../thresholdSlider';
 
 function getLinePath(topX, topY, bottomX, bottomY) {
     const controlY = (bottomY - topY) / 2;
@@ -54,25 +55,49 @@ const leadSnpDiseaseFeature = tnt.board.track.feature()
             // .style('stroke-opacity', d => pvalColourScale(d.pvalue));
     })
     .fixed(function (width) {
-        // const track = this;
-        // const g = track.g;
-        // const slider = thresholdSlider();
+        const track = this;
+        const g = track.g;
+        const slider = thresholdSlider();
 
-        // slider.value(0);
-        // slider.callback(_.debounce(function () {
-        //     console.log('callback!');
-        //     // TODO: Here should show/hide the connections based on the value
+        slider.value(0);
+        slider.callback(function () {
+            // highlight disease-leadSnp connectors (based on -log[pval])
+            d3.selectAll('.lead-snp-disease-connector')
+                .classed('below-slider-threshold', false)
+                .filter(d => (-Math.log10(d.pvalue) < slider.value()))
+                .classed('below-slider-threshold', true);
 
-        //     d3.selectAll('.lead-snp-disease-connector')
-        //         .classed('below-slider-threshold', false)
-        //         .filter(d => (d.pvalue < slider.value()))
-        //         .classed('below-slider-threshold', true);
-        // }, 300));
-        
-        // const gContainer = g.append('g')
-        //                     .classed('slider-container', true)
-        //                     .attr('transform', 'translate(5,25)');
-        // gContainer.call(slider, [0, 100]);
+            // highlight ldSnp-leadSnp connectors (based on -log[pval])
+            //   1. get relevant leadSnps connected
+            //      Note: MUST only hide ldSnp-leadSnp connectors if the leadSnp has
+            //            NO leadSnp-disease visible
+            const leadSnpIdsStillVisible = d3.selectAll('.ld-snp-lead-snp-connector:not(.below-slider-threshold)')
+                .data()
+                .map(d => d.leadSnpId);
+            //   2. affect the ldSnp-leadSnp connectors for any of these leadSnps
+            d3.selectAll('.ld-snp-lead-snp-connector')
+                .classed('below-slider-threshold', false)
+                .filter(d2 => (leadSnpIdsStillVisible.indexOf(d2.leadSnpId) === -1))
+                .classed('below-slider-threshold', true);
+
+            // highlight gene-ldSnp connectors (based on -log[pval])
+            //   1. get relevant ldSnps connected
+            //      Note: MUST only hide gene-ldSnp connectors if the ldSnp has
+            //            NO ldSnp-leadSnp visible
+            const ldSnpIdsStillVisible = d3.selectAll('.ld-snp-lead-snp-connector:not(.below-slider-threshold)')
+                .data()
+                .map(d => d.ldSnpId);
+            //   2. affect the gene-ldSnp connectors for any of these ldSnps
+            d3.selectAll('.gene-ld-snp-connector')
+                .classed('below-slider-threshold', false)
+                .filter(d2 => (ldSnpIdsStillVisible.indexOf(d2.ldSnpId) === -1))
+                .classed('below-slider-threshold', true);
+        });
+
+        const gContainer = g.append('g')
+                            .classed('slider-container', true)
+                            .attr('transform', 'translate(5,25)');
+        gContainer.call(slider, [0, 50]);
     });
 
 export default leadSnpDiseaseFeature;
