@@ -55,11 +55,14 @@ function buildBrowser(postgapData, container, container2) {
     const cluster = getCluster(postgapData);
 
     cluster.then((ensemblSnpsForGene) => {
-        // console.log('ensembl snps for gene..');
-        // console.log(ensemblSnpsForGene);
         const snpsExtent = calcExtent(ensemblSnpsForGene);
-        // console.log(snpsExtent);
-        const chr = ensemblSnpsForGene[0].mappings[0].seq_region_name;
+        let chr;
+        ensemblSnpsForGene.some(snp => {
+            const mapsToGenome = (Object.keys(snp).indexOf('failed') === -1);
+            if (mapsToGenome) chr = snp.mappings[0].seq_region_name;
+            return mapsToGenome; // cut out on first success
+        });
+        // const chr = ensemblSnpsForGene[0].mappings[0].seq_region_name;
 
 
         const genome = tnt.board.genome()
