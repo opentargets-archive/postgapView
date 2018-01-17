@@ -61,8 +61,9 @@ const geneLdSnpFeature = tnt.board.track.feature()
 
         slider.value(0);
         slider.callback(function () {
+            console.log(`postgap score threshold: ${slider.value()}`);
             // highlight gene-ldSnp connectors (based on the postgap score)
-            g.selectAll('.gene-ld-snp-connector')
+            d3.selectAll('.gene-ld-snp-connector')
                 .classed('below-postgap-score-threshold', false)
                 .filter(d => (d.funcgen.ot_g2v_score < slider.value()))
                 .classed('below-postgap-score-threshold', true);
