@@ -12,7 +12,11 @@
     }
 }
 
-
+.tnt_track line.gene-marker-line {
+    stroke-dasharray: 5 5;
+    stroke-width: 1;
+    stroke: #ccc;
+}
 
 .tnt_track .disease-label {
     font-size: 10px;

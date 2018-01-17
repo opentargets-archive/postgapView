@@ -108,7 +108,8 @@ geneFeature.create(function (new_elems) {
 
     // connector
     gs.append('line')
-        .classed('gene-ld-snp-connector', true)
+        // .classed('gene-ld-snp-connector', true)
+        .classed('gene-marker-line', true)
         .attr('x1', 0)
         .attr('y1', 0)
         .attr('x2', 0)
