@@ -32,6 +32,8 @@ const leadSnpDiseaseFeature = tnt.board.track.feature()
             })
             // .style('stroke-opacity', 0.4)
             .style('stroke-opacity', d => pvalColourScale(d.pvalue));
+
+        track.g.select('.slider-container').moveToFront();
     })
     .move(function (sel) {
         const track = this;
@@ -53,6 +55,8 @@ const leadSnpDiseaseFeature = tnt.board.track.feature()
                 return getLinePath(fromX, fromY, toX, toY);
             })
             // .style('stroke-opacity', d => pvalColourScale(d.pvalue));
+
+        track.g.select('.slider-container').moveToFront();
     })
     .fixed(function (width) {
         const track = this;
