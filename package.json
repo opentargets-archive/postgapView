@@ -1,6 +1,6 @@
 {
   "name": "ot-postgap",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Postgap visualisation",
   "main": "index.js",
   "directories": {
