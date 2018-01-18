@@ -8,6 +8,7 @@ import axios from 'axios';
 import { getData, getEnsemblSnps } from './data';
 import sequenceTrack from './tracks/sequenceTrack';
 import geneLabelTrack from './tracks/geneLabelTrack';
+import infoTrack from './tracks/infoTrack';
 // import legendTrack from './tracks/legendTrack';
 import {
     // sequence as sequenceTrack,
@@ -85,7 +86,8 @@ function buildBrowser(postgapData, container, container2) {
             .add_track(snpConnectorTrack.call(genome, config))
             .add_track(snpLeadMarkerTrack.call(genome, config))
             .add_track(snpDiseaseConnectorTrack.call(genome, config))
-            .add_track(diseaseNameLabelTrack.call(genome, config));
+            .add_track(diseaseNameLabelTrack.call(genome, config))
+            .add_track(infoTrack.call(genome, config));
             // .add_track(legendTrack.call(genome, config));
         genome.start();
         // console.log('genome started...');
