@@ -7,7 +7,8 @@ function ldSnpHighlight(d) {
         .filter(d2 => {
             return d2.ldSnpId === d.id;
         })
-        .classed('highlight', true);
+        .classed('highlight', true)
+        .moveParentToFront();
 
     // highlight ldSnp-leadSnp connectors
     d3.selectAll('.ld-snp-lead-snp-connector')
@@ -15,7 +16,8 @@ function ldSnpHighlight(d) {
         .filter(d2 => {
             return d2.ldSnpId === d.id;
         })
-        .classed('highlight', true);
+        .classed('highlight', true)
+        .moveParentToFront();
 
     // highlight leadSnp-disease connectors
     //   1. get leadSnps connected to this ldSnp
@@ -31,7 +33,8 @@ function ldSnpHighlight(d) {
         .filter(d2 => {
             return (leadSnpIds.indexOf(d2.leadSnpId) >= 0);
         })
-        .classed('highlight', true);
+        .classed('highlight', true)
+        .moveParentToFront();
 }
 
 export default ldSnpHighlight;

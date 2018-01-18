@@ -10,6 +10,12 @@ d3.selection.prototype.moveToFront = function () {
         this.parentNode.appendChild(this);
     });
 };
+d3.selection.prototype.moveParentToFront = function () {
+    return this.each(function () {
+        const parentNode = this.parentNode;
+        parentNode.parentNode.appendChild(parentNode);
+    });
+};
 
 function getLinePath(topX, topY, bottomX, bottomY) {
     const controlY = (bottomY - topY) / 2;

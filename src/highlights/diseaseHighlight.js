@@ -7,7 +7,8 @@ function diseaseHighlight(d) {
         .filter(d2 => {
             return d2.efoId === d.id;
         })
-        .classed('highlight', true);
+        .classed('highlight', true)
+        .moveParentToFront();
 
     // highlight ldSnp-leadSnp connectors
     //   1. get leadSnps connected to this disease
@@ -23,7 +24,8 @@ function diseaseHighlight(d) {
         .filter(d2 => {
             return (leadSnpIds.indexOf(d2.leadSnpId) >= 0);
         })
-        .classed('highlight', true);
+        .classed('highlight', true)
+        .moveParentToFront();
 
     // highlight gene-ldSnp connectors
     //   1. get ldSnps connected to this leadSnp
@@ -39,7 +41,8 @@ function diseaseHighlight(d) {
         .filter(d2 => {
             return (ldSnpIds.indexOf(d2.ldSnpId) >= 0);
         })
-        .classed('highlight', true);
+        .classed('highlight', true)
+        .moveParentToFront();
 }
 
 export default diseaseHighlight;

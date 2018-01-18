@@ -5,7 +5,8 @@ function geneHighlight(d) {
     d3.selectAll('.gene-ld-snp-connector')
         .classed('highlight', false)
         .filter(d2 => (d2.geneId === d.Parent))
-        .classed('highlight', true);
+        .classed('highlight', true)
+        .moveParentToFront();
 
     // highlight ldSnp-leadSnp connectors
     //   1. get ldSnps connected to this gene
@@ -17,7 +18,8 @@ function geneHighlight(d) {
     d3.selectAll('.ld-snp-lead-snp-connector')
         .classed('highlight', false)
         .filter(d2 => (ldSnpIds.indexOf(d2.ldSnpId) >= 0))
-        .classed('highlight', true);
+        .classed('highlight', true)
+        .moveParentToFront();
 
     // highlight leadSnp-disease connectors
     //   1. get leadSnps connected to this gene
@@ -29,7 +31,8 @@ function geneHighlight(d) {
     d3.selectAll('.lead-snp-disease-connector')
         .classed('highlight', false)
         .filter(d2 => (leadSnpIds.indexOf(d2.leadSnpId) >= 0))
-        .classed('highlight', true);
+        .classed('highlight', true)
+        .moveParentToFront();
 }
 
 export default geneHighlight;
