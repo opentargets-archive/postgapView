@@ -11,7 +11,9 @@ export default function thresholdSlider() {
     const width = 100 - margin.left - margin.right;
     const height = 40 - margin.top - margin.bottom;
     const brush = d3.svg.brush();
+    const formatter = d3.format('.3g');
     let handle;
+    let handleLabel;
     let slider;
     let value = 0;
     let upd = function (d) { value = d; };
@@ -52,8 +54,14 @@ export default function thresholdSlider() {
             .attr('cx', x(value))
             .attr('r', 9);
 
+        handleLabel = slider.append('text')
+            .attr('class', 'handle-label')
+            .attr('x', x(value))
+            .attr('y', 0)
+            .text(value);
+
         function brushed() {
-            d3.event.sourceEvent.stopPropagation(); 
+            d3.event.sourceEvent.stopPropagation();
             if (d3.event.sourceEvent) {
                 value = x.invert(d3.mouse(this)[0]);
             }
@@ -64,6 +72,7 @@ export default function thresholdSlider() {
             brush.extent([v, v]);
             value = brush.extent()[0];
             handle.attr('cx', x(value));
+            handleLabel.attr('x', x(value)).text(formatter(v));
         };
     }
 
